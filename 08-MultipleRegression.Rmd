@@ -12,6 +12,10 @@ output:
       number_sections: true
 ---
 
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE)
@@ -779,10 +783,4 @@ dfbetasPlots(lmVWS_IntVW)
 ```{r out.width='100%',fig.align='center', message=FALSE, echo=FALSE}
 boxplot(exp(prostate$lweight),ylab="Prostate Weight (g)")
 ```
-
-
----
-
-# [Home](https://gtpb.github.io/PSLS20/) {-}
-
 

@@ -26,7 +26,7 @@ navbar:
         - text: "8. Multiple Regression"
           href: 08-MultipleRegression.html
         - text: "9.1. Nonparametric Statistics 1"
-          href: 09-NonparametericStatistics-WilcoxonMannWhitney.html
+          href: 09-NonparametericStatistics-WilcoxonMannWithney.html
         - text: "9.2. Nonparametric Statistics 2"
           href: 09-NonparametericStatistics-KruskalWallis.html
         - text: "10. Categorical Data Analysis"
