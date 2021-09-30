@@ -89,7 +89,11 @@ Though our results do not allow to infer causality, they do reinforce our a prio
 
 ---
 
-- Papers are merged and published, and 32 times cited `r set.seed(4);emo::ji("fear")`
+```{r echo=FALSE,out.width="10%",out.extra='style="float:right; padding:10px"'}
+knitr::include_graphics("./figures/fear.png")
+```
+
+Papers are merged, published, and 32 times cited 
 
 Bousquet et al. (2021). Cabbage and fermented vegetables: From death rate heterogeneity in countries to candidates for mitigation strategies of severe COVID-19. Allergy 76:735–750.
 
