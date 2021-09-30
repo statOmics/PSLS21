@@ -13,7 +13,8 @@ output:
 ---
 
 ### Lieven Clement
-```{r echo=FALSE,out.width="20%",out.extra='style="float:left; padding:10px;text-align: justify"'}
+
+```{r echo=FALSE,out.width="17%",out.extra='style="float:left; padding:10px"'}
 knitr::include_graphics("./figures/lieven.jpg")
 ```
 
@@ -21,12 +22,12 @@ Lieven Clement is an Associate Professor of Statistical Genomics at Ghent Univer
 
 Affiliation: Department of Applied Mathematics, Computer Science and Statistics, Ghent University, Ghent, BE
 
-\newline 
-\newline 
+\
+\
 
 ### Jeroen Gilis
 
-```{r echo=FALSE,out.width="20%",out.extra='style="float:left; padding:10px;text-align: justify"'}
+```{r echo=FALSE,out.width="17%",out.extra='style="float:left; padding:10px"'}
 knitr::include_graphics("./figures/jeroen.png")
 ```
 
