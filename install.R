@@ -1,0 +1,19 @@
+install.packages('rjson')
+install.packages("BiocManager")
+BiocManager::install("remotes")
+BiocManager::install("rmarkdown",
+                     "knitr",
+                     "tidyverse",
+                     "NHANES",
+                     "hadley/emo",
+                     "kableExtra",
+                     "Rmisc",
+                     "GGally",
+                     "multcomp",
+                     "plot3D",
+                     "car",
+                     "coin",
+                     "plotrix",
+                     "sessioninfo",
+                     "ggplot2",
+                     "renv")
