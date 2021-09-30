@@ -18,6 +18,7 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 library(tidyverse)
 ```
 
+# Motivation 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
 ![](https://images.martechadvisor.com/images/uploads/content_images/ways_to_capture_b2b_customer_data_5bacd2dbe1a09.png)
@@ -75,14 +76,14 @@ Though our results do not allow to infer causality, they do reinforce our a prio
 
 - Many hypotheses are assessed ?!
 - Causality ?!
-- Experimenteel design: Observational study
+- Experimental design: Observational study
 - Based on the data we cannot provide recommendations at the subject level
 
 ---
 
 ![](https://github.com/statOmics/sbc20/raw/master/figures/covidVegetables2.png){width=70%}
 
-- Importance Data Exploration!
+- Importance of Data Exploration!
 - Data does not exhibit the trend
 - Data shows evidence for two clusters: above and below 200 deaths/million
 - Model for cucumber does not model the data correctly: Overestimation of death rate for many countries e.g. Portugal, Hungary, ...
@@ -99,12 +100,12 @@ Bousquet et al. (2021). Cabbage and fermented vegetables: From death rate hetero
 
 ---
 
-There main branches in statistics
+In the example we covered issues with three important branches in statistics
 
 1. Statistical inference
 
   - Is there an association between  COVID-19 mortality and food consumption?
-  - Gevaar die we opmerkten in studie:
+  - Issue in study:
       - data dredging, p-hacking, ...: when you assess many hypotheses you will allways find strong patterns by random change $\rightarrow$ correct for multiple testing! 
       - Assumptions of the models do not hold
       - Confounding
@@ -113,16 +114,16 @@ There main branches in statistics
 
     - Confounding: countries do not only differ in consumption of a vegetable but also in may other variables (demographical, COVID measures, healty care, ...) that are associated with COVID mortality. 
 
-    - Difficulat to draw causal conclusions from observational studies. 
+    - Difficult to draw causal conclusions from observational studies. 
     
-    - In experimental studies:  randomisation so that  the groups only differ in the treatment. 
+    - In experimental studies: randomisation! $\rightarrow$ so that  the groups only differ in the treatment. 
     
     - Experimental studies are therefore the golden standard
 
 3. Data exploration and visualisation
 
-    - Cruciaal om inzicht te verwerven in de data
-    - Model veronderstellingen nagaan!
+    - Crucial to get insight in the data!
+    - Assess model assumptions
 
 ---
 
@@ -713,38 +714,6 @@ knitr::kable(salk)
 - We observe a much larger effect now that the cases and the controls are comparable, incidence of `r salk$incidencePM[1]`  and `r salk$incidencePM[2]` per million, respectively.
 
 - The polio incidence for children with no consent remains similar, `r nfip$incidencePM[3]` and `r salk$incidencePM[3]` per million in the NFIP and Salk study, respectively.
-
----
-
-# Scientific Method
-
-- Empirical data is key in the life sciences.
-- Research is largely driven by data.
-
-```{r,echo=FALSE, fig.align = "center"}
-plot(0,0,col=0,xaxt="none",yaxt="none",axes=FALSE,xlab="",ylab="",cex=4,ylim=c(-.5,1.5),xlim=c(-.5,1.5))
-lines(c(0,1),c(0,0),lwd=4)
-lines(c(0,.5),c(0,1),lwd=4)
-lines(c(.5,1),c(1,0),lwd=4)
-text(0.5,1.2,"Nature",cex=2)
-text(0.8,.5,"Experiment",cex=2,pos=4,col="darkred")
-text(1,0,"Data",cex=2,pos=4)
-text(0.2,.5,"Theory",cex=2,pos=2,col="darkred")
-text(0,0,"Model",cex=2,pos=2)
-text(0.5,-0.3,"Statistical\nInference",cex=2,col="darkred")
-```
-
-- *Nature*: biological process which we study
-
-- *Deduction*: deduce logical consequences of  the theory/hypothesis that can be experimentally validated.
-
-- *Experiment*: collect data on the process. The data are a manifestation of the real process. The experiment has to be *representative* and *reproducible* and should challenge the theory. *Experimental Design*!
-
-- *Statistical inference*: Bridge to confront the model/hypothesis to the data $\rightarrow$ Cornerstone of the scientific method.
-
-- *Falsification principle*: Data cannot be used to prove a model/hypothesis, only to reject it.
-
-- *Data-exploration and analysis* is typically used to refine the theory and to generate new hypotheses.
 
 ---
 
