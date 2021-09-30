@@ -1,0 +1,62 @@
+name: "PSLS21 - Practical Statistics for the Life Sciences"
+navbar:
+  title: "PSLS21"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Lectures"
+      icon: fa-chalkboard-teacher
+      menu:
+        - text: "1. Introduction"
+          href: 01-intro.html
+        - text: "2. Concepts"
+          href: 02-concepts.html
+        - text: "3. Experimental Design"
+          href: 03-experimentalDesign.html
+        - text: "4. Data Exploration"
+          href: 04-dataExploration.html
+        - text: "5.1 Statistical Inference 1"
+          href: 05-statisticalInference.html
+        - text: "5.2 Statistical Inference 2"
+          href: 05-statisticalInference-twosampleT.html
+        - text: "6. Linear Regression"
+          href: 06-linearRegression.html
+        - text: "7. Analysis of Variance"
+          href: 07-Anova.html
+        - text: "8. Multiple Regression"
+          href: 08-MultipleRegression.html
+        - text: "9.1. Nonparametric Statistics 1"
+          href: 09-NonparametericStatistics-WilcoxonMannWhitney.html
+        - text: "9.2. Nonparametric Statistics 2"
+          href: 09-NonparametericStatistics-KruskalWallis.html
+        - text: "10. Categorical Data Analysis"
+          href: 10-categoricalDataAnalysis.html 
+    - text: "Labs"
+      icon: fa-laptop
+      menu:
+      - text: "Lab 1"
+        href:
+
+  right:
+    - icon: fab fa-github
+      href: https://github.com/statOmics/Rmd-website
+    - text: "statOmics"
+      href: http://statomics.github.io/
+output:
+  html_document:
+      code_download: true
+      df_print: paged
+      theme: flatly
+      highligt: tango
+      toc: true
+      toc_float: true
+      number_sections: true
+      code_folding: show
+      include:
+        after_body: footer.html
+      css: style.css
+  pdf_document:
+    toc: false
+    number_sections: true
+new_session: true
+exclude: ["renv.lock"]
