@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>4. Data Exploration</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PSLS21</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWhitney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Lab 1</li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/Rmd-website">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">4. Data Exploration</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<p><img src="04-dataExploration_files/figure-html/pop2Samp2Pop-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<hr />
+<div id="why-data-exploration-and-descriptive-statistics" class="section level1">
+<h1><span class="header-section-number">1</span> Why data exploration and descriptive statistics?</h1>
+<ol style="list-style-type: decimal">
+<li>Reporting on results: not useful to only report a table with the results for each subject.</li>
+<li>Letting the data speak by summarizing and visualizing it.</li>
+<li>Getting insight in the data.</li>
+<li>Discover errors, anomalies or even fraud.</li>
+<li>Check assumptions that are required for the downstream statistical inference, e.g. are the data Normally distributed.</li>
+</ol>
+<hr />
+</div>
+<div id="univariate-exploration-of-quantitative-variables" class="section level1">
+<h1><span class="header-section-number">2</span> Univariate exploration of quantitative variables</h1>
+<div id="histogram" class="section level2">
+<h2><span class="header-section-number">2.1</span> Histogram</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>DirectChol)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..),<span class="dt">bins=</span><span class="dv">30</span>) <span class="op">+</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>Select females and pipe results to ggplot.</li>
+</ol>
+<pre><code>NHANES %&gt;% filter(Gender==&quot;female&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Select data to plot.</li>
+</ol>
+<pre><code>ggplot(aes(x=DirectChol)) +</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Equal bins for interpretation, the number of bins can be selected with the bins argument to the geom_hist.</p></li>
+<li><p><em>Relative</em> frequenties to enable visual comparison between histograms.</p></li>
+</ol>
+<pre><code>geom_histogram(aes(y=..density.., fill=..count..)) +</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>If we have enough observations we can use a kernel density estimator of f(x).</li>
+</ol>
+<pre><code>geom_density(aes(y=..density..))</code></pre>
+<hr />
+</div>
+<div id="boxplot" class="section level2">
+<h2><span class="header-section-number">2.2</span> Boxplot</h2>
+<ul>
+<li>A quantile, <span class="math inline">\(x_{a\%}\)</span>, is the value of the random variable that correspond to a certain probability <span class="math inline">\(F(x_{a\%})=P[X\leq x_{a\%}=a\%]\)</span>.</li>
+</ul>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>With ggplot we always have to define an x variable if we make a boxplot. If we use a string then all data is considered to originate from one category and one boxplot is constructed.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>,<span class="dt">y=</span>DirectChol)) <span class="op">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() </span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>So we can add a boxplot to a ggplot figure by using the <code>geom_boxplot()</code> function.</p>
+<p>If the dataset is small to moderate in size we can also add the raw data to the plot with the <code>geom_point()</code> function and the <code>position="jitter"</code> argument. Note, that we then also set the <code>outlier.shape</code> argument in the <code>geom_boxplot</code> function on NA so that the outliers are not plotted twice.</p>
+<p>Here, we will plot again the relative abundances of <strong>Staphylococcus</strong> from the armpit transplant experiment.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>ap&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/GTPB/PSLS20/master/data/armpit.csv&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>ap</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["trt"],"name":[1],"type":["chr"],"align":["left"]},{"label":["rel"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"placebo","2":"54.99208"},{"1":"placebo","2":"31.84466"},{"1":"placebo","2":"41.09948"},{"1":"placebo","2":"59.52064"},{"1":"placebo","2":"63.57341"},{"1":"placebo","2":"41.48649"},{"1":"placebo","2":"30.44041"},{"1":"placebo","2":"42.95676"},{"1":"placebo","2":"41.73913"},{"1":"placebo","2":"33.89652"},{"1":"transplant","2":"57.21812"},{"1":"transplant","2":"72.50900"},{"1":"transplant","2":"61.89258"},{"1":"transplant","2":"56.69014"},{"1":"transplant","2":"76.00000"},{"1":"transplant","2":"71.73579"},{"1":"transplant","2":"57.75730"},{"1":"transplant","2":"65.12195"},{"1":"transplant","2":"67.53425"},{"1":"transplant","2":"77.55359"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>ap <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>trt,<span class="dt">y=</span>rel)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape=</span><span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="st">&quot;jitter&quot;</span>)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>When we specify a factor variable for x, we get a boxplot for each treatment group.</p>
+<hr />
+</div>
+<div id="descriptive-statistics" class="section level2">
+<h2><span class="header-section-number">2.3</span> Descriptive statistics</h2>
+<div id="central-location-mean-or-median" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Central location: Mean or Median?</h3>
+<div id="mean" class="section level4">
+<h4><span class="header-section-number">2.3.1.1</span> Mean</h4>
+<ul>
+<li>In a period of 30 years, males hope to have on average 64.3 partners and females 2.8 {(Miller and Fishkin, 1997)}.</li>
+</ul>
+<hr />
+</div>
+<div id="median" class="section level4">
+<h4><span class="header-section-number">2.3.1.2</span> Median</h4>
+<ul>
+<li>The median of the number of partners males and females want to have is both 1 {(Miller and Fishkin, 1997)}</li>
+</ul>
+<hr />
+</div>
+<div id="what-happens" class="section level4">
+<h4><span class="header-section-number">2.3.1.3</span> What happens?</h4>
+<p><img src="https://raw.githubusercontent.com/GTPB/PSLS20/gh-pages/assets/figs/partners.png" style="width:75.0%" /></p>
+<ul>
+<li>Mean is very sensitive towards outliers!</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="geometric-mean" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Geometric mean</h3>
+<p><span class="math display">\[\sqrt[n]{\prod\limits_{i=1}^n x_i} = \exp\left\{\frac{1}{n} \sum_{i=1}^n \log(x_i)\right\}\]</span></p>
+<ul>
+<li><p>Geometric mean is closer to the median then the mean</p></li>
+<li><p>log-transformation removes skewness</p></li>
+<li><p>Often a more useful measure for the central location than median:</p></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Uses all observations: is more precise</li>
+<li>It is the ordinary mean on log-transformed data <span class="math inline">\(\rightarrow\)</span> classical statistical methods can be directly applied, e.g. hypothesis tests and confidence intervals (see chapter 5)</li>
+<li>Useful for many biological characteristics e.g. concentrations that cannot be negative.</li>
+<li>Differences on a log scale have the interpretation of a log fold change:</li>
+</ol>
+<p><span class="math display">\[\log (B) - \log(A)= \log(\frac{B}{A})=\log(FC_\text{B vs A})\]</span></p>
+<p>In Genomics often the <span class="math inline">\(log_2\)</span> transformation is used. A difference of 1 corresponds to a <span class="math inline">\(FC=2\)</span>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>logSummary &lt;-<span class="st"> </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">logMean=</span><span class="kw">mean</span>(DirectChol <span class="op">%&gt;%</span><span class="st"> </span>log2,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dt">sd=</span><span class="kw">sd</span>(DirectChol <span class="op">%&gt;%</span><span class="st"> </span>log2,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dt">mean=</span><span class="kw">mean</span>(DirectChol,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),<span class="dt">median=</span><span class="kw">median</span>(DirectChol,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">geoMean=</span><span class="dv">2</span><span class="op">^</span>logMean)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>DirectChol <span class="op">%&gt;%</span><span class="st"> </span>log2)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..),<span class="dt">bins=</span><span class="dv">30</span>) <span class="op">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..)) <span class="op">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun=</span>dnorm,<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">args=</span><span class="kw">list</span>(<span class="dt">mean=</span>logSummary<span class="op">$</span>logMean, <span class="dt">sd=</span>logSummary<span class="op">$</span>sd))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>logSummary</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["logMean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mean"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["median"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["geoMean"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.5142563","2":"0.394117","3":"1.482467","4":"1.42","5":"1.428258"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>Indeed the mean is pulled to larger values by the skewed data.</li>
+<li>The geometric mean is closer to the median.</li>
+<li>The cholesterol data are much more symmetric upon log transformation and the approximation by a Normal distribution is good.</li>
+</ul>
+</div>
+</div>
+<div id="descriptive-statistics-for-variability" class="section level2">
+<h2><span class="header-section-number">2.4</span> Descriptive Statistics for Variability</h2>
+<p>The variability around the central value is crucial:</p>
+<ol style="list-style-type: decimal">
+<li>Biologists are often interested in how animals or plants are spread in the study region.</li>
+<li>Compare groups: the group effect is more clear when the response has less variability. Quantifying variability is crucial to distinguish between systematic and random patterns.</li>
+</ol>
+<ul>
+<li><p>The response varies between and within individuals and is the reason why we need statistics.</p></li>
+<li><p>Crucial to describe both the central location and the variability.</p></li>
+<li><p>Which part of the variability can we explain (e.g. with characteristics treatment, age, etc,) and which part is unexplained? ### Sample variance and sample standard deviation</p></li>
+<li><p>Sample variance: <span class="math display">\[
+s_X^2= \sum\limits_{i=1}^n \frac{(X-\bar X)^2}{n-1}
+\]</span></p></li>
+<li><p>Interpretation is often difficult because it is in another unit than the measurements.</p></li>
+<li><p><em>Standard deviation</em>: <span class="math display">\[
+s_X= \sqrt{s_x^2}
+\]</span></p></li>
+<li><p>Very useful for Normal distributed observations:</p>
+<ul>
+<li>68% of the observations falls in the interval <span class="math inline">\(\bar{x} - s_x\)</span> en <span class="math inline">\(\bar{x} + s_x\)</span></li>
+<li>95% of the observations falls in the interval <span class="math inline">\(\bar{x} - 2 s_x\)</span> en <span class="math inline">\(\bar{x} + 2 s_x\)</span>.</li>
+</ul></li>
+<li><p>These intervals are referred to as 68% en 95% <em>reference-intervals</em>.</p></li>
+<li><p>If the data are not Normally distributed, reference intervals are not valid.</p></li>
+</ul>
+<hr />
+<div id="interquartile-range" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Interquartile range</h3>
+<p>For skewed data the standard deviation is not useful - It is very sensitive to outliers - <em>Inter Quartile Range</em>: Distance between first and third quartile - Width of the boxplot!</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">IQR=</span><span class="kw">IQR</span>(DirectChol,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["IQR"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.52"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>,<span class="dt">y=</span>DirectChol)) <span class="op">+</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() </span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="normale-approximation" class="section level1">
+<h1><span class="header-section-number">3</span> Normale approximation</h1>
+<ul>
+<li><p>Biological and chemical data are often Normally distributed upon transformation.</p></li>
+<li><p>If this is the case we can get a lot of insight in the data using just two descriptive statistics: mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>.</p></li>
+</ul>
+<hr />
+<div id="evaluation-with-qq-plots" class="section level2">
+<h2><span class="header-section-number">3.1</span> Evaluation with QQ-plots</h2>
+<p>If your analysis build upon the assumption that the data are Normally distributed, it has to be verified.</p>
+<p>We use <em>QQ-plots</em> or <em>quantile-quantile plots</em>.</p>
+<ul>
+<li><p>Observed quantiles from the observations in the sample are plotted against quantiles from the Normal distribution.</p></li>
+<li><p>If the data are Normally distributed both quantiles have to be in line.</p></li>
+<li><p>Dots in the plot are expected on a straight line.</p></li>
+<li><p>Systematic deviations of the straight line indicate that the data are not Normally distributed.</p></li>
+<li><p>Note, that we will always observe some random deviations from the straight line in the plot because of random biological variability, which is not indicative for deviations from Normality.</p></li>
+<li><p>So it is important to train yourself to learn to distinguish systematic from random deviations.</p></li>
+</ul>
+<hr />
+<div id="normal-data" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Normal data</h3>
+<ul>
+<li><p>We will first simulate data from the Normal distribution to show how the plots look like for data that is meeting the assumptions.</p></li>
+<li><p>We will simulate data from 9 samples with a mean of 18 and standard deviation of 9.</p></li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>n &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>mu &lt;-<span class="st"> </span><span class="dv">18</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>sigma &lt;-<span class="st"> </span><span class="dv">9</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>nSamp &lt;-<span class="dv">9</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a>normSim &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(n<span class="op">*</span>nSamp,<span class="dt">mean=</span>mu,<span class="dt">sd=</span>sigma),<span class="dt">nrow=</span>n) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span>
+<span id="cb13-7"><a href="#cb13-7"></a></span>
+<span id="cb13-8"><a href="#cb13-8"></a>normSim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(samp,data) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>data)) <span class="op">+</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..),<span class="dt">bins=</span><span class="dv">30</span>) <span class="op">+</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..)) <span class="op">+</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>samp)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>normSim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(samp,data) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample=</span>data)) <span class="op">+</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>() <span class="op">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="kw">facet_wrap</span>(<span class="op">~</span>samp)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<p>So even for Normal data we observe some deviations due to sampling variability!</p>
+<hr />
+</div>
+<div id="real-data" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Real data</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span><span class="op">&amp;!</span><span class="kw">is.na</span>(BMI)) <span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>BMI))<span class="op">+</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">   </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..)) <span class="op">+</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">   </span><span class="kw">xlab</span>(<span class="st">&quot;BMI&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">   </span><span class="kw">ggtitle</span>(<span class="st">&quot;All females in study&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>NHANES <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Gender<span class="op">==</span><span class="st">&quot;female&quot;</span><span class="op">&amp;!</span><span class="kw">is.na</span>(BMI)) <span class="op">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample=</span>BMI)) <span class="op">+</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p>The QQ-plot shows that the quantiles of the data</p>
+<ul>
+<li>are larger (above the line) than these from the Normal in the left tail: compression of the lower tail,</li>
+<li>are larger (above the line) than these from the Normal in the right tail: long tail to the right.</li>
+</ul>
+<p>We can clearly see that the data are skewed.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="two-continuous-variables-correlation" class="section level1">
+<h1><span class="header-section-number">4</span> Two continuous variables: Correlation</h1>
+<ul>
+<li>NHANES study</li>
+<li>Height and Weight Example for females</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Height,<span class="dt">y=</span>Weight)) <span class="op">+</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>We observe an association between Weight and Height, but we also observe that the Weights tend to be right-skewed.</p>
+<p>Lets look at the univariate distributions first.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Height)) <span class="op">+</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..)) <span class="op">+</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="st">   </span><span class="kw">xlab</span>(<span class="st">&quot;Height&quot;</span>) <span class="op">+</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;All females in study&quot;</span>) <span class="op">+</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample=</span>Height)) <span class="op">+</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Weight)) <span class="op">+</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..)) <span class="op">+</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">   </span><span class="kw">xlab</span>(<span class="st">&quot;Weight&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;All females in study&quot;</span>) <span class="op">+</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample=</span>Weight)) <span class="op">+</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<p>The weights are indeed skewed!</p>
+<p>Upon log transformaton the Weights are less skewed, but still not Normally distributed.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Weight<span class="op">%&gt;%</span>log2)) <span class="op">+</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density.., <span class="dt">fill=</span>..count..)) <span class="op">+</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="st">   </span><span class="kw">xlab</span>(<span class="st">&quot;Weight (log2)&quot;</span>) <span class="op">+</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;All females in study&quot;</span>) <span class="op">+</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">y=</span>..density..))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample=</span>Weight<span class="op">%&gt;%</span>log2)) <span class="op">+</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<p>Skewness is still there but is reduced already.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Height,<span class="dt">y=</span>Weight <span class="op">%&gt;%</span><span class="st"> </span>log2)) <span class="op">+</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Weight (log2)&quot;</span>) <span class="op">+</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<hr />
+<div id="covariance-and-correlation" class="section level2">
+<h2><span class="header-section-number">4.1</span> Covariance and Correlation</h2>
+<ul>
+<li>Let X and Y be to continuous random variables, and for each subject i we observe <span class="math inline">\((X_i,Y_i)\)</span>.</li>
+<li>Covariance: how deviate X_i and Y_i around their means?</li>
+</ul>
+<p><span class="math display">\[\mbox{Covar}(X,Y)=E[(X-E[X])(Y-E[Y])]\]</span></p>
+<ul>
+<li>Correlation: standardise the covariance according to the variability in each variable:</li>
+</ul>
+<p><span class="math display">\[\mbox{Cor}(X,Y)=\frac{E[(X-E[X])(Y-E[Y])]}{\sqrt{E[(X-E[X])^2}\sqrt{E[(Y-E[Y])^2}}\]</span></p>
+</div>
+<div id="pearson-correlation" class="section level2">
+<h2><span class="header-section-number">4.2</span> Pearson Correlation</h2>
+<ul>
+<li>Association between two continuous covariate:</li>
+</ul>
+<p><span class="math display">\[\mbox{Cor}(X,Y)=\frac{\sum_{i=1}^{n}(X_{i}-\bar{X})(Y_{i}-\bar{Y})}{(n-1)s_{X}s_{Y}}
+\]</span></p>
+<ul>
+<li><p>Positive correlation: <span class="math inline">\(x \ \nearrow \ \Rightarrow \ y \ \nearrow\)</span></p></li>
+<li><p>Negative correlation: <span class="math inline">\(x \ \nearrow \ \Rightarrow \ y \ \searrow\)</span></p></li>
+<li><p>Correlation always between -1 en 1</p></li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>means&lt;-NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Weight,Height) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">log2Weight=</span>Weight<span class="op">%&gt;%</span>log2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">apply</span>(.,<span class="dv">2</span>,mean,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>ranges&lt;-NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Weight,Height) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">log2Weight=</span>Weight<span class="op">%&gt;%</span>log2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">apply</span>(.,<span class="dv">2</span>,range,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a></span>
+<span id="cb25-4"><a href="#cb25-4"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Height,<span class="dt">y=</span>Weight <span class="op">%&gt;%</span><span class="st"> </span>log2)) <span class="op">+</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Weight (log2)&quot;</span>) <span class="op">+</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-8"><a href="#cb25-8"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span>means[<span class="st">&quot;log2Weight&quot;</span>],<span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>means[<span class="st">&quot;Height&quot;</span>],<span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb25-10"><a href="#cb25-10"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom=</span><span class="st">&quot;text&quot;</span>,</span>
+<span id="cb25-11"><a href="#cb25-11"></a>           <span class="dt">x=</span><span class="kw">c</span>(ranges[<span class="dv">1</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">1</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Height&quot;</span>]),</span>
+<span id="cb25-12"><a href="#cb25-12"></a>           <span class="dt">y=</span><span class="kw">c</span>(ranges[<span class="dv">1</span>,<span class="st">&quot;log2Weight&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;log2Weight&quot;</span>],ranges[<span class="dv">1</span>,<span class="st">&quot;log2Weight&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;log2Weight&quot;</span>]),</span>
+<span id="cb25-13"><a href="#cb25-13"></a>           <span class="dt">label=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="dv">10</span>)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Height,<span class="dt">y=</span>Weight)) <span class="op">+</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Weight (log2)&quot;</span>) <span class="op">+</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span>means[<span class="st">&quot;Weight&quot;</span>],<span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>means[<span class="st">&quot;Height&quot;</span>],<span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom=</span><span class="st">&quot;text&quot;</span>,</span>
+<span id="cb26-9"><a href="#cb26-9"></a>           <span class="dt">x=</span><span class="kw">c</span>(ranges[<span class="dv">1</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">1</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Height&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Height&quot;</span>]),</span>
+<span id="cb26-10"><a href="#cb26-10"></a>           <span class="dt">y=</span><span class="kw">c</span>(ranges[<span class="dv">1</span>,<span class="st">&quot;Weight&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Weight&quot;</span>],ranges[<span class="dv">1</span>,<span class="st">&quot;Weight&quot;</span>],ranges[<span class="dv">2</span>,<span class="st">&quot;Weight&quot;</span>]),</span>
+<span id="cb26-11"><a href="#cb26-11"></a>           <span class="dt">label=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="dv">10</span>)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="st">  </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="st">  </span><span class="kw">select</span>(Weight,Height) <span class="op">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">log2Weight=</span>Weight<span class="op">%&gt;%</span>log2) <span class="op">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="st">  </span>na.exclude <span class="op">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="st">  </span>cor</span></code></pre></div>
+<pre><code>              Weight    Height log2Weight
+Weight     1.0000000 0.3029834  0.9812646
+Height     0.3029834 1.0000000  0.3240824
+log2Weight 0.9812646 0.3240824  1.0000000</code></pre>
+<ul>
+<li>Note, that the correlation is lower when the data are not transformed.</li>
+<li>The Pearson correlation is sensitive to outliers!</li>
+<li>Do not use Pearson correlation for skewed distributions or for data with outliers.</li>
+</ul>
+<div id="impact-of-outliers" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Impact of outliers</h3>
+<p>Illustration with simulated data that has one outlier.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb29-2"><a href="#cb29-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb29-3"><a href="#cb29-3"></a>simData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>x<span class="op">*</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(x))) </span>
+<span id="cb29-4"><a href="#cb29-4"></a>simData <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y)) <span class="op">+</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;cor =&quot;</span>,<span class="kw">cor</span>(simData[,<span class="dv">1</span>],simData[,<span class="dv">2</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(.,<span class="dv">2</span>)))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>outlier&lt;-<span class="st"> </span><span class="kw">rbind</span>(simData,<span class="kw">c</span>(<span class="dv">2</span>,<span class="op">-</span><span class="dv">4</span>))</span>
+<span id="cb30-2"><a href="#cb30-2"></a>outlier <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y)) <span class="op">+</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;cor =&quot;</span>,<span class="kw">cor</span>(outlier[,<span class="dv">1</span>],outlier[,<span class="dv">2</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(.,<span class="dv">2</span>)))</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+</div>
+<div id="only-linear-association" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Only linear association</h3>
+<p>Note, that the Pearson correlation only captures linear association!</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a>quadratic &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(x))) </span>
+<span id="cb31-3"><a href="#cb31-3"></a>quadratic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y)) <span class="op">+</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;cor =&quot;</span>,<span class="kw">cor</span>(quadratic[,<span class="dv">1</span>],quadratic[,<span class="dv">2</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(.,<span class="dv">2</span>))) <span class="op">+</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(quadratic[,<span class="dv">2</span>]),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(quadratic[,<span class="dv">1</span>]),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>) </span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+</div>
+<div id="different-magnitudes-of-correlation" class="section level2">
+<h2><span class="header-section-number">4.3</span> Different magnitudes of correlation</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb32-2"><a href="#cb32-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb32-3"><a href="#cb32-3"></a>simData2&lt;-<span class="kw">cbind</span>(x,<span class="fl">1.5</span><span class="op">*</span>x,<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>,<span class="cf">function</span>(sd,x) <span class="fl">1.5</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="kw">length</span>(x),<span class="dt">sd=</span>sd),<span class="dt">x=</span>x),<span class="kw">rnorm</span>(<span class="kw">length</span>(x),<span class="dt">sd=</span><span class="dv">7</span>))</span>
+<span id="cb32-4"><a href="#cb32-4"></a></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="kw">colnames</span>(simData2)[<span class="op">-</span><span class="dv">1</span>]&lt;-<span class="kw">paste</span>(<span class="st">&quot;cor&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(simData2)[<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>],<span class="dv">2</span>),<span class="dt">sep=</span><span class="st">&quot;=&quot;</span>)</span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a>simData2 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="st">  </span><span class="kw">gather</span>(cor,y,<span class="op">-</span>x) <span class="op">%&gt;%</span></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y)) <span class="op">+</span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb32-12"><a href="#cb32-12"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>cor)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>simData3 &lt;-<span class="st"> </span>simData2</span>
+<span id="cb33-2"><a href="#cb33-2"></a>simData3[,<span class="op">-</span><span class="dv">1</span>]&lt;-<span class="op">-</span>simData2[,<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="kw">colnames</span>(simData3)[<span class="op">-</span><span class="dv">1</span>]&lt;-<span class="kw">paste</span>(<span class="st">&quot;cor&quot;</span>,<span class="kw">round</span>(<span class="kw">cor</span>(simData3)[<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>],<span class="dv">2</span>),<span class="dt">sep=</span><span class="st">&quot;=&quot;</span>)</span>
+<span id="cb33-4"><a href="#cb33-4"></a></span>
+<span id="cb33-5"><a href="#cb33-5"></a>simData3 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="st">  </span><span class="kw">gather</span>(cor,y,<span class="op">-</span>x) <span class="op">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x,<span class="dt">y=</span>y)) <span class="op">+</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>cor)</span></code></pre></div>
+<p><img src="04-dataExploration_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="spearman-correlation" class="section level2">
+<h2><span class="header-section-number">4.4</span> Spearman correlation</h2>
+<p>The Spearman correlation is the Pearson correlation after transforming the data to ranks.</p>
+<ul>
+<li>Pearson correlation</li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">cor</span>(outlier)</span></code></pre></div>
+<pre><code>          x         y
+x 1.0000000 0.4682823
+y 0.4682823 1.0000000</code></pre>
+<ul>
+<li>Spearman correlation</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">cor</span>(outlier,<span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>          x         y
+x 1.0000000 0.6571429
+y 0.6571429 1.0000000</code></pre>
+<ul>
+<li><p>Spearman correlation is less sensitive to outliers.</p></li>
+<li><p>Pearson correlation on ranks</p></li>
+</ul>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>rankData&lt;-<span class="kw">apply</span>(outlier,<span class="dv">2</span>,rank)</span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="kw">cor</span>(rankData)</span></code></pre></div>
+<pre><code>          x         y
+x 1.0000000 0.6571429
+y 0.6571429 1.0000000</code></pre>
+<ul>
+<li>NHANES example</li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>NHANES<span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="st">  </span><span class="kw">filter</span>(Age<span class="op">&gt;</span><span class="dv">25</span> <span class="op">&amp;</span><span class="st"> </span>Gender<span class="op">==</span><span class="st">&quot;female&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="st">  </span><span class="kw">select</span>(Weight,Height) <span class="op">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">log2Weight=</span>Weight<span class="op">%&gt;%</span>log2) <span class="op">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="st">  </span>na.exclude <span class="op">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a><span class="st">  </span><span class="kw">cor</span>(<span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>              Weight    Height log2Weight
+Weight     1.0000000 0.3039481  1.0000000
+Height     0.3039481 1.0000000  0.3039481
+log2Weight 1.0000000 0.3039481  1.0000000</code></pre>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiNC4gRGF0YSBFeHBsb3JhdGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgICAgdGhlbWU6IGNvc21vCiAgICAgIHRvYzogdHJ1ZQogICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChpbmNsdWRlID0gVFJVRSwgY29tbWVudCA9IE5BLCBlY2hvID0gVFJVRSwKICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2UgPSBGQUxTRSwgd2FybmluZyA9IEZBTFNFKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShOSEFORVMpCmBgYAoKYGBge3IgcG9wMlNhbXAyUG9wLCBvdXQud2lkdGg9JzgwJScsZmlnLmFzcD0uOCwgZmlnLmFsaWduPSdjZW50ZXInLGVjaG89RkFMU0V9CmlmICgicGkiJWluJWxzKCkpIHJtKCJwaSIpCmtvcHZvZXRlcjwtZnVuY3Rpb24oeCx5LGFuZ2xlPTAsbD0uMixjZXguZG90PS41LHBjaD0xOSxjb2w9ImJsYWNrIikKewphbmdsZT1hbmdsZS8xODAqcGkKcG9pbnRzKHgseSxjZXg9Y2V4LmRvdCxwY2g9cGNoLGNvbD1jb2wpCmxpbmVzKGMoeCx4K2wqY29zKC1waS8yK2FuZ2xlKSksYyh5LHkrbCpzaW4oLXBpLzIrYW5nbGUpKSxjb2w9Y29sKQpsaW5lcyhjKHgrbC8yKmNvcygtcGkvMithbmdsZSkseCtsLzIqY29zKC1waS8yK2FuZ2xlKStsLzQqY29zKGFuZ2xlKSksYyh5K2wvMipzaW4oLXBpLzIrYW5nbGUpLHkrbC8yKnNpbigtcGkvMithbmdsZSkrbC80KnNpbihhbmdsZSkpLGNvbD1jb2wpCmxpbmVzKGMoeCtsLzIqY29zKC1waS8yK2FuZ2xlKSx4K2wvMipjb3MoLXBpLzIrYW5nbGUpK2wvNCpjb3MocGkrYW5nbGUpKSxjKHkrbC8yKnNpbigtcGkvMithbmdsZSkseStsLzIqc2luKC1waS8yK2FuZ2xlKStsLzQqc2luKHBpK2FuZ2xlKSksY29sPWNvbCkKbGluZXMoYyh4K2wqY29zKC1waS8yK2FuZ2xlKSx4K2wqY29zKC1waS8yK2FuZ2xlKStsLzIqY29zKC1waS8yK3BpLzQrYW5nbGUpKSxjKHkrbCpzaW4oLXBpLzIrYW5nbGUpLHkrbCpzaW4oLXBpLzIrYW5nbGUpK2wvMipzaW4oLXBpLzIrcGkvNCthbmdsZSkpLGNvbD1jb2wpCmxpbmVzKGMoeCtsKmNvcygtcGkvMithbmdsZSkseCtsKmNvcygtcGkvMithbmdsZSkrbC8yKmNvcygtcGkvMi1waS80K2FuZ2xlKSksYyh5K2wqc2luKC1waS8yK2FuZ2xlKSx5K2wqc2luKC1waS8yK2FuZ2xlKStsLzIqc2luKC1waS8yLXBpLzQrYW5nbGUpKSxjb2w9Y29sKQp9CgpwYXIobWFyPWMoMCwwLDAsMCksbWFpPWMoMCwwLDAsMCkpCnBsb3QoMCwwLHhsYWI9IiIseWxhYj0iIix4bGltPWMoMCwxMCkseWxpbT1jKDAsMTApLGNvbD0wLHhheHQ9Im5vbmUiLHlheHQ9Im5vbmUiLGF4ZXM9RkFMU0UpCnJlY3QoMCw2LDEwLDEwLGJvcmRlcj0icmVkIixsd2Q9MikKdGV4dCguNSw4LCJwb3B1bGF0aW9uIixzcnQ9OTAsY29sPSJyZWQiLGNleD0yKQpzeW1ib2xzICgzLCA4LCBjaXJjbGVzPTEuNSwgY29sPSJyZWQiLGFkZD1UUlVFLGZnPSJyZWQiLGluY2hlcz1GQUxTRSxsd2Q9MikKc2V0LnNlZWQoMzMwKQpncmlkPXNlcSgwLDEuMywuMDEpCgpmb3IgKGkgaW4gMTo1MCkKewoJYW5nbGUxPXJ1bmlmKG49MSxtaW49MCxtYXg9MzYwKQoJYW5nbGUyPXJ1bmlmKG49MSxtaW49MCxtYXg9MzYwKQoJcmFkaXVzPXNhbXBsZShncmlkLHByb2I9Z3JpZF4yKnBpL3N1bShncmlkXjIqcGkpLHNpemU9MSkKCWtvcHZvZXRlcigzK3JhZGl1cypjb3MoYW5nbGUxLzE4MCpwaSksOCtyYWRpdXMqc2luKGFuZ2xlMS8xODAqcGkpLGFuZ2xlPWFuZ2xlMikKfQp0ZXh0KDcuNSw4LCJDaG9sZXN0ZXJvbCBpbiBwb3B1bGF0aW9uIixjb2w9InJlZCIsY2V4PTEuMikKCnJlY3QoMCwwLDEwLDQsYm9yZGVyPSJibHVlIixsd2Q9MikKdGV4dCguNSwyLCJzYW1wbGUiLHNydD05MCxjb2w9ImJsdWUiLGNleD0yKQpzeW1ib2xzICgzLCAyLCBjaXJjbGVzPTEuNSwgY29sPSJyZWQiLGFkZD1UUlVFLGZnPSJibHVlIixpbmNoZXM9RkFMU0UsbHdkPTIpCmZvciAoaSBpbiAwOjIpCglmb3IgKGogaW4gMDo0KQp7CgoJa29wdm9ldGVyKDIuMStqKigzLjktMi4xKS80LDEuMStpKQp9CnRleHQoNy41LDIsIkNob2xlc3Rlcm9sIGluIHNhbXBsZSIsY29sPSJibHVlIixjZXg9MS4yKQoKYXJyb3dzKDMsNS45LDMsNC4xLGNvbD0iYmxhY2siLGx3ZD0zKQphcnJvd3MoNyw0LjEsNyw1LjksY29sPSJibGFjayIsbHdkPTMpCnRleHQoMS41LDUsIkVYUC4gREVTSUdOICgxKSIsY29sPSJibGFjayIsY2V4PTEuMikKdGV4dCg4LjUsNSwiRVNUSU1BVElPTiAmXG5JTkZFUkVOQ0UgKDMpIixjb2w9ImJsYWNrIixjZXg9MS4yKQp0ZXh0KDcuNSwuNSwiREFUQSBFWFBMT1JBVElPTiAmXG5ERVNDUklQVElWRSBTVEFUSVNUSUNTICgyKSIsY29sPSJibGFjayIsY2V4PTEuMikKYGBgCgotLS0KCiMgV2h5IGRhdGEgZXhwbG9yYXRpb24gYW5kIGRlc2NyaXB0aXZlIHN0YXRpc3RpY3M/CgoxLiBSZXBvcnRpbmcgb24gcmVzdWx0czogbm90IHVzZWZ1bCB0byBvbmx5IHJlcG9ydCBhIHRhYmxlIHdpdGggdGhlIHJlc3VsdHMgZm9yIGVhY2ggc3ViamVjdC4KMi4gTGV0dGluZyB0aGUgZGF0YSBzcGVhayBieSBzdW1tYXJpemluZyBhbmQgdmlzdWFsaXppbmcgaXQuCjMuIEdldHRpbmcgaW5zaWdodCBpbiB0aGUgZGF0YS4KNC4gRGlzY292ZXIgZXJyb3JzLCBhbm9tYWxpZXMgb3IgZXZlbiBmcmF1ZC4KNS4gQ2hlY2sgYXNzdW1wdGlvbnMgdGhhdCBhcmUgcmVxdWlyZWQgZm9yIHRoZSBkb3duc3RyZWFtIHN0YXRpc3RpY2FsIGluZmVyZW5jZSwgZS5nLiBhcmUgdGhlIGRhdGEgTm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgotLS0KCiMgVW5pdmFyaWF0ZSBleHBsb3JhdGlvbiBvZiBxdWFudGl0YXRpdmUgdmFyaWFibGVzCgoKIyMgSGlzdG9ncmFtCgpgYGB7cixlY2hvPUZBTFNFfQpsaWJyYXJ5KE5IQU5FUykKYGBgCgpgYGB7cn0KTkhBTkVTICU+JSBmaWx0ZXIoR2VuZGVyPT0iZmVtYWxlIikgJT4lIApnZ3Bsb3QoYWVzKHg9RGlyZWN0Q2hvbCkpICsgCmdlb21faGlzdG9ncmFtKGFlcyh5PS4uZGVuc2l0eS4uLCBmaWxsPS4uY291bnQuLiksYmlucz0zMCkgKwpnZW9tX2RlbnNpdHkoYWVzKHk9Li5kZW5zaXR5Li4pKQpgYGAKCgoxLiBTZWxlY3QgZmVtYWxlcyBhbmQgcGlwZSByZXN1bHRzIHRvIGdncGxvdC4KYGBgCk5IQU5FUyAlPiUgZmlsdGVyKEdlbmRlcj09ImZlbWFsZSIpCmBgYAoKMi4gU2VsZWN0IGRhdGEgdG8gcGxvdC4KCmBgYApnZ3Bsb3QoYWVzKHg9RGlyZWN0Q2hvbCkpICsKYGBgCgozLiBFcXVhbCBiaW5zIGZvciBpbnRlcnByZXRhdGlvbiwgdGhlIG51bWJlciBvZiBiaW5zIGNhbiBiZSBzZWxlY3RlZCB3aXRoIHRoZSBiaW5zIGFyZ3VtZW50IHRvIHRoZSBnZW9tX2hpc3QuCgo0LiAqUmVsYXRpdmUqIGZyZXF1ZW50aWVzIHRvIGVuYWJsZSB2aXN1YWwgY29tcGFyaXNvbiBiZXR3ZWVuIGhpc3RvZ3JhbXMuCgpgYGAKZ2VvbV9oaXN0b2dyYW0oYWVzKHk9Li5kZW5zaXR5Li4sIGZpbGw9Li5jb3VudC4uKSkgKwpgYGAKCjUuIElmIHdlIGhhdmUgZW5vdWdoIG9ic2VydmF0aW9ucyB3ZSBjYW4gdXNlIGEga2VybmVsIGRlbnNpdHkgZXN0aW1hdG9yIG9mIGYoeCkuCgpgYGAKZ2VvbV9kZW5zaXR5KGFlcyh5PS4uZGVuc2l0eS4uKSkKYGBgCgotLS0KCiMjIEJveHBsb3QKCi0gQSBxdWFudGlsZSwgJHhfe2FcJX0kLCBpcyB0aGUgdmFsdWUgb2YgdGhlIHJhbmRvbSB2YXJpYWJsZSB0aGF0IGNvcnJlc3BvbmQgdG8gYSBjZXJ0YWluIHByb2JhYmlsaXR5ICRGKHhfe2FcJX0pPVBbWFxsZXEgeF97YVwlfT1hXCVdJC4KCmBgYHtyIGZpZy5hbGlnbj0nY2VudGVyJyxlY2hvPUZBTFNFfQpmZW0gPC0gTkhBTkVTICU+JSBmaWx0ZXIoR2VuZGVyPT0iZmVtYWxlIiAmICFpcy5uYShEaXJlY3RDaG9sKSkgJT4lIHNlbGVjdChEaXJlY3RDaG9sKQpib3hwbG90KGZlbSREaXJlY3RDaG9sLCB5bGFiPSJEaXJlY3QgQ2hvbGVzdGVyb2wiLGNleC5sYWI9MS41LGNleC5heGlzPTEuNSxjZXgubWFpbj0xLjUpCnJhbmdlQ2w8LXF1YW50aWxlKGZlbSREaXJlY3RDaG9sLGMoLjI1LC43NSkpK2MoLTEsMSkqZGlmZihxdWFudGlsZShmZW0kRGlyZWN0Q2hvbCxjKC4yNSwuNzUpKSkqMS41CmJveFlzPC1jKHJhbmdlKGZlbSREaXJlY3RDaG9sW2ZlbSREaXJlY3RDaG9sPD1yYW5nZUNsWzJdJmZlbSREaXJlY3RDaG9sPj1yYW5nZUNsWzFdXSkscXVhbnRpbGUoZmVtJERpcmVjdENob2wsYyguMjUsLjUsLjc1KSkscmFuZ2VDbFsyXSsobWF4KGZlbSREaXJlY3RDaG9sKS1yYW5nZUNsWzJdKS8yKQp0ZXh0KDEuMyxib3hZcyxsYWJlbHM9Yygid2lza2VyIiwid2lza2VyIiwieDI1IiwibWVkaWFhbiIsIng3NSIsIm91dGxpZXJzIikscG9zPTQsY2V4PTEuMykKbGluZXMoYygxLjEsMS4zLDEuMywxLjEpLGMocmFuZ2VDbFsyXSxyYW5nZUNsWzJdKyhtYXgoZmVtJERpcmVjdENob2wpLXJhbmdlQ2xbMl0pLzIscmFuZ2VDbFsyXSsobWF4KGZlbSREaXJlY3RDaG9sKS1yYW5nZUNsWzJdKS8yLG1heChmZW0kRGlyZWN0Q2hvbCkpLGx0eT0yKQpgYGAKCldpdGggZ2dwbG90IHdlIGFsd2F5cyBoYXZlIHRvIGRlZmluZSBhbiB4IHZhcmlhYmxlIGlmIHdlIG1ha2UgYSBib3hwbG90LiBJZiB3ZSB1c2UgYSBzdHJpbmcgdGhlbiBhbGwgZGF0YSBpcyBjb25zaWRlcmVkIHRvIG9yaWdpbmF0ZSBmcm9tIG9uZSBjYXRlZ29yeSBhbmQgb25lIGJveHBsb3QgaXMgY29uc3RydWN0ZWQuCgpgYGB7cn0KTkhBTkVTICU+JSAKICBmaWx0ZXIoR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgZ2dwbG90KGFlcyh4PSIiLHk9RGlyZWN0Q2hvbCkpICsKICBnZW9tX2JveHBsb3QoKSAKYGBgCgpTbyB3ZSBjYW4gYWRkIGEgYm94cGxvdCB0byBhIGdncGxvdCBmaWd1cmUgYnkgdXNpbmcgdGhlIGBnZW9tX2JveHBsb3QoKWAgZnVuY3Rpb24uIAoKSWYgdGhlIGRhdGFzZXQgaXMgc21hbGwgdG8gbW9kZXJhdGUgaW4gc2l6ZSB3ZSBjYW4gYWxzbyBhZGQgdGhlIHJhdyBkYXRhIHRvIHRoZSBwbG90IHdpdGggdGhlIGBnZW9tX3BvaW50KClgIGZ1bmN0aW9uIGFuZCB0aGUgYHBvc2l0aW9uPSJqaXR0ZXIiYCBhcmd1bWVudC4gTm90ZSwgdGhhdCB3ZSB0aGVuIGFsc28gc2V0IHRoZSBgb3V0bGllci5zaGFwZWAgYXJndW1lbnQgaW4gdGhlIGBnZW9tX2JveHBsb3RgIGZ1bmN0aW9uIG9uIE5BIHNvIHRoYXQgdGhlIG91dGxpZXJzIGFyZSBub3QgcGxvdHRlZCB0d2ljZS4gCgpIZXJlLCB3ZSB3aWxsIHBsb3QgYWdhaW4gdGhlIHJlbGF0aXZlIGFidW5kYW5jZXMgb2YgKipTdGFwaHlsb2NvY2N1cyoqIGZyb20gdGhlIGFybXBpdCB0cmFuc3BsYW50IGV4cGVyaW1lbnQuCgpgYGB7cn0KYXA8LXJlYWRfY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vR1RQQi9QU0xTMjAvbWFzdGVyL2RhdGEvYXJtcGl0LmNzdiIpCmFwCgphcCAlPiUgIAogIGdncGxvdChhZXMoeD10cnQseT1yZWwpKSArIAogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlPU5BKSArCiAgZ2VvbV9wb2ludChwb3NpdGlvbj0iaml0dGVyIikKYGBgCgpXaGVuIHdlIHNwZWNpZnkgYSBmYWN0b3IgdmFyaWFibGUgZm9yIHgsIHdlIGdldCBhIGJveHBsb3QgZm9yIGVhY2ggdHJlYXRtZW50IGdyb3VwLgoKLS0tCgojIyBEZXNjcmlwdGl2ZSBzdGF0aXN0aWNzIAoKIyMjIENlbnRyYWwgbG9jYXRpb246IE1lYW4gb3IgTWVkaWFuPwoKIyMjIyBNZWFuCi0gSW4gYSBwZXJpb2Qgb2YgMzAgeWVhcnMsIG1hbGVzIGhvcGUgdG8gaGF2ZSBvbiBhdmVyYWdlIDY0LjMgcGFydG5lcnMgYW5kIGZlbWFsZXMgMi44ICBcdGlueXsoTWlsbGVyIGFuZCBGaXNoa2luLCAxOTk3KX0uXE5vcm1hbHNpemUKCi0tLQoKIyMjIyBNZWRpYW4KCi0gVGhlIG1lZGlhbiBvZiB0aGUgbnVtYmVyIG9mIHBhcnRuZXJzIG1hbGVzIGFuZCBmZW1hbGVzIHdhbnQgdG8gaGF2ZSBpcyBib3RoIDEgXHRpbnl7KE1pbGxlciBhbmQgRmlzaGtpbiwgMTk5Nyl9XE5vcm1hbHNpemUKCi0tLQoKIyMjIyBXaGF0IGhhcHBlbnM/IAoKIVtdKGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9HVFBCL1BTTFMyMC9naC1wYWdlcy9hc3NldHMvZmlncy9wYXJ0bmVycy5wbmcpe3dpZHRoPTc1JX0KCi0gTWVhbiBpcyB2ZXJ5IHNlbnNpdGl2ZSB0b3dhcmRzIG91dGxpZXJzIQoKLS0tCgojIyMgR2VvbWV0cmljIG1lYW4KCiQkXHNxcnRbbl17XHByb2RcbGltaXRzX3tpPTF9Xm4geF9pfSA9IFxleHBcbGVmdFx7XGZyYWN7MX17bn0gXHN1bV97aT0xfV5uIFxsb2coeF9pKVxyaWdodFx9JCQKCi0gR2VvbWV0cmljIG1lYW4gaXMgY2xvc2VyIHRvIHRoZSBtZWRpYW4gdGhlbiB0aGUgbWVhbgoKLSBsb2ctdHJhbnNmb3JtYXRpb24gcmVtb3ZlcyBza2V3bmVzcyAKCi0gT2Z0ZW4gYSBtb3JlIHVzZWZ1bCBtZWFzdXJlIGZvciB0aGUgY2VudHJhbCBsb2NhdGlvbiB0aGFuIG1lZGlhbjoKCjEuIFVzZXMgYWxsIG9ic2VydmF0aW9uczogaXMgbW9yZSBwcmVjaXNlIAoyLiBJdCBpcyB0aGUgb3JkaW5hcnkgbWVhbiBvbiBsb2ctdHJhbnNmb3JtZWQgZGF0YSAkXHJpZ2h0YXJyb3ckIGNsYXNzaWNhbCBzdGF0aXN0aWNhbCBtZXRob2RzIGNhbiBiZSBkaXJlY3RseSBhcHBsaWVkLCBlLmcuIGh5cG90aGVzaXMgdGVzdHMgYW5kIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIChzZWUgY2hhcHRlciA1KQozLiBVc2VmdWwgZm9yIG1hbnkgYmlvbG9naWNhbCBjaGFyYWN0ZXJpc3RpY3MgZS5nLiBjb25jZW50cmF0aW9ucyB0aGF0IGNhbm5vdCBiZSBuZWdhdGl2ZS4KNC4gRGlmZmVyZW5jZXMgb24gYSBsb2cgc2NhbGUgaGF2ZSB0aGUgaW50ZXJwcmV0YXRpb24gb2YgYSBsb2cgZm9sZCBjaGFuZ2U6IAoKJCRcbG9nIChCKSAtIFxsb2coQSk9IFxsb2coXGZyYWN7Qn17QX0pPVxsb2coRkNfXHRleHR7QiB2cyBBfSkkJAoKSW4gR2Vub21pY3Mgb2Z0ZW4gdGhlICRsb2dfMiQgdHJhbnNmb3JtYXRpb24gaXMgdXNlZC4gQSBkaWZmZXJlbmNlIG9mIDEgY29ycmVzcG9uZHMgdG8gYSAkRkM9MiQuIAoKYGBge3J9CmxvZ1N1bW1hcnkgPC0gCk5IQU5FUyAlPiUgZmlsdGVyKEdlbmRlcj09ImZlbWFsZSIpICU+JSBzdW1tYXJpemUobG9nTWVhbj1tZWFuKERpcmVjdENob2wgJT4lIGxvZzIsbmEucm09VFJVRSksc2Q9c2QoRGlyZWN0Q2hvbCAlPiUgbG9nMixuYS5ybT1UUlVFKSxtZWFuPW1lYW4oRGlyZWN0Q2hvbCxuYS5ybT1UUlVFKSxtZWRpYW49bWVkaWFuKERpcmVjdENob2wsbmEucm09VFJVRSkpICU+JSBtdXRhdGUoZ2VvTWVhbj0yXmxvZ01lYW4pCgpOSEFORVMgJT4lIGZpbHRlcihHZW5kZXI9PSJmZW1hbGUiKSAlPiUKZ2dwbG90KGFlcyh4PURpcmVjdENob2wgJT4lIGxvZzIpKSArIApnZW9tX2hpc3RvZ3JhbShhZXMoeT0uLmRlbnNpdHkuLiwgZmlsbD0uLmNvdW50Li4pLGJpbnM9MzApICsKZ2VvbV9kZW5zaXR5KGFlcyh5PS4uZGVuc2l0eS4uKSkgKwogIHN0YXRfZnVuY3Rpb24oZnVuPWRub3JtLGNvbG9yPSJyZWQiLGFyZ3M9bGlzdChtZWFuPWxvZ1N1bW1hcnkkbG9nTWVhbiwgc2Q9bG9nU3VtbWFyeSRzZCkpCgpsb2dTdW1tYXJ5CmBgYAoKLSBJbmRlZWQgdGhlIG1lYW4gaXMgcHVsbGVkIHRvIGxhcmdlciB2YWx1ZXMgYnkgdGhlIHNrZXdlZCBkYXRhLgotIFRoZSBnZW9tZXRyaWMgbWVhbiBpcyBjbG9zZXIgdG8gdGhlIG1lZGlhbi4KLSBUaGUgY2hvbGVzdGVyb2wgZGF0YSBhcmUgbXVjaCBtb3JlIHN5bW1ldHJpYyB1cG9uIGxvZyB0cmFuc2Zvcm1hdGlvbiBhbmQgdGhlIGFwcHJveGltYXRpb24gYnkgYSBOb3JtYWwgZGlzdHJpYnV0aW9uIGlzIGdvb2QuIAoKCgojIyBEZXNjcmlwdGl2ZSBTdGF0aXN0aWNzIGZvciBWYXJpYWJpbGl0eSAKClRoZSB2YXJpYWJpbGl0eSBhcm91bmQgdGhlIGNlbnRyYWwgdmFsdWUgaXMgY3J1Y2lhbDoKCjEuIEJpb2xvZ2lzdHMgYXJlIG9mdGVuIGludGVyZXN0ZWQgaW4gaG93IGFuaW1hbHMgb3IgcGxhbnRzIGFyZSBzcHJlYWQgaW4gdGhlIHN0dWR5IHJlZ2lvbi4gCjIuIENvbXBhcmUgZ3JvdXBzOiB0aGUgZ3JvdXAgZWZmZWN0IGlzIG1vcmUgY2xlYXIgd2hlbiB0aGUgcmVzcG9uc2UgaGFzIGxlc3MgdmFyaWFiaWxpdHkuIFF1YW50aWZ5aW5nIHZhcmlhYmlsaXR5IGlzIGNydWNpYWwgdG8gZGlzdGluZ3Vpc2ggYmV0d2VlbiBzeXN0ZW1hdGljIGFuZCByYW5kb20gcGF0dGVybnMuCgotIFRoZSByZXNwb25zZSB2YXJpZXMgYmV0d2VlbiBhbmQgd2l0aGluIGluZGl2aWR1YWxzIGFuZCBpcyB0aGUgcmVhc29uIHdoeSB3ZSBuZWVkIHN0YXRpc3RpY3MuCgotIENydWNpYWwgdG8gZGVzY3JpYmUgYm90aCB0aGUgY2VudHJhbCBsb2NhdGlvbiBhbmQgdGhlIHZhcmlhYmlsaXR5LgotIFdoaWNoIHBhcnQgb2YgdGhlIHZhcmlhYmlsaXR5IGNhbiB3ZSBleHBsYWluIChlLmcuIHdpdGggY2hhcmFjdGVyaXN0aWNzIHRyZWF0bWVudCwgYWdlLCBldGMsKSBhbmQgd2hpY2ggcGFydCBpcyB1bmV4cGxhaW5lZD8gCiMjIyBTYW1wbGUgdmFyaWFuY2UgYW5kIHNhbXBsZSBzdGFuZGFyZCBkZXZpYXRpb24KCi0gU2FtcGxlIHZhcmlhbmNlOiAkJApzX1heMj0gXHN1bVxsaW1pdHNfe2k9MX1ebiBcZnJhY3soWC1cYmFyIFgpXjJ9e24tMX0KJCQKLSBJbnRlcnByZXRhdGlvbiBpcyBvZnRlbiBkaWZmaWN1bHQgYmVjYXVzZSBpdCBpcyBpbiBhbm90aGVyIHVuaXQgdGhhbiB0aGUgbWVhc3VyZW1lbnRzLgoKLSAqU3RhbmRhcmQgZGV2aWF0aW9uKjogJCQKc19YPSBcc3FydHtzX3heMn0KJCQKCi0gVmVyeSB1c2VmdWwgZm9yIE5vcm1hbCBkaXN0cmlidXRlZCBvYnNlcnZhdGlvbnM6CgogICAgLSA2OCUgb2YgdGhlIG9ic2VydmF0aW9ucyBmYWxscyBpbiB0aGUgaW50ZXJ2YWwgICRcYmFye3h9IC0gc194JCBlbiAkXGJhcnt4fSArIHNfeCQKICAgIC0gOTUlIG9mIHRoZSBvYnNlcnZhdGlvbnMgZmFsbHMgaW4gdGhlIGludGVydmFsICRcYmFye3h9IC0gMiBzX3gkIGVuICRcYmFye3h9ICsgMiBzX3gkLgoKLSBUaGVzZSBpbnRlcnZhbHMgYXJlIHJlZmVycmVkIHRvIGFzIDY4JSBlbiA5NSUgKnJlZmVyZW5jZS1pbnRlcnZhbHMqLgoKLSBJZiB0aGUgZGF0YSBhcmUgbm90IE5vcm1hbGx5IGRpc3RyaWJ1dGVkLCByZWZlcmVuY2UgaW50ZXJ2YWxzIGFyZSBub3QgdmFsaWQuIAoKLS0tCgojIyMgSW50ZXJxdWFydGlsZSByYW5nZQoKRm9yIHNrZXdlZCBkYXRhIHRoZSBzdGFuZGFyZCBkZXZpYXRpb24gaXMgbm90IHVzZWZ1bAotIEl0IGlzIHZlcnkgc2Vuc2l0aXZlIHRvIG91dGxpZXJzCi0gKkludGVyIFF1YXJ0aWxlIFJhbmdlKjogRGlzdGFuY2UgYmV0d2VlbiBmaXJzdCBhbmQgdGhpcmQgcXVhcnRpbGUgCi0gV2lkdGggb2YgdGhlIGJveHBsb3QhCgpgYGB7cn0KTkhBTkVTICU+JSBmaWx0ZXIoR2VuZGVyPT0iZmVtYWxlIikgJT4lIHN1bW1hcml6ZShJUVI9SVFSKERpcmVjdENob2wsbmEucm09VFJVRSkpCmBgYAoKCmBgYHtyfQpOSEFORVMgJT4lIGZpbHRlcihHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHg9IiIseT1EaXJlY3RDaG9sKSkgKwogIGdlb21fYm94cGxvdCgpIApgYGAKCi0tLQoKIyBOb3JtYWxlIGFwcHJveGltYXRpb24KCgotIEJpb2xvZ2ljYWwgYW5kIGNoZW1pY2FsIGRhdGEgYXJlIG9mdGVuIE5vcm1hbGx5IGRpc3RyaWJ1dGVkIHVwb24gdHJhbnNmb3JtYXRpb24uIAoKLSBJZiB0aGlzIGlzIHRoZSBjYXNlIHdlIGNhbiBnZXQgYSBsb3Qgb2YgaW5zaWdodCBpbiB0aGUgZGF0YSB1c2luZyBqdXN0IHR3byBkZXNjcmlwdGl2ZSBzdGF0aXN0aWNzOiBtZWFuICRcbXUkIGFuZCBzdGFuZGFyZCBkZXZpYXRpb24gJFxzaWdtYSQuCgotLS0KCiMjIEV2YWx1YXRpb24gd2l0aCBRUS1wbG90cwoKSWYgeW91ciBhbmFseXNpcyBidWlsZCB1cG9uIHRoZSBhc3N1bXB0aW9uIHRoYXQgdGhlIGRhdGEgYXJlIE5vcm1hbGx5IGRpc3RyaWJ1dGVkLCBpdCBoYXMgdG8gYmUgdmVyaWZpZWQuCgpXZSB1c2UgKlFRLXBsb3RzKiBvciAqcXVhbnRpbGUtcXVhbnRpbGUgcGxvdHMqLgoKLSBPYnNlcnZlZCBxdWFudGlsZXMgZnJvbSB0aGUgb2JzZXJ2YXRpb25zIGluIHRoZSBzYW1wbGUgYXJlIHBsb3R0ZWQgYWdhaW5zdCBxdWFudGlsZXMgZnJvbSB0aGUgTm9ybWFsIGRpc3RyaWJ1dGlvbi4KCi0gSWYgdGhlIGRhdGEgYXJlIE5vcm1hbGx5IGRpc3RyaWJ1dGVkIGJvdGggcXVhbnRpbGVzIGhhdmUgdG8gYmUgaW4gbGluZS4gCgotIERvdHMgaW4gdGhlIHBsb3QgYXJlIGV4cGVjdGVkIG9uIGEgc3RyYWlnaHQgbGluZS4KCi0gU3lzdGVtYXRpYyBkZXZpYXRpb25zIG9mIHRoZSBzdHJhaWdodCBsaW5lIGluZGljYXRlIHRoYXQgdGhlIGRhdGEgYXJlIG5vdCBOb3JtYWxseSBkaXN0cmlidXRlZC4gCgotIE5vdGUsIHRoYXQgd2Ugd2lsbCBhbHdheXMgb2JzZXJ2ZSBzb21lIHJhbmRvbSBkZXZpYXRpb25zIGZyb20gdGhlIHN0cmFpZ2h0IGxpbmUgaW4gdGhlIHBsb3QgYmVjYXVzZSBvZiByYW5kb20gYmlvbG9naWNhbCB2YXJpYWJpbGl0eSwgd2hpY2ggaXMgbm90IGluZGljYXRpdmUgZm9yIGRldmlhdGlvbnMgZnJvbSBOb3JtYWxpdHkuCgotIFNvIGl0IGlzIGltcG9ydGFudCB0byB0cmFpbiB5b3Vyc2VsZiB0byBsZWFybiB0byBkaXN0aW5ndWlzaCBzeXN0ZW1hdGljIGZyb20gcmFuZG9tIGRldmlhdGlvbnMuIAoKLS0tCgojIyMgTm9ybWFsIGRhdGEKLSBXZSB3aWxsIGZpcnN0IHNpbXVsYXRlIGRhdGEgZnJvbSB0aGUgTm9ybWFsIGRpc3RyaWJ1dGlvbiB0byBzaG93IGhvdyB0aGUgcGxvdHMgbG9vayBsaWtlIGZvciBkYXRhIHRoYXQgaXMgbWVldGluZyB0aGUgYXNzdW1wdGlvbnMuCgotIFdlIHdpbGwgc2ltdWxhdGUgZGF0YSBmcm9tIDkgc2FtcGxlcyB3aXRoIGEgbWVhbiBvZiAxOCBhbmQgc3RhbmRhcmQgZGV2aWF0aW9uIG9mIDkuCgpgYGB7cn0KbiA8LSAyMAptdSA8LSAxOApzaWdtYSA8LSA5Cm5TYW1wIDwtOQoKbm9ybVNpbSA8LSBtYXRyaXgocm5vcm0obipuU2FtcCxtZWFuPW11LHNkPXNpZ21hKSxucm93PW4pICU+JSBhcy5kYXRhLmZyYW1lCgpub3JtU2ltICU+JSBnYXRoZXIoc2FtcCxkYXRhKSAlPiUgCmdncGxvdChhZXMoeD1kYXRhKSkgKwpnZW9tX2hpc3RvZ3JhbShhZXMoeT0uLmRlbnNpdHkuLiwgZmlsbD0uLmNvdW50Li4pLGJpbnM9MzApICsKZ2VvbV9kZW5zaXR5KGFlcyh5PS4uZGVuc2l0eS4uKSkgKwogIGZhY2V0X3dyYXAofnNhbXApCgpub3JtU2ltICU+JSBnYXRoZXIoc2FtcCxkYXRhKSAlPiUgCiAgZ2dwbG90KGFlcyhzYW1wbGU9ZGF0YSkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpICsKZmFjZXRfd3JhcCh+c2FtcCkKYGBgCgpTbyBldmVuIGZvciBOb3JtYWwgZGF0YSB3ZSBvYnNlcnZlIHNvbWUgZGV2aWF0aW9ucyBkdWUgdG8gc2FtcGxpbmcgdmFyaWFiaWxpdHkhCgotLS0KCiMjIyBSZWFsIGRhdGEKCmBgYHtyfQpOSEFORVMgJT4lIGZpbHRlcihHZW5kZXI9PSJmZW1hbGUiJiFpcy5uYShCTUkpKSAlPiUKICBnZ3Bsb3QoYWVzKHg9Qk1JKSkrCiAgIGdlb21faGlzdG9ncmFtKGFlcyh5PS4uZGVuc2l0eS4uLCBmaWxsPS4uY291bnQuLikpICsKICAgeGxhYigiQk1JIikgKwogICBnZ3RpdGxlKCJBbGwgZmVtYWxlcyBpbiBzdHVkeSIpICsKICBnZW9tX2RlbnNpdHkoYWVzKHk9Li5kZW5zaXR5Li4pKQoKTkhBTkVTICU+JSBmaWx0ZXIoR2VuZGVyPT0iZmVtYWxlIiYhaXMubmEoQk1JKSkgJT4lCiAgZ2dwbG90KGFlcyhzYW1wbGU9Qk1JKSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkKYGBgCgpUaGUgUVEtcGxvdCBzaG93cyB0aGF0IHRoZSBxdWFudGlsZXMgb2YgdGhlIGRhdGEKCi0gYXJlIGxhcmdlciAoYWJvdmUgdGhlIGxpbmUpIHRoYW4gdGhlc2UgZnJvbSB0aGUgTm9ybWFsIGluIHRoZSBsZWZ0IHRhaWw6IGNvbXByZXNzaW9uIG9mIHRoZSBsb3dlciB0YWlsLAotIGFyZSBsYXJnZXIgKGFib3ZlIHRoZSBsaW5lKSB0aGFuIHRoZXNlIGZyb20gdGhlIE5vcm1hbCBpbiB0aGUgcmlnaHQgdGFpbDogbG9uZyB0YWlsIHRvIHRoZSByaWdodC4KCldlIGNhbiBjbGVhcmx5IHNlZSB0aGF0IHRoZSBkYXRhIGFyZSBza2V3ZWQuCiAgCi0tLQoKIyBUd28gY29udGludW91cyB2YXJpYWJsZXM6IENvcnJlbGF0aW9uCgotIE5IQU5FUyBzdHVkeQotIEhlaWdodCBhbmQgV2VpZ2h0IEV4YW1wbGUgZm9yIGZlbWFsZXMgCgpgYGB7cn0KTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHg9SGVpZ2h0LHk9V2VpZ2h0KSkgKwogIGdlb21fcG9pbnQoKQpgYGAKCldlIG9ic2VydmUgYW4gYXNzb2NpYXRpb24gYmV0d2VlbiBXZWlnaHQgYW5kIEhlaWdodCwgYnV0IHdlIGFsc28gb2JzZXJ2ZSB0aGF0IHRoZSBXZWlnaHRzIHRlbmQgdG8gYmUgcmlnaHQtc2tld2VkLiAKCkxldHMgbG9vayBhdCB0aGUgdW5pdmFyaWF0ZSBkaXN0cmlidXRpb25zIGZpcnN0LgoKYGBge3J9Ck5IQU5FUyU+JSBmaWx0ZXIoQWdlPjI1ICYgR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgZ2dwbG90KGFlcyh4PUhlaWdodCkpICsKICBnZW9tX2hpc3RvZ3JhbShhZXMoeT0uLmRlbnNpdHkuLiwgZmlsbD0uLmNvdW50Li4pKSArCiAgIHhsYWIoIkhlaWdodCIpICsKICBnZ3RpdGxlKCJBbGwgZmVtYWxlcyBpbiBzdHVkeSIpICsKICBnZW9tX2RlbnNpdHkoYWVzKHk9Li5kZW5zaXR5Li4pKQoKTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZT1IZWlnaHQpKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKQpgYGAKCgpgYGB7cn0KTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHg9V2VpZ2h0KSkgKwogIGdlb21faGlzdG9ncmFtKGFlcyh5PS4uZGVuc2l0eS4uLCBmaWxsPS4uY291bnQuLikpICsKICAgeGxhYigiV2VpZ2h0IikgKwogIGdndGl0bGUoIkFsbCBmZW1hbGVzIGluIHN0dWR5IikgKwogIGdlb21fZGVuc2l0eShhZXMoeT0uLmRlbnNpdHkuLikpCgpOSEFORVMlPiUgZmlsdGVyKEFnZT4yNSAmIEdlbmRlcj09ImZlbWFsZSIpICU+JQogIGdncGxvdChhZXMoc2FtcGxlPVdlaWdodCkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpCmBgYAoKVGhlIHdlaWdodHMgYXJlIGluZGVlZCBza2V3ZWQhCgpVcG9uIGxvZyB0cmFuc2Zvcm1hdG9uIHRoZSBXZWlnaHRzIGFyZSBsZXNzIHNrZXdlZCwgYnV0IHN0aWxsIG5vdCBOb3JtYWxseSBkaXN0cmlidXRlZC4gCgpgYGB7cn0KTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHg9V2VpZ2h0JT4lbG9nMikpICsKICBnZW9tX2hpc3RvZ3JhbShhZXMoeT0uLmRlbnNpdHkuLiwgZmlsbD0uLmNvdW50Li4pKSArCiAgIHhsYWIoIldlaWdodCAobG9nMikiKSArCiAgZ2d0aXRsZSgiQWxsIGZlbWFsZXMgaW4gc3R1ZHkiKSArCiAgZ2VvbV9kZW5zaXR5KGFlcyh5PS4uZGVuc2l0eS4uKSkKCk5IQU5FUyU+JSBmaWx0ZXIoQWdlPjI1ICYgR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgZ2dwbG90KGFlcyhzYW1wbGU9V2VpZ2h0JT4lbG9nMikpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpCmBgYAoKU2tld25lc3MgaXMgc3RpbGwgdGhlcmUgYnV0IGlzIHJlZHVjZWQgYWxyZWFkeS4gCgpgYGB7cn0KTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBnZ3Bsb3QoYWVzKHg9SGVpZ2h0LHk9V2VpZ2h0ICU+JSBsb2cyKSkgKwogIHlsYWIoIldlaWdodCAobG9nMikiKSArCiAgZ2VvbV9wb2ludCgpCmBgYAoKLS0tCgojIyBDb3ZhcmlhbmNlIGFuZCBDb3JyZWxhdGlvbgoKLSBMZXQgWCBhbmQgWSBiZSB0byBjb250aW51b3VzIHJhbmRvbSB2YXJpYWJsZXMsIGFuZCBmb3IgZWFjaCBzdWJqZWN0IGkgd2Ugb2JzZXJ2ZSAkKFhfaSxZX2kpJC4KLSBDb3ZhcmlhbmNlOiBob3cgZGV2aWF0ZSBYX2kgYW5kIFlfaSBhcm91bmQgdGhlaXIgbWVhbnM/IAoKJCRcbWJveHtDb3Zhcn0oWCxZKT1FWyhYLUVbWF0pKFktRVtZXSldJCQKCi0gQ29ycmVsYXRpb246IHN0YW5kYXJkaXNlIHRoZSBjb3ZhcmlhbmNlIGFjY29yZGluZyB0byB0aGUgdmFyaWFiaWxpdHkgaW4gZWFjaCB2YXJpYWJsZToKCiQkXG1ib3h7Q29yfShYLFkpPVxmcmFje0VbKFgtRVtYXSkoWS1FW1ldKV19e1xzcXJ0e0VbKFgtRVtYXSleMn1cc3FydHtFWyhZLUVbWV0pXjJ9fSQkCgoKIyMgUGVhcnNvbiBDb3JyZWxhdGlvbgoKLSBBc3NvY2lhdGlvbiBiZXR3ZWVuIHR3byBjb250aW51b3VzIGNvdmFyaWF0ZToKClxbXG1ib3h7Q29yfShYLFkpPVxmcmFje1xzdW1fe2k9MX1ee259KFhfe2l9LVxiYXJ7WH0pKFlfe2l9LVxiYXJ7WX0pfXsobi0xKXNfe1h9c197WX19ClxdCgotIFBvc2l0aXZlIGNvcnJlbGF0aW9uOiAkeCBcIFxuZWFycm93IFwgXFJpZ2h0YXJyb3cgXCB5IFwgXG5lYXJyb3ckCgotIE5lZ2F0aXZlIGNvcnJlbGF0aW9uOiAkeCBcIFxuZWFycm93IFwgXFJpZ2h0YXJyb3cgXCB5IFwgXHNlYXJyb3ckCgotIENvcnJlbGF0aW9uIGFsd2F5cyBiZXR3ZWVuIC0xIGVuIDEKCmBgYHtyfQptZWFuczwtTkhBTkVTJT4lIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUgc2VsZWN0KFdlaWdodCxIZWlnaHQpICU+JSBtdXRhdGUobG9nMldlaWdodD1XZWlnaHQlPiVsb2cyKSAlPiUgYXBwbHkoLiwyLG1lYW4sbmEucm09VFJVRSkKcmFuZ2VzPC1OSEFORVMlPiUgZmlsdGVyKEFnZT4yNSAmIEdlbmRlcj09ImZlbWFsZSIpICU+JSBzZWxlY3QoV2VpZ2h0LEhlaWdodCkgJT4lIG11dGF0ZShsb2cyV2VpZ2h0PVdlaWdodCU+JWxvZzIpICU+JSBhcHBseSguLDIscmFuZ2UsbmEucm09VFJVRSkKCk5IQU5FUyU+JSBmaWx0ZXIoQWdlPjI1ICYgR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgZ2dwbG90KGFlcyh4PUhlaWdodCx5PVdlaWdodCAlPiUgbG9nMikpICsKICB5bGFiKCJXZWlnaHQgKGxvZzIpIikgKwogIGdlb21fcG9pbnQoKSArIAogIGdlb21faGxpbmUoeWludGVyY2VwdD1tZWFuc1sibG9nMldlaWdodCJdLGNvbG9yPSJyZWQiKSArCiAgZ2VvbV92bGluZSh4aW50ZXJjZXB0PW1lYW5zWyJIZWlnaHQiXSxjb2xvcj0icmVkIikgKwogIGFubm90YXRlKGdlb209InRleHQiLAogICAgICAgICAgIHg9YyhyYW5nZXNbMSwiSGVpZ2h0Il0scmFuZ2VzWzEsIkhlaWdodCJdLHJhbmdlc1syLCJIZWlnaHQiXSxyYW5nZXNbMiwiSGVpZ2h0Il0pLAogICAgICAgICAgIHk9YyhyYW5nZXNbMSwibG9nMldlaWdodCJdLHJhbmdlc1syLCJsb2cyV2VpZ2h0Il0scmFuZ2VzWzEsImxvZzJXZWlnaHQiXSxyYW5nZXNbMiwibG9nMldlaWdodCJdKSwKICAgICAgICAgICBsYWJlbD1jKCIrIiwiLSIsIi0iLCIrIiksY29sb3I9InJlZCIsc2l6ZT0xMCkKYGBgCgpgYGB7cn0gCk5IQU5FUyU+JSAKICBmaWx0ZXIoQWdlPjI1ICYgR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgZ2dwbG90KGFlcyh4PUhlaWdodCx5PVdlaWdodCkpICsKICB5bGFiKCJXZWlnaHQgKGxvZzIpIikgKwogIGdlb21fcG9pbnQoKSArIAogIGdlb21faGxpbmUoeWludGVyY2VwdD1tZWFuc1siV2VpZ2h0Il0sY29sb3I9InJlZCIpICsKICBnZW9tX3ZsaW5lKHhpbnRlcmNlcHQ9bWVhbnNbIkhlaWdodCJdLGNvbG9yPSJyZWQiKSArCiAgYW5ub3RhdGUoZ2VvbT0idGV4dCIsCiAgICAgICAgICAgeD1jKHJhbmdlc1sxLCJIZWlnaHQiXSxyYW5nZXNbMSwiSGVpZ2h0Il0scmFuZ2VzWzIsIkhlaWdodCJdLHJhbmdlc1syLCJIZWlnaHQiXSksCiAgICAgICAgICAgeT1jKHJhbmdlc1sxLCJXZWlnaHQiXSxyYW5nZXNbMiwiV2VpZ2h0Il0scmFuZ2VzWzEsIldlaWdodCJdLHJhbmdlc1syLCJXZWlnaHQiXSksCiAgICAgICAgICAgbGFiZWw9YygiKyIsIi0iLCItIiwiKyIpLGNvbG9yPSJyZWQiLHNpemU9MTApCmBgYAoKCgpgYGB7cn0KTkhBTkVTJT4lIAogIGZpbHRlcihBZ2U+MjUgJiBHZW5kZXI9PSJmZW1hbGUiKSAlPiUKICBzZWxlY3QoV2VpZ2h0LEhlaWdodCkgJT4lCiAgbXV0YXRlKGxvZzJXZWlnaHQ9V2VpZ2h0JT4lbG9nMikgJT4lCiAgbmEuZXhjbHVkZSAlPiUKICBjb3IKYGBgCgotIE5vdGUsIHRoYXQgdGhlIGNvcnJlbGF0aW9uIGlzIGxvd2VyIHdoZW4gdGhlIGRhdGEgYXJlIG5vdCB0cmFuc2Zvcm1lZC4gCi0gVGhlIFBlYXJzb24gY29ycmVsYXRpb24gaXMgc2Vuc2l0aXZlIHRvIG91dGxpZXJzIQotIERvIG5vdCB1c2UgUGVhcnNvbiBjb3JyZWxhdGlvbiBmb3Igc2tld2VkIGRpc3RyaWJ1dGlvbnMgb3IgZm9yIGRhdGEgd2l0aCBvdXRsaWVycy4gCgojIyMgSW1wYWN0IG9mIG91dGxpZXJzIAoKSWxsdXN0cmF0aW9uIHdpdGggc2ltdWxhdGVkIGRhdGEgdGhhdCBoYXMgb25lIG91dGxpZXIuIAoKYGBge3J9CnNldC5zZWVkKDEwMCkKeCA8LSBybm9ybSgyMCkKc2ltRGF0YSA8LSBkYXRhLmZyYW1lKHg9eCx5PXgqMiArIHJub3JtKGxlbmd0aCh4KSkpIApzaW1EYXRhICU+JSBnZ3Bsb3QoYWVzKHg9eCx5PXkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZ3RpdGxlKHBhc3RlKCJjb3IgPSIsY29yKHNpbURhdGFbLDFdLHNpbURhdGFbLDJdKSAlPiUgcm91bmQoLiwyKSkpCgpvdXRsaWVyPC0gcmJpbmQoc2ltRGF0YSxjKDIsLTQpKQpvdXRsaWVyICU+JSBnZ3Bsb3QoYWVzKHg9eCx5PXkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZ3RpdGxlKHBhc3RlKCJjb3IgPSIsY29yKG91dGxpZXJbLDFdLG91dGxpZXJbLDJdKSAlPiUgcm91bmQoLiwyKSkpCmBgYAoKIyMjIE9ubHkgbGluZWFyIGFzc29jaWF0aW9uCgpOb3RlLCB0aGF0IHRoZSBQZWFyc29uIGNvcnJlbGF0aW9uIG9ubHkgY2FwdHVyZXMgbGluZWFyIGFzc29jaWF0aW9uIQoKYGBge3J9CnggPC0gcm5vcm0oMTAwKQpxdWFkcmF0aWMgPC0gZGF0YS5mcmFtZSh4PXgseT14XjIgKyBybm9ybShsZW5ndGgoeCkpKSAKcXVhZHJhdGljICU+JSBnZ3Bsb3QoYWVzKHg9eCx5PXkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZ3RpdGxlKHBhc3RlKCJjb3IgPSIsY29yKHF1YWRyYXRpY1ssMV0scXVhZHJhdGljWywyXSkgJT4lIHJvdW5kKC4sMikpKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gbWVhbihxdWFkcmF0aWNbLDJdKSxjb2w9InJlZCIpICsKICAgIGdlb21fdmxpbmUoeGludGVyY2VwdCA9IG1lYW4ocXVhZHJhdGljWywxXSksY29sPSJyZWQiKSAKYGBgCgoKIyMgRGlmZmVyZW50IG1hZ25pdHVkZXMgb2YgY29ycmVsYXRpb24KCmBgYHtyfQpzZXQuc2VlZCgxMDApCnggPC0gcm5vcm0oMTAwKQpzaW1EYXRhMjwtY2JpbmQoeCwxLjUqeCxzYXBwbHkoMTo3LGZ1bmN0aW9uKHNkLHgpIDEuNSp4K3Jub3JtKGxlbmd0aCh4KSxzZD1zZCkseD14KSxybm9ybShsZW5ndGgoeCksc2Q9NykpCgpjb2xuYW1lcyhzaW1EYXRhMilbLTFdPC1wYXN0ZSgiY29yIixyb3VuZChjb3Ioc2ltRGF0YTIpWzEsLTFdLDIpLHNlcD0iPSIpCgpzaW1EYXRhMiAlPiUgCiAgYXMuZGF0YS5mcmFtZSAlPiUgCiAgZ2F0aGVyKGNvcix5LC14KSAlPiUKICBnZ3Bsb3QoYWVzKHg9eCx5PXkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBmYWNldF93cmFwKH5jb3IpCgpzaW1EYXRhMyA8LSBzaW1EYXRhMgpzaW1EYXRhM1ssLTFdPC0tc2ltRGF0YTJbLC0xXQpjb2xuYW1lcyhzaW1EYXRhMylbLTFdPC1wYXN0ZSgiY29yIixyb3VuZChjb3Ioc2ltRGF0YTMpWzEsLTFdLDIpLHNlcD0iPSIpCgpzaW1EYXRhMyAlPiUgCiAgYXMuZGF0YS5mcmFtZSAlPiUgCiAgZ2F0aGVyKGNvcix5LC14KSAlPiUKICBnZ3Bsb3QoYWVzKHg9eCx5PXkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBmYWNldF93cmFwKH5jb3IpCmBgYAoKLS0tCgojIyBTcGVhcm1hbiBjb3JyZWxhdGlvbgoKVGhlIFNwZWFybWFuIGNvcnJlbGF0aW9uIGlzIHRoZSBQZWFyc29uIGNvcnJlbGF0aW9uIGFmdGVyIHRyYW5zZm9ybWluZyB0aGUgZGF0YSB0byByYW5rcy4gIAoKLSBQZWFyc29uIGNvcnJlbGF0aW9uCmBgYHtyfQpjb3Iob3V0bGllcikKYGBgCgotIFNwZWFybWFuIGNvcnJlbGF0aW9uCmBgYHtyfQpjb3Iob3V0bGllcixtZXRob2Q9InNwZWFybWFuIikKYGBgCgotIFNwZWFybWFuIGNvcnJlbGF0aW9uIGlzIGxlc3Mgc2Vuc2l0aXZlIHRvIG91dGxpZXJzLgoKLSBQZWFyc29uIGNvcnJlbGF0aW9uIG9uIHJhbmtzCmBgYHtyfQpyYW5rRGF0YTwtYXBwbHkob3V0bGllciwyLHJhbmspCmNvcihyYW5rRGF0YSkKYGBgCgotIE5IQU5FUyBleGFtcGxlIAoKYGBge3J9Ck5IQU5FUyU+JSAKICBmaWx0ZXIoQWdlPjI1ICYgR2VuZGVyPT0iZmVtYWxlIikgJT4lCiAgc2VsZWN0KFdlaWdodCxIZWlnaHQpICU+JQogIG11dGF0ZShsb2cyV2VpZ2h0PVdlaWdodCU+JWxvZzIpICU+JQogIG5hLmV4Y2x1ZGUgJT4lCiAgY29yKG1ldGhvZD0ic3BlYXJtYW4iKQpgYGAK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("04-dataExploration.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

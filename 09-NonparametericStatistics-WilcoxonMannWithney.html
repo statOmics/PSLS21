@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>9. Nonparametric Statistics - Wilcoxon-Mann-Withney test</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PSLS21</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWhitney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Lab 1</li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/Rmd-website">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">9. Nonparametric Statistics - Wilcoxon-Mann-Withney test</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<p>#Intro</p>
+<p>Inference was only correct if distributional assumptions were satisfied</p>
+<ul>
+<li><p>e.g Normal distribution</p></li>
+<li><p>equal variance</p></li>
+<li><p>The <span class="math inline">\(p\)</span>-value: <span class="math inline">\(\text{P}_0\left[ \vert T\vert \geq \vert t \vert \right]\)</span>.</p>
+<ul>
+<li>Calculated using the null distribution of <span class="math inline">\(T\)</span> that we derived under the assumptions</li>
+<li>In correct if assumptions are violated</li>
+</ul></li>
+<li><p><span class="math inline">\(95\%\)</span> CI also builds upon these assumptions. If they are invalid then the intervals will not contain the population parameter with 95% probability.</p></li>
+<li><p>Asymptotic theory is more difficult to place: the <span class="math inline">\(t\)</span>-test is asymptotically non-parametric because for very large samples the distributional assumptions of normality are no longer important.</p></li>
+<li><p>If assumptions hold the parametric approach</p>
+<ul>
+<li>more efficient: larger power with same sample size + smaller CI.<br />
+</li>
+<li>more flexible: easier to analyse data with complex designs</li>
+</ul></li>
+</ul>
+<hr />
+<div id="cholesterol-voorbeeld" class="section level2">
+<h2><span class="header-section-number">0.1</span> Cholesterol voorbeeld</h2>
+<ul>
+<li>Cholesterol concentration in blood measured for
+<ul>
+<li>5 patients (group=1) two days upon a stroke</li>
+<li>5 healthy subject (groep=2).</li>
+</ul></li>
+<li>Is cholesterol concentration of hart patients and healthy subjects on average different?</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>chol &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/GTPB/PSLS20/master/data/chol.txt&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>chol<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">as.factor</span>(chol<span class="op">$</span>group)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>nGroups &lt;-<span class="st"> </span><span class="kw">table</span>(chol<span class="op">$</span>group)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>n &lt;-<span class="st"> </span><span class="kw">sum</span>(nGroups)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>chol</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["group"],"name":[1],"type":["fct"],"align":["left"]},{"label":["cholest"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"244"},{"1":"1","2":"206"},{"1":"1","2":"242"},{"1":"1","2":"278"},{"1":"1","2":"236"},{"1":"2","2":"188"},{"1":"2","2":"212"},{"1":"2","2":"186"},{"1":"2","2":"198"},{"1":"2","2":"160"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><img src="09-NonparametericStatistics-WilcoxonMannWithney_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /><img src="09-NonparametericStatistics-WilcoxonMannWithney_files/figure-html/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Possibly outliers</li>
+<li>Difficult to assess distributional assumptions when only 5 observations are available.</li>
+</ul>
+</div>
+<div id="rank-tests" class="section level1">
+<h1><span class="header-section-number">1</span> Rank Tests</h1>
+<ul>
+<li>Important group of non-parametric test
+<ul>
+<li>Non-parametric,</li>
+<li>Exact <span class="math inline">\(p\)</span>-values using a permutation null distribution.</li>
+<li>No need for separate permutation distribution for each new dataset.<br />
+</li>
+<li>Permutation null distribution of rank tests only depends on sample size</li>
+<li>Robust to outliers</li>
+</ul></li>
+</ul>
+<hr />
+<p>#Ranks</p>
+<p>Rank tests start from rank-transformed data.</p>
+<ul>
+<li>Let <span class="math inline">\(Y_1, \ldots, Y_n\)</span>.</li>
+<li>In the absence of <em>ties</em> <span class="math display">\[R_i=R(Y_i) = \#\{Y_j: Y_j\leq Y_i; j=1,\ldots, n\}\]</span></li>
+<li>Smallest observation has rank 1, second smallest rank 2, … , largest observation gets rank <span class="math inline">\(n\)</span></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>chol<span class="op">$</span>cholest</span></code></pre></div>
+<pre><code> [1] 244 206 242 278 236 188 212 186 198 160</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">rank</span>(chol<span class="op">$</span>cholest)</span></code></pre></div>
+<pre><code> [1]  9  5  8 10  7  3  6  2  4  1</code></pre>
+<hr />
+<div id="ties" class="section level2">
+<h2><span class="header-section-number">1.1</span> ties</h2>
+<p>Sometimes <em>ties</em> occur: two observations with identical values</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>withTies=<span class="kw">c</span>(<span class="dv">403</span>,<span class="dv">507</span>,<span class="dv">507</span>,<span class="dv">610</span>,<span class="dv">651</span>,<span class="dv">651</span>,<span class="dv">651</span>,<span class="dv">830</span>,<span class="dv">900</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">rank</span>(withTies)</span></code></pre></div>
+<pre><code>[1] 1.0 2.5 2.5 4.0 6.0 6.0 6.0 8.0 9.0</code></pre>
+<ul>
+<li><p>Ties: 507 occurs twice, 651 occurs 3 times</p></li>
+<li><p>If ties occur <em>midranks</em> are used.</p></li>
+<li><p><strong>midrank</strong> of observation <span class="math inline">\(Y_i\)</span> becomes <span class="math display">\[\begin{eqnarray*}
+ R_i &amp;=&amp; \frac{ \#\{Y_j: Y_j\leq Y_i\} + ( \#\{Y_j: Y_j &lt; Y_i\} +1)}{2}.
+ \end{eqnarray*}\]</span></p></li>
+</ul>
+<hr />
+</div>
+<div id="ranks-of-pooled-sample" class="section level2">
+<h2><span class="header-section-number">1.2</span> Ranks of pooled sample</h2>
+<ul>
+<li>Let <span class="math inline">\(Y_{ij}\)</span>, <span class="math inline">\(i=1,\ldots, n_j\)</span> be observations from two treatment groups <span class="math inline">\(j=1,2\)</span>.</li>
+<li>They can also be represented by <span class="math inline">\(Z_1,\ldots, Z_n\)</span> (<span class="math inline">\(n=n_1+n_2\)</span>), the outcomes of the pooled sample</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">t</span>(chol)</span></code></pre></div>
+<pre><code>        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10]
+group   &quot;1&quot;   &quot;1&quot;   &quot;1&quot;   &quot;1&quot;   &quot;1&quot;   &quot;2&quot;   &quot;2&quot;   &quot;2&quot;   &quot;2&quot;   &quot;2&quot;  
+cholest &quot;244&quot; &quot;206&quot; &quot;242&quot; &quot;278&quot; &quot;236&quot; &quot;188&quot; &quot;212&quot; &quot;186&quot; &quot;198&quot; &quot;160&quot;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>z=chol<span class="op">$</span>cholest</span>
+<span id="cb10-2"><a href="#cb10-2"></a>z</span></code></pre></div>
+<pre><code> [1] 244 206 242 278 236 188 212 186 198 160</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">rank</span>(z)</span></code></pre></div>
+<pre><code> [1]  9  5  8 10  7  3  6  2  4  1</code></pre>
+<hr />
+</div>
+</div>
+<div id="wilcoxon-mann-whitney-test" class="section level1">
+<h1><span class="header-section-number">2</span> Wilcoxon-Mann-Whitney Test</h1>
+<p>Simultaneously developed by Wilcoxon, and, Mann and Whitney: <strong>Wilcoxon-Mann-Whitney</strong>, <strong>Wilcoxon rank sum test</strong> or <strong>Mann-Whitney U test</strong></p>
+<div id="hypotheses" class="section level2">
+<h2><span class="header-section-number">2.1</span> hypotheses</h2>
+<p>Under <span class="math inline">\(H_0\)</span> the distributions of the two groups are equal <span class="math display">\[H_0: f_1=f_2\]</span></p>
+<p>Under the alternative <span class="math inline">\(H_1\)</span> the distributions differ in location <span class="math display">\[H_1: \mu_1\neq \mu_2\]</span></p>
+<p><span class="math inline">\(H_1\)</span> assumes <strong>location-shift</strong>, we will relax this assumption later on.</p>
+</div>
+<div id="test-statistic" class="section level2">
+<h2><span class="header-section-number">2.2</span> Test statistic</h2>
+<p>Classic T-test: difference in sample means <span class="math inline">\(\bar{Y}_1-\bar{Y}_2\)</span>.</p>
+<p>Here: Difference in sample means based on rank transformed data</p>
+<p>Ranks based on the pooled sample (upon joining the observations from the two groups): <span class="math inline">\(R_{ij}=R(Y_{ij})\)</span> is de rank of observation <span class="math inline">\(Y_{ij}\)</span> in the pooled sample.</p>
+<p><span class="math display">\[
+  T = \frac{1}{n_1}\sum_{i=1}^{n_1} R(Y_{i1}) - \frac{1}{n_2}\sum_{i=1}^{n_2} R(Y_{i2}) .
+\]</span></p>
+<ul>
+<li><p>Under <span class="math inline">\(H_0\)</span> we expect the average rank of the first group to be close to that of the second group so <span class="math inline">\(T\)</span> is close to zero.</p></li>
+<li><p>Under <span class="math inline">\(H_1\)</span> we expect the mean ranks to differ so that <span class="math inline">\(T\)</span> deviates from zero.</p></li>
+<li><p>It is sufficient to only calculate <span class="math display">\[S_1=\sum_{i=1}^{n_1} R(Y_{i1})\]</span>.</p></li>
+<li><p><span class="math inline">\(S_1\)</span> is the sum of the ranks of the first group: <em>rank sum test</em>.</p></li>
+<li><p>This holds because <span class="math display">\[
+S_1+S_2 = \text{sum of all ranks} = 1+2+\cdots + n=\frac{1}{2}n(n+1).
+\]</span></p></li>
+<li><p><span class="math inline">\(S_1\)</span> (or <span class="math inline">\(S_2\)</span>) is a good test statistic</p></li>
+<li><p>Use permutations to determine the exact permutation distribution. (Permute the ranks between the groups)</p></li>
+<li><p>For a given <span class="math inline">\(n\)</span> and no <em>ties</em> the rank transformed data is always <span class="math display">\[1, 2, \ldots, n\]</span></p></li>
+<li><p>For given <span class="math inline">\(n_1\)</span> en <span class="math inline">\(n_2\)</span> the permutation distribution is always the same!</p></li>
+<li><p>With current computing power this is not so important any more.</p></li>
+</ul>
+<hr />
+</div>
+<div id="standardized-statistic" class="section level2">
+<h2><span class="header-section-number">2.3</span> Standardized statistic</h2>
+<p>Often the standardized test statistic is used <span class="math display">\[
+  T = \frac{S_1-\text{E}_{0}\left[S_1\right]}{\sqrt{\text{Var}_{0}\left[S_1\right]}},
+\]</span></p>
+<ul>
+<li><p>with <span class="math inline">\(\text{E}_{0}\left[S_1\right]\)</span> and <span class="math inline">\(\text{Var}_{0}\left[S_1\right]\)</span> the expect mean and variance of S1 under <span class="math inline">\(H_0\)</span>.</p></li>
+<li><p>Under <span class="math inline">\(H_0\)</span> <span class="math display">\[
+ \text{E}_{0}\left[S_1\right]= \frac{1}{2}n_1(n+1) \;\;\;\;\text{ en }\;\;\;\; \text{Var}_{0}\left[S_1\right]=\frac{1}{12}n_1n_2(n+1).
+ \]</span></p></li>
+<li><p>Under <span class="math inline">\(H_0\)</span> and when <span class="math inline">\(\min(n_1,n_2)\rightarrow \infty\)</span> <span class="math display">\[
+  T = \frac{S_1-\text{E}_{0}\left[S_1\right]}{\sqrt{\text{Var}_{0}\left[S_1\right]}} \rightarrow N(0,1).  
+ \]</span></p></li>
+</ul>
+<p>Asymptotically the standardised statistic follows a standard normal distribution!</p>
+<hr />
+</div>
+<div id="cholesterol-example" class="section level2">
+<h2><span class="header-section-number">2.4</span> Cholesterol example</h2>
+<p>We illustrate the result for the cholesterol example using the R function <code>wilcox.test</code>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">wilcox.test</span>(cholest<span class="op">~</span>group,<span class="dt">data=</span>chol)</span></code></pre></div>
+<pre><code>
+    Wilcoxon rank sum exact test
+
+data:  cholest by group
+W = 24, p-value = 0.01587
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<ul>
+<li><p>We reject <span class="math inline">\(H_0\)</span> (<span class="math inline">\(p=\)</span> 0.016 <span class="math inline">\(&lt;0.05\)</span>)</p></li>
+<li><p>The output shows <span class="math inline">\(W=\)</span> 24?</p></li>
+<li><p>Lets calculate</p></li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>S1 &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">rank</span>(chol<span class="op">$</span>cholest)[chol<span class="op">$</span>group<span class="op">==</span><span class="dv">1</span>])</span>
+<span id="cb16-2"><a href="#cb16-2"></a>S1</span></code></pre></div>
+<pre><code>[1] 39</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>S2 &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">rank</span>(chol<span class="op">$</span>cholest)[chol<span class="op">$</span>group<span class="op">==</span><span class="dv">2</span>]) </span>
+<span id="cb18-2"><a href="#cb18-2"></a>S2</span></code></pre></div>
+<pre><code>[1] 16</code></pre>
+<ul>
+<li>Where does <span class="math inline">\(W=\)</span> 24 comes from?</li>
+</ul>
+<hr />
+</div>
+<div id="mann-and-whitney-test" class="section level2">
+<h2><span class="header-section-number">2.5</span> Mann and Whitney test</h2>
+<p>Mann and Whitney test in absence of ties: <span class="math display">\[
+ U_1 = \sum_{i=1}^{n_1}\sum_{k=1}^{n_2} \text{I}\left\{Y_{i1}\geq Y_{k2}\right\}.
+\]</span></p>
+<ul>
+<li><p>with <span class="math inline">\(\text{I}\left\{.\right\}\)</span> an indicator that equals 1 if the expression is true and is zero otherwise.</p></li>
+<li><p>U counts how many times an observation of the first group is larger or equal to an observation from the second group.</p></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>y1=<span class="kw">subset</span>(chol,group<span class="op">==</span><span class="dv">1</span>)<span class="op">$</span>cholest</span>
+<span id="cb20-2"><a href="#cb20-2"></a>y2=<span class="kw">subset</span>(chol,group<span class="op">==</span><span class="dv">2</span>)<span class="op">$</span>cholest</span>
+<span id="cb20-3"><a href="#cb20-3"></a>u1Hlp=<span class="kw">sapply</span>(y1,<span class="cf">function</span>(y1i,y2) {y1i<span class="op">&gt;=</span>y2},<span class="dt">y2=</span>y2)</span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="kw">colnames</span>(u1Hlp)=y1;<span class="kw">rownames</span>(u1Hlp)=y2</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>u1Hlp</span></code></pre></div>
+<pre><code>     244   206  242  278  236
+188 TRUE  TRUE TRUE TRUE TRUE
+212 TRUE FALSE TRUE TRUE TRUE
+186 TRUE  TRUE TRUE TRUE TRUE
+198 TRUE  TRUE TRUE TRUE TRUE
+160 TRUE  TRUE TRUE TRUE TRUE</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>U1=<span class="kw">sum</span>(u1Hlp); U1</span></code></pre></div>
+<pre><code>[1] 24</code></pre>
+<p>It can be shown that <span class="math inline">\(U_1 = S_1 - \frac{1}{2}n_1(n_1+1).\)</span></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>S1<span class="op">-</span>nGroups[<span class="dv">1</span>]<span class="op">*</span>(nGroups[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span></span></code></pre></div>
+<pre><code> 1 
+24 </code></pre>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(U_1\)</span> en <span class="math inline">\(S_1\)</span> contain the same information</li>
+<li><span class="math inline">\(U_1\)</span> is also a rank statistic, and</li>
+<li>Exact test based on <span class="math inline">\(U_1\)</span> and <span class="math inline">\(S_1\)</span> are equivalent.</li>
+</ol>
+<hr />
+</div>
+<div id="probabilistic-index" class="section level2">
+<h2><span class="header-section-number">2.6</span> Probabilistic index</h2>
+<ul>
+<li><span class="math inline">\(U_1\)</span> has a better interpretation feature</li>
+<li>Let <span class="math inline">\(Y_j\)</span> a random observation from group <span class="math inline">\(j\)</span> (<span class="math inline">\(j=1,2\)</span>). Then <span class="math display">\[\begin{eqnarray*}
+\frac{1}{n_1n_2}\text{E}\left[U_1\right] 
+   &amp;=&amp; \text{P}\left[Y_1 \geq Y_2\right].
+\end{eqnarray*}\]</span></li>
+</ul>
+<p>So we can estimate the probability by calculating the mean of all indicator variable values <span class="math inline">\(\text{I}\left\{Y_{i1}\geq Y_{k2}\right\}\)</span>. Note, that we did <span class="math inline">\(n_1 \times n_2\)</span> comparisons</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">mean</span>(u1Hlp)</span></code></pre></div>
+<pre><code>[1] 0.96</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>U1<span class="op">/</span>(nGroups[<span class="dv">1</span>]<span class="op">*</span>nGroups[<span class="dv">2</span>])</span></code></pre></div>
+<pre><code>   1 
+0.96 </code></pre>
+<ul>
+<li><p>Probability <span class="math inline">\(\text{P}\left[Y_1 \geq Y_2\right]\)</span> is referred to as the <em>probabilistic index</em>.</p></li>
+<li><p>It is the probability that a random observation of the first group is larger or equal than a random observation of the second group<br />
+</p></li>
+<li><p>If <span class="math inline">\(H_0\)</span> holds <span class="math inline">\(\text{P}\left[Y_1 \geq Y_2\right]=\frac{1}{2}\)</span>.</p></li>
+<li><p>R function <code>wilcox.test</code> does not return the Wilcoxon rank sum statistic. It returns the Mann-Whitney statistic <span class="math inline">\(U_1\)</span>.</p></li>
+<li><p>Lets revisit the result</p></li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>wTest&lt;-<span class="kw">wilcox.test</span>(cholest<span class="op">~</span>group,<span class="dt">data=</span>chol) </span>
+<span id="cb31-2"><a href="#cb31-2"></a>wTest</span></code></pre></div>
+<pre><code>
+    Wilcoxon rank sum exact test
+
+data:  cholest by group
+W = 24, p-value = 0.01587
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>U1</span></code></pre></div>
+<pre><code>[1] 24</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>probInd=wTest<span class="op">$</span>statistic<span class="op">/</span><span class="kw">prod</span>(nGroups) </span>
+<span id="cb35-2"><a href="#cb35-2"></a>probInd</span></code></pre></div>
+<pre><code>   W 
+0.96 </code></pre>
+<p>Because <span class="math inline">\(p=\)</span> 0.0159 <span class="math inline">\(&lt;0.05\)</span> we conclude at the <span class="math inline">\(5\%\)</span> significance level that the mean cholesterol level of hart patients is larger then that of healthy subjects.</p>
+<ul>
+<li>Note that we have assumed that the location-shift model is valid in this conclusion.</li>
+<li>We also know that higher cholesterol level are more likely for hart patients then for healthy subjects and this probability is <span class="math inline">\(U1/(n_1\times n_2)=\)</span> 96%.</li>
+<li>We should assess the location shift assumption. But this is not possible with only 5 observations.</li>
+</ul>
+<p>Without the location-shift assumption the conclusion in terms of the probabilistic index remains valid!</p>
+<ul>
+<li>So when we do not assume location shift we test for</li>
+</ul>
+<p><span class="math display">\[H_0: F_1=F_2 \text{ vs } H_1: P[Y_1 \geq Y_2] \neq 0.5.\]</span></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2><span class="header-section-number">2.7</span> Conclusion</h2>
+<p>There is a significant difference in the distribution of the cholesterol concentration of hart patients two days upon a stroke and that of healthy subject ((<span class="math inline">\(p=\)</span> 0.0159). It is more likely to observe higher cholesterol levels for hart patients then for healthy subjects. The point estimator for this probability is 96%.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiOS4gTm9ucGFyYW1ldHJpYyBTdGF0aXN0aWNzIC0gV2lsY294b24tTWFubi1XaXRobmV5IHRlc3QiICAKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUgICAgCiAgICAgIHRoZW1lOiBjb3NtbwogICAgICB0b2M6IHRydWUKICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgIGhpZ2hsaWdodDogdGFuZ28KICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCi0tLQoKPGEgcmVsPSJsaWNlbnNlIiBocmVmPSJodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnktbmMtc2EvNC4wIj48aW1nIGFsdD0iQ3JlYXRpdmUgQ29tbW9ucyBMaWNlbnNlIiBzdHlsZT0iYm9yZGVyLXdpZHRoOjAiIHNyYz0iaHR0cHM6Ly9pLmNyZWF0aXZlY29tbW9ucy5vcmcvbC9ieS1uYy1zYS80LjAvODh4MzEucG5nIiAvPjwvYT4KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoaW5jbHVkZSA9IFRSVUUsIGNvbW1lbnQgPSBOQSwgZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRSkKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoUm1pc2MpCnNldC5zZWVkKDE0MCkKYGBgCgoKI0ludHJvCgpJbmZlcmVuY2Ugd2FzIG9ubHkgY29ycmVjdCBpZiBkaXN0cmlidXRpb25hbCBhc3N1bXB0aW9ucyB3ZXJlIHNhdGlzZmllZCAKCi0gZS5nIE5vcm1hbCBkaXN0cmlidXRpb24gCi0gZXF1YWwgdmFyaWFuY2UgCiAKLSAgVGhlICRwJC12YWx1ZTogJFx0ZXh0e1B9XzBcbGVmdFsgXHZlcnQgVFx2ZXJ0IFxnZXEgXHZlcnQgdCBcdmVydCBccmlnaHRdJC4gCiAgCQoJLSBDYWxjdWxhdGVkIHVzaW5nIHRoZSBudWxsIGRpc3RyaWJ1dGlvbiBvZiAkVCQgdGhhdCB3ZSBkZXJpdmVkIHVuZGVyIHRoZSBhc3N1bXB0aW9ucwoJLSBJbiBjb3JyZWN0IGlmIGFzc3VtcHRpb25zIGFyZSB2aW9sYXRlZCAgCgkKLSAgJDk1XCUkIENJIGFsc28gYnVpbGRzIHVwb24gdGhlc2UgYXNzdW1wdGlvbnMuIElmIHRoZXkgYXJlIGludmFsaWQgdGhlbiB0aGUgaW50ZXJ2YWxzIHdpbGwgbm90IGNvbnRhaW4gdGhlIHBvcHVsYXRpb24gcGFyYW1ldGVyIHdpdGggOTUlIHByb2JhYmlsaXR5LgoKLSBBc3ltcHRvdGljIHRoZW9yeSBpcyBtb3JlIGRpZmZpY3VsdCB0byBwbGFjZTogdGhlICR0JC10ZXN0IGlzIGFzeW1wdG90aWNhbGx5IG5vbi1wYXJhbWV0cmljIGJlY2F1c2UgZm9yIHZlcnkgbGFyZ2Ugc2FtcGxlcyB0aGUgZGlzdHJpYnV0aW9uYWwgYXNzdW1wdGlvbnMgb2Ygbm9ybWFsaXR5IGFyZSBubyBsb25nZXIgaW1wb3J0YW50LiAKCi0gSWYgYXNzdW1wdGlvbnMgaG9sZCB0aGUgcGFyYW1ldHJpYyBhcHByb2FjaAoKCS0gbW9yZSBlZmZpY2llbnQ6IGxhcmdlciBwb3dlciB3aXRoIHNhbWUgc2FtcGxlIHNpemUgKyBzbWFsbGVyIENJLiAgCgktIG1vcmUgZmxleGlibGU6IGVhc2llciB0byBhbmFseXNlIGRhdGEgd2l0aCBjb21wbGV4IGRlc2lnbnMgIAoJCi0tLQoKIyMgQ2hvbGVzdGVyb2wgdm9vcmJlZWxkCgotIENob2xlc3Rlcm9sIGNvbmNlbnRyYXRpb24gaW4gYmxvb2QgbWVhc3VyZWQgZm9yIAogIC0gNSBwYXRpZW50cyAoZ3JvdXA9MSkgdHdvIGRheXMgdXBvbiBhIHN0cm9rZQogIC0gNSBoZWFsdGh5IHN1YmplY3QgKGdyb2VwPTIpLiAKCi0gSXMgY2hvbGVzdGVyb2wgY29uY2VudHJhdGlvbiBvZiBoYXJ0IHBhdGllbnRzIGFuZCBoZWFsdGh5IHN1YmplY3RzIG9uIGF2ZXJhZ2UgZGlmZmVyZW50PyAKCmBgYHtyfQpjaG9sIDwtIHJlYWRfdHN2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vR1RQQi9QU0xTMjAvbWFzdGVyL2RhdGEvY2hvbC50eHQiKQpjaG9sJGdyb3VwIDwtIGFzLmZhY3RvcihjaG9sJGdyb3VwKQpuR3JvdXBzIDwtIHRhYmxlKGNob2wkZ3JvdXApCm4gPC0gc3VtKG5Hcm91cHMpCmNob2wKYGBgCgotLS0KCgpgYGB7ciwgZWNobz1GQUxTRSwgZmlnLmFsaWduPSdjZW50ZXInfQpjaG9sICU+JSAgZ2dwbG90KGFlcyh4PWdyb3VwLHk9Y2hvbGVzdCkpICsgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGU9TkEpICsgZ2VvbV9wb2ludChwb3NpdGlvbj0iaml0dGVyIikKCmNob2wgJT4lIGdncGxvdChhZXMoc2FtcGxlPWNob2xlc3QpKSArIAogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkgKwogIGZhY2V0X3dyYXAofmdyb3VwKSAKYGBgCgotIFBvc3NpYmx5IG91dGxpZXJzCi0gRGlmZmljdWx0IHRvIGFzc2VzcyBkaXN0cmlidXRpb25hbCBhc3N1bXB0aW9ucyB3aGVuIG9ubHkgNSBvYnNlcnZhdGlvbnMgYXJlIGF2YWlsYWJsZS4gCgoKIyBSYW5rIFRlc3RzCgotIEltcG9ydGFudCBncm91cCBvZiBub24tcGFyYW1ldHJpYyB0ZXN0CiAgLSBOb24tcGFyYW1ldHJpYywgCiAgLSBFeGFjdCAkcCQtdmFsdWVzIHVzaW5nIGEgcGVybXV0YXRpb24gbnVsbCBkaXN0cmlidXRpb24uIAogIC0gTm8gbmVlZCBmb3Igc2VwYXJhdGUgcGVybXV0YXRpb24gZGlzdHJpYnV0aW9uIGZvciBlYWNoIG5ldyBkYXRhc2V0LiAgCiAgLSBQZXJtdXRhdGlvbiBudWxsIGRpc3RyaWJ1dGlvbiBvZiByYW5rIHRlc3RzIG9ubHkgZGVwZW5kcyBvbiBzYW1wbGUgc2l6ZSAKICAtIFJvYnVzdCB0byBvdXRsaWVycyAKCi0tLQoKI1JhbmtzCgpSYW5rIHRlc3RzIHN0YXJ0IGZyb20gcmFuay10cmFuc2Zvcm1lZCBkYXRhLiAKCi0gTGV0ICRZXzEsIFxsZG90cywgWV9uJC4gCi0gSW4gdGhlIGFic2VuY2Ugb2YgKnRpZXMqIAogICQkUl9pPVIoWV9pKSA9IFwjXHtZX2o6IFlfalxsZXEgWV9pOyBqPTEsXGxkb3RzLCBuXH0kJAotIFNtYWxsZXN0IG9ic2VydmF0aW9uIGhhcyByYW5rIDEsIHNlY29uZCBzbWFsbGVzdCByYW5rIDIsIC4uLiAsIGxhcmdlc3Qgb2JzZXJ2YXRpb24gZ2V0cyByYW5rICRuJCAKCmBgYHtyfQpjaG9sJGNob2xlc3QKcmFuayhjaG9sJGNob2xlc3QpCmBgYAoKLS0tCgojIyB0aWVzIAoKU29tZXRpbWVzICp0aWVzKiBvY2N1cjogdHdvIG9ic2VydmF0aW9ucyB3aXRoIGlkZW50aWNhbCB2YWx1ZXMgCgpgYGB7cn0Kd2l0aFRpZXM9Yyg0MDMsNTA3LDUwNyw2MTAsNjUxLDY1MSw2NTEsODMwLDkwMCkKcmFuayh3aXRoVGllcykKYGBgCgotIFRpZXM6IDUwNyBvY2N1cnMgdHdpY2UsIDY1MSBvY2N1cnMgMyB0aW1lcwotIElmIHRpZXMgb2NjdXIgKm1pZHJhbmtzKiBhcmUgdXNlZC4gCgotICoqbWlkcmFuayoqIG9mIG9ic2VydmF0aW9uICRZX2kkIGJlY29tZXMKICBcYmVnaW57ZXFuYXJyYXkqfQogICBSX2kgJj0mIFxmcmFjeyBcI1x7WV9qOiBZX2pcbGVxIFlfaVx9ICsgKCBcI1x7WV9qOiBZX2ogPCBZX2lcfSArMSl9ezJ9LgogICBcZW5ke2VxbmFycmF5Kn0KCi0tLQoKIyMgUmFua3Mgb2YgcG9vbGVkIHNhbXBsZQoKLSBMZXQgJFlfe2lqfSQsICRpPTEsXGxkb3RzLCBuX2okIGJlIG9ic2VydmF0aW9ucyBmcm9tIHR3byB0cmVhdG1lbnQgZ3JvdXBzICRqPTEsMiQuCi0gVGhleSBjYW4gYWxzbyBiZSByZXByZXNlbnRlZCBieSAkWl8xLFxsZG90cywgWl9uJCAoJG49bl8xK25fMiQpLCB0aGUgb3V0Y29tZXMgb2YgdGhlIHBvb2xlZCBzYW1wbGUKCmBgYHtyfQp0KGNob2wpCno9Y2hvbCRjaG9sZXN0CnoKcmFuayh6KQpgYGAKLS0tCgojIFdpbGNveG9uLU1hbm4tV2hpdG5leSBUZXN0CgogU2ltdWx0YW5lb3VzbHkgZGV2ZWxvcGVkIGJ5IFdpbGNveG9uLCBhbmQsICBNYW5uIGFuZCBXaGl0bmV5OiAgKipXaWxjb3hvbi1NYW5uLVdoaXRuZXkqKiwgKipXaWxjb3hvbiByYW5rIHN1bSB0ZXN0KiogIG9yICoqTWFubi1XaGl0bmV5IFUgdGVzdCoqCgojIyBoeXBvdGhlc2VzCiAgClVuZGVyICRIXzAkIHRoZSBkaXN0cmlidXRpb25zIG9mIHRoZSB0d28gZ3JvdXBzIGFyZSBlcXVhbCAKJCRIXzA6IGZfMT1mXzIkJAogIAoKVW5kZXIgdGhlIGFsdGVybmF0aXZlICRIXzEkIHRoZSBkaXN0cmlidXRpb25zIGRpZmZlciBpbiBsb2NhdGlvbiAkJEhfMTogXG11XzFcbmVxIFxtdV8yJCQKICAKJEhfMSQgYXNzdW1lcyAqKmxvY2F0aW9uLXNoaWZ0KiosIHdlIHdpbGwgcmVsYXggdGhpcyBhc3N1bXB0aW9uIGxhdGVyIG9uLiAgCgojIyBUZXN0IHN0YXRpc3RpYwoKQ2xhc3NpYyBULXRlc3Q6IGRpZmZlcmVuY2UgaW4gc2FtcGxlIG1lYW5zICRcYmFye1l9XzEtXGJhcntZfV8yJC4KCkhlcmU6IERpZmZlcmVuY2UgaW4gc2FtcGxlIG1lYW5zIGJhc2VkIG9uIHJhbmsgdHJhbnNmb3JtZWQgZGF0YSAKClJhbmtzIGJhc2VkIG9uIHRoZSBwb29sZWQgc2FtcGxlICh1cG9uIGpvaW5pbmcgdGhlIG9ic2VydmF0aW9ucyBmcm9tIHRoZSB0d28gZ3JvdXBzKTogJFJfe2lqfT1SKFlfe2lqfSkkIGlzIGRlIHJhbmsgb2Ygb2JzZXJ2YXRpb24gJFlfe2lqfSQgaW4gdGhlIHBvb2xlZCBzYW1wbGUuIAoKXFsKICBUID0gXGZyYWN7MX17bl8xfVxzdW1fe2k9MX1ee25fMX0gUihZX3tpMX0pIC0gXGZyYWN7MX17bl8yfVxzdW1fe2k9MX1ee25fMn0gUihZX3tpMn0pIC4KXF0KCi0gVW5kZXIgJEhfMCQgd2UgZXhwZWN0IHRoZSBhdmVyYWdlIHJhbmsgb2YgdGhlIGZpcnN0IGdyb3VwIHRvIGJlIGNsb3NlIHRvIHRoYXQgb2YgdGhlIHNlY29uZCBncm91cCBzbyAkVCQgaXMgY2xvc2UgdG8gemVyby4KCi0gVW5kZXIgJEhfMSQgd2UgZXhwZWN0IHRoZSBtZWFuIHJhbmtzIHRvIGRpZmZlciBzbyB0aGF0ICRUJCBkZXZpYXRlcyBmcm9tIHplcm8uIAoKLSBJdCBpcyBzdWZmaWNpZW50IHRvIG9ubHkgY2FsY3VsYXRlIAogICQkU18xPVxzdW1fe2k9MX1ee25fMX0gUihZX3tpMX0pJCQuCgotICRTXzEkIGlzIHRoZSBzdW0gb2YgdGhlIHJhbmtzIG9mIHRoZSBmaXJzdCBncm91cDogKnJhbmsgc3VtIHRlc3QqLgoKLSBUaGlzIGhvbGRzIGJlY2F1c2UgClxbCiAgU18xK1NfMiA9IFx0ZXh0e3N1bSBvZiBhbGwgcmFua3N9ID0gMSsyK1xjZG90cyArIG49XGZyYWN7MX17Mn1uKG4rMSkuClxdCgoKLSAkU18xJCAob3IgJFNfMiQpIGlzIGEgZ29vZCB0ZXN0IHN0YXRpc3RpYwoKLSBVc2UgcGVybXV0YXRpb25zIHRvIGRldGVybWluZSB0aGUgZXhhY3QgcGVybXV0YXRpb24gZGlzdHJpYnV0aW9uLiAoUGVybXV0ZSB0aGUgcmFua3MgYmV0d2VlbiB0aGUgZ3JvdXBzKSAKCi0gRm9yIGEgZ2l2ZW4gJG4kIGFuZCBubyAqdGllcyogdGhlIHJhbmsgdHJhbnNmb3JtZWQgZGF0YSBpcyBhbHdheXMgCiAgJCQxLCAyLCBcbGRvdHMsIG4kJCAKLSBGb3IgZ2l2ZW4gJG5fMSQgZW4gJG5fMiQgdGhlIHBlcm11dGF0aW9uIGRpc3RyaWJ1dGlvbiBpcyBhbHdheXMgdGhlIHNhbWUhIAotIFdpdGggY3VycmVudCBjb21wdXRpbmcgcG93ZXIgdGhpcyBpcyBub3Qgc28gaW1wb3J0YW50IGFueSBtb3JlLiAKCi0tLQoKIyMgU3RhbmRhcmRpemVkIHN0YXRpc3RpYyAKCk9mdGVuIHRoZSBzdGFuZGFyZGl6ZWQgdGVzdCBzdGF0aXN0aWMgaXMgdXNlZApcWwogIFQgPSBcZnJhY3tTXzEtXHRleHR7RX1fezB9XGxlZnRbU18xXHJpZ2h0XX17XHNxcnR7XHRleHR7VmFyfV97MH1cbGVmdFtTXzFccmlnaHRdfX0sClxdCgotIHdpdGggJFx0ZXh0e0V9X3swfVxsZWZ0W1NfMVxyaWdodF0kIGFuZCAkXHRleHR7VmFyfV97MH1cbGVmdFtTXzFccmlnaHRdJCB0aGUgZXhwZWN0IG1lYW4gYW5kIHZhcmlhbmNlIG9mIFMxIHVuZGVyICRIXzAkLiAKCi0gVW5kZXIgJEhfMCQKIFxbCiAgIFx0ZXh0e0V9X3swfVxsZWZ0W1NfMVxyaWdodF09IFxmcmFjezF9ezJ9bl8xKG4rMSkgXDtcO1w7XDtcdGV4dHsgZW4gfVw7XDtcO1w7IFx0ZXh0e1Zhcn1fezB9XGxlZnRbU18xXHJpZ2h0XT1cZnJhY3sxfXsxMn1uXzFuXzIobisxKS4KIFxdCgotIFVuZGVyICRIXzAkIGFuZCB3aGVuICRcbWluKG5fMSxuXzIpXHJpZ2h0YXJyb3cgXGluZnR5JAogXFsKICAgIFQgPSBcZnJhY3tTXzEtXHRleHR7RX1fezB9XGxlZnRbU18xXHJpZ2h0XX17XHNxcnR7XHRleHR7VmFyfV97MH1cbGVmdFtTXzFccmlnaHRdfX0gXHJpZ2h0YXJyb3cgTigwLDEpLiAgCiBcXQoKQXN5bXB0b3RpY2FsbHkgdGhlIHN0YW5kYXJkaXNlZCBzdGF0aXN0aWMgZm9sbG93cyBhIHN0YW5kYXJkIG5vcm1hbCBkaXN0cmlidXRpb24hIAoKLS0tCgojIyBDaG9sZXN0ZXJvbCBleGFtcGxlIAoKV2UgaWxsdXN0cmF0ZSB0aGUgcmVzdWx0IGZvciB0aGUgY2hvbGVzdGVyb2wgZXhhbXBsZSB1c2luZyB0aGUgUiBmdW5jdGlvbiBgd2lsY294LnRlc3RgLiAKYGBge3J9CndpbGNveC50ZXN0KGNob2xlc3R+Z3JvdXAsZGF0YT1jaG9sKQpgYGAKCi0gV2UgcmVqZWN0ICRIXzAkICgkcD0kIGByIGZvcm1hdCh3aWxjb3gudGVzdChjaG9sZXN0fmdyb3VwLGRhdGE9Y2hvbCkkcC52YWx1ZSxkaWdpdHM9MilgICQ8MC4wNSQpCgotIFRoZSBvdXRwdXQgc2hvd3MgJFc9JCBgciB3aWxjb3gudGVzdChjaG9sZXN0fmdyb3VwLGRhdGE9Y2hvbCkkc3RhdGlzdGljYD8gCgotIExldHMgY2FsY3VsYXRlIApgYGB7cn0KUzEgPC0gc3VtKHJhbmsoY2hvbCRjaG9sZXN0KVtjaG9sJGdyb3VwPT0xXSkKUzEKUzIgPC0gc3VtKHJhbmsoY2hvbCRjaG9sZXN0KVtjaG9sJGdyb3VwPT0yXSkgClMyCmBgYAoKLSBXaGVyZSBkb2VzICRXPSQgYHIgd2lsY294LnRlc3QoY2hvbGVzdH5ncm91cCxkYXRhPWNob2wpJHN0YXRpc3RpY2AgY29tZXMgZnJvbT8gCgotLS0KCiMjIE1hbm4gYW5kIFdoaXRuZXkgdGVzdAoKTWFubiBhbmQgV2hpdG5leSB0ZXN0IGluIGFic2VuY2Ugb2YgdGllczoKXFsKIFVfMSA9IFxzdW1fe2k9MX1ee25fMX1cc3VtX3trPTF9XntuXzJ9IFx0ZXh0e0l9XGxlZnRce1lfe2kxfVxnZXEgWV97azJ9XHJpZ2h0XH0uClxdCgotIHdpdGggJFx0ZXh0e0l9XGxlZnRcey5ccmlnaHRcfSQgYW4gaW5kaWNhdG9yIHRoYXQgZXF1YWxzIDEgIGlmIHRoZSBleHByZXNzaW9uIGlzIHRydWUgYW5kIGlzIHplcm8gb3RoZXJ3aXNlLiAKCi0gVSBjb3VudHMgaG93IG1hbnkgdGltZXMgYW4gb2JzZXJ2YXRpb24gb2YgdGhlIGZpcnN0IGdyb3VwIGlzIGxhcmdlciBvciBlcXVhbCB0byBhbiBvYnNlcnZhdGlvbiBmcm9tIHRoZSBzZWNvbmQgZ3JvdXAuCgpgYGB7cn0KeTE9c3Vic2V0KGNob2wsZ3JvdXA9PTEpJGNob2xlc3QKeTI9c3Vic2V0KGNob2wsZ3JvdXA9PTIpJGNob2xlc3QKdTFIbHA9c2FwcGx5KHkxLGZ1bmN0aW9uKHkxaSx5Mikge3kxaT49eTJ9LHkyPXkyKQpjb2xuYW1lcyh1MUhscCk9eTE7cm93bmFtZXModTFIbHApPXkyCmBgYAoKYGBge3J9CnUxSGxwClUxPXN1bSh1MUhscCk7IFUxCmBgYAoKSXQgY2FuIGJlIHNob3duIHRoYXQgJFVfMSA9IFNfMSAtIFxmcmFjezF9ezJ9bl8xKG5fMSsxKS4kCgpgYGB7cn0KUzEtbkdyb3Vwc1sxXSoobkdyb3Vwc1sxXSsxKS8yCmBgYAoKMS4gJFVfMSQgZW4gJFNfMSQgY29udGFpbiB0aGUgc2FtZSBpbmZvcm1hdGlvbiAKMi4gJFVfMSQgaXMgYWxzbyBhIHJhbmsgc3RhdGlzdGljLCBhbmQgCjMuIEV4YWN0IHRlc3QgYmFzZWQgb24gJFVfMSQgYW5kICRTXzEkIGFyZSBlcXVpdmFsZW50LiAKCi0tLQoKIyMgUHJvYmFiaWxpc3RpYyBpbmRleAoKLSAkVV8xJCBoYXMgYSBiZXR0ZXIgaW50ZXJwcmV0YXRpb24gZmVhdHVyZQotIExldCAkWV9qJCBhIHJhbmRvbSBvYnNlcnZhdGlvbiBmcm9tIGdyb3VwICRqJCAoJGo9MSwyJCkuIFRoZW4gClxiZWdpbntlcW5hcnJheSp9CiAgXGZyYWN7MX17bl8xbl8yfVx0ZXh0e0V9XGxlZnRbVV8xXHJpZ2h0XSAKICAgICAmPSYgXHRleHR7UH1cbGVmdFtZXzEgXGdlcSBZXzJccmlnaHRdLgpcZW5ke2VxbmFycmF5Kn0KClNvIHdlIGNhbiBlc3RpbWF0ZSB0aGUgcHJvYmFiaWxpdHkgYnkgY2FsY3VsYXRpbmcgdGhlIG1lYW4gb2YgYWxsIGluZGljYXRvciB2YXJpYWJsZSB2YWx1ZXMgJFx0ZXh0e0l9XGxlZnRce1lfe2kxfVxnZXEgWV97azJ9XHJpZ2h0XH0kLiBOb3RlLCB0aGF0IHdlIGRpZCAkbl8xIFx0aW1lcyBuXzIkIGNvbXBhcmlzb25zCgpgYGB7cn0KbWVhbih1MUhscCkKVTEvKG5Hcm91cHNbMV0qbkdyb3Vwc1syXSkKYGBgCgotIFByb2JhYmlsaXR5ICRcdGV4dHtQfVxsZWZ0W1lfMSBcZ2VxIFlfMlxyaWdodF0kIGlzIHJlZmVycmVkIHRvIGFzIHRoZSAqcHJvYmFiaWxpc3RpYyBpbmRleCouIAotIEl0IGlzIHRoZSBwcm9iYWJpbGl0eSB0aGF0IGEgcmFuZG9tIG9ic2VydmF0aW9uIG9mIHRoZSBmaXJzdCBncm91cCBpcyBsYXJnZXIgb3IgZXF1YWwgdGhhbiBhIHJhbmRvbSBvYnNlcnZhdGlvbiBvZiB0aGUgc2Vjb25kIGdyb3VwICAKLSBJZiAkSF8wJCBob2xkcyAkXHRleHR7UH1cbGVmdFtZXzEgXGdlcSBZXzJccmlnaHRdPVxmcmFjezF9ezJ9JC4KCi0gUiBmdW5jdGlvbiBgd2lsY294LnRlc3RgIGRvZXMgbm90IHJldHVybiB0aGUgV2lsY294b24gcmFuayBzdW0gc3RhdGlzdGljLiBJdCByZXR1cm5zIHRoZSBNYW5uLVdoaXRuZXkgc3RhdGlzdGljICRVXzEkLgotIExldHMgcmV2aXNpdCB0aGUgcmVzdWx0IApgYGB7cn0Kd1Rlc3Q8LXdpbGNveC50ZXN0KGNob2xlc3R+Z3JvdXAsZGF0YT1jaG9sKSAKd1Rlc3QKVTEKcHJvYkluZD13VGVzdCRzdGF0aXN0aWMvcHJvZChuR3JvdXBzKSAKcHJvYkluZApgYGAKCkJlY2F1c2UgJHA9JCBgciBmb3JtYXQod1Rlc3QkcC52YWx1ZSxkaWdpdHM9MylgICQ8MC4wNSQgd2UgY29uY2x1ZGUgYXQgdGhlICQ1XCUkIHNpZ25pZmljYW5jZSBsZXZlbCB0aGF0IHRoZSBtZWFuIGNob2xlc3Rlcm9sIGxldmVsIG9mIGhhcnQgcGF0aWVudHMgaXMgbGFyZ2VyIHRoZW4gdGhhdCBvZiBoZWFsdGh5IHN1YmplY3RzLiAKCiAgLSBOb3RlIHRoYXQgd2UgaGF2ZSBhc3N1bWVkIHRoYXQgdGhlIGxvY2F0aW9uLXNoaWZ0IG1vZGVsIGlzIHZhbGlkIGluIHRoaXMgY29uY2x1c2lvbi4gCiAgLSBXZSBhbHNvIGtub3cgdGhhdCBoaWdoZXIgY2hvbGVzdGVyb2wgbGV2ZWwgYXJlIG1vcmUgbGlrZWx5IGZvciBoYXJ0IHBhdGllbnRzIHRoZW4gZm9yIGhlYWx0aHkgc3ViamVjdHMgYW5kIHRoaXMgcHJvYmFiaWxpdHkgaXMgCiRVMS8obl8xXHRpbWVzIG5fMik9JCBgciBwcm9iSW5kKjEwMGAlLiAKICAtIFdlIHNob3VsZCBhc3Nlc3MgdGhlIGxvY2F0aW9uIHNoaWZ0IGFzc3VtcHRpb24uIEJ1dCB0aGlzIGlzIG5vdCBwb3NzaWJsZSB3aXRoIG9ubHkgNSBvYnNlcnZhdGlvbnMuIAoKV2l0aG91dCB0aGUgbG9jYXRpb24tc2hpZnQgYXNzdW1wdGlvbiB0aGUgY29uY2x1c2lvbiBpbiB0ZXJtcyBvZiB0aGUgcHJvYmFiaWxpc3RpYyBpbmRleCByZW1haW5zIHZhbGlkISAKCiAgLSBTbyB3aGVuIHdlIGRvIG5vdCBhc3N1bWUgbG9jYXRpb24gc2hpZnQgd2UgdGVzdCBmb3IgCgpcW0hfMDogRl8xPUZfMiBcdGV4dHsgdnMgfSBIXzE6IFBbWV8xIFxnZXEgWV8yXSBcbmVxIDAuNS5cXQoKCiMjIENvbmNsdXNpb24KClRoZXJlIGlzIGEgc2lnbmlmaWNhbnQgZGlmZmVyZW5jZSBpbiB0aGUgZGlzdHJpYnV0aW9uIG9mIHRoZSBjaG9sZXN0ZXJvbCBjb25jZW50cmF0aW9uIG9mIGhhcnQgcGF0aWVudHMgdHdvIGRheXMgdXBvbiBhIHN0cm9rZSBhbmQgdGhhdCBvZiBoZWFsdGh5IHN1YmplY3QgKCgkcD0kIGByIGZvcm1hdCh3VGVzdCRwLnZhbHVlLGRpZ2l0cz0zKWApLiBJdCBpcyBtb3JlIGxpa2VseSB0byBvYnNlcnZlIGhpZ2hlciBjaG9sZXN0ZXJvbCBsZXZlbHMgZm9yIGhhcnQgcGF0aWVudHMgdGhlbiBmb3IgaGVhbHRoeSBzdWJqZWN0cy4gVGhlIHBvaW50IGVzdGltYXRvciBmb3IgdGhpcyBwcm9iYWJpbGl0eSBpcyBgciBwcm9iSW5kKjEwMGAlLgo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("09-NonparametericStatistics-WilcoxonMannWithney.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
