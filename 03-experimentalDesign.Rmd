@@ -71,7 +71,7 @@ text(7.5,.5,"DATA EXPLORATION &\nDESCRIPTIVE STATISTICS (2)",col="black",cex=1.2
 
 ---
 
-#Need for a good control
+# Need for a good control
 
 - A good control group is crucial.
 
@@ -121,17 +121,17 @@ text(7.5,.5,"DATA EXPLORATION &\nDESCRIPTIVE STATISTICS (2)",col="black",cex=1.2
 
 ---
 
-## Stratified randomization**
+## Stratified randomization
 
 - The imbalance according to for instance gender can be avoided using stratified Randomization: balanced randomization per stratum
 
-![Stratified Randomizatie](https://raw.githubusercontent.com/GTPB/PSLS20/gh-pages/assets/figs/stratification.png){ width=50% }
+![Stratified Randomization](https://raw.githubusercontent.com/GTPB/PSLS20/gh-pages/assets/figs/stratification.png){ width=50% }
 
 ---
 
 # Blocking
 
-##Gene expression example
+## Gene expression example
 
 - dm: diabetic medium, nd: non diabetic medium, co: control
 - 4 bio-reps, 2 techreps/biorep

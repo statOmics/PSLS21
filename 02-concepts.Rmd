@@ -335,7 +335,7 @@ plot(grid,dnorm(grid,mean=100,sd=15),
 
 ---
 
-####Cumulative distribution
+#### Cumulative distribution
 
 - Again the cumulative distribution $F(X)=P(X\leq x)$.
 
@@ -578,7 +578,7 @@ ggplot(aes(x=DirectChol)) +
 stat_ecdf()
 ```
 
-    - We also illustrate this for a sample with sample size 10
+  - We also illustrate this for a sample with sample size 10
     
 ```{r}
 set.seed(1)
@@ -637,7 +637,7 @@ sdBar10
 
 - Normal values for the cholesterol levels in the population can be calculated using a reference interval. Typically a 95% reference interval is used, so that 95% of the subjects in the population are expected to have a value for the characteristic that falls into the reference interval. 
 
-- We can do this based on the empirical distribution using the quantile function. We need to calculate the quantiles $\hat{F}(x_{2.5\%})=0.025$ and $\hat{F}(x_{97.5\%})=0.975$ so that 95% of the values are located in the interval [x_{2.5%},x_{97.5%}] . 
+- We can do this based on the empirical distribution using the quantile function. We need to calculate the quantiles $\hat{F}(x_{2.5\%})=0.025$ and $\hat{F}(x_{97.5\%})=0.975$ so that 95% of the values are located in the interval [$x_{2.5\%}$, $x_{97.5\%}$] . 
 
 - Large sample
 

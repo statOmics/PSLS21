@@ -239,6 +239,7 @@ The variability around the central value is crucial:
 
 - Crucial to describe both the central location and the variability.
 - Which part of the variability can we explain (e.g. with characteristics treatment, age, etc,) and which part is unexplained? 
+
 ### Sample variance and sample standard deviation
 
 - Sample variance: $$
@@ -264,6 +265,7 @@ $$
 ### Interquartile range
 
 For skewed data the standard deviation is not useful
+
 - It is very sensitive to outliers
 - *Inter Quartile Range*: Distance between first and third quartile 
 - Width of the boxplot!
@@ -281,7 +283,7 @@ NHANES %>% filter(Gender=="female") %>%
 
 ---
 
-# Normale approximation
+# Normal approximation
 
 
 - Biological and chemical data are often Normally distributed upon transformation. 
@@ -292,7 +294,7 @@ NHANES %>% filter(Gender=="female") %>%
 
 ## Evaluation with QQ-plots
 
-If your analysis build upon the assumption that the data are Normally distributed, it has to be verified.
+If your analysis builds upon the assumption that the data are Normally distributed, it has to be verified.
 
 We use *QQ-plots* or *quantile-quantile plots*.
 
@@ -361,7 +363,7 @@ The QQ-plot shows that the quantiles of the data
 - are larger (above the line) than these from the Normal in the left tail: compression of the lower tail,
 - are larger (above the line) than these from the Normal in the right tail: long tail to the right.
 
-We can clearly see that the data are skewed.
+We can clearly see that the data are right-skewed.
   
 ---
 

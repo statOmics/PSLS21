@@ -35,7 +35,7 @@ set.seed(1314)
 
 - We will collect data and we will model the data
 
-- Therefore, we always have to translate the research question with respect to model parameter or a combination of model parameters. 
+- Therefore, we always have to translate the research question into an effect size that can be estimated with a model parameter or a combination of model parameters. 
 
 - e.g. the population mean
    $$E(X)=\mu$$
@@ -427,7 +427,7 @@ se
 
 ---
 
-### standard deviation vs standard error
+### Standard deviation vs standard error
 
 #### Illustrate via repeated sampling
 
@@ -773,7 +773,7 @@ As long as the sample size n is sufficiently large, the sample mean $\bar X$ is 
 
 ---
 
-#Interval estimators
+# Interval estimators
 
 - $\bar X$ varies around $\mu$ 
 
@@ -915,7 +915,7 @@ res %>%
 
 ### Other confidence levels 
 
-- We can replace the $z_{2.5\%}=1.96$ by another quantile of the normal distribution $z_{\alpha/2} to obtain an interval with another confidence level $1-\alpha$. 
+- We can replace the $z_{2.5\%}=1.96$ by another quantile of the normal distribution $z_{\alpha/2}$ to obtain an interval with another confidence level $1-\alpha$. 
 
 - Confidence intervals are not only used for the mean but also for other population parameters. 
 
@@ -973,7 +973,7 @@ t-distributions have heavier tails then the normal distribution $\rightarrow$ la
 - If $n \rightarrow \infty$ then $t(df) \rightarrow N(0,1)$
 
 
-- quantiles of the $t$-distribution can be calculated in R using `qt`. e.g. 95%, 97.5%, 99.5% quantile for a t-distribution with 14 degrees of freedom: 
+- Quantiles of the $t$-distribution can be calculated in R using `qt`. e.g. 95%, 97.5%, 99.5% quantile for a t-distribution with 14 degrees of freedom: 
 ```{r}
 qt(.975,df=14)
 qt(c(.95,.975,.995),df=14)
@@ -981,7 +981,7 @@ qt(c(.95,.975,.995),df=14)
 
 - These quantiles can be used to calculate 90%, 95% and 99% CI. 
 
-- 97.5% quantile`r round(qt(.975,df=14),2)` of a t-distribution with $n-1=14$ degrees of freedom is indeed larger than that of a standard Normal distribution `r round(qnorm(.975),2)`.
+- 97.5% quantile `r round(qt(.975,df=14),2)` of a t-distribution with $n-1=14$ degrees of freedom is indeed larger than that of a standard Normal distribution `r round(qnorm(.975),2)`.
 
 ---
 
@@ -1136,7 +1136,7 @@ $$\bar x\text{=`r round(mean(captopril$deltaSBP),2)` (s=`r round(sd(captopril$de
 
     - Falsify ("try to reject") the $H_0$. 
     
-    - How likely is it to observe an effect that is at least as large as what we have seen in the sample in a random sample when  $H_0$ is true?   
+    - How likely is it to observe an effect that is at least as large as what we have observed in our sample in a novel random sample when  $H_0$ is true?   
     
 ---
 
@@ -1401,6 +1401,7 @@ The way how we calculate it is context dependent
 with the index "0" in $\text{P}_0\left[.\right]$ indicates that the probability is calculated under $H_0$. 
 
 It gives the probability to observe a test statistic $T$ lower or equal to the value observed in the current sample in a random sample under $H_0$
+    
     - i.e. a test statistic $T$ in the random sample under $H_0$ with a value that is more extreme, more in the direction of $H_1$ then the one observed in the current sample. 
     
 ### Captopril example
@@ -1684,11 +1685,11 @@ Hence,
 	  - We refer to this as a strong conclusion. 
 	  
 - $p \geq \alpha$ accept $H_0$  
-
-	  - Does not imply that we accept $H_0$ correctly.
-  	- We can only conclude that the data do not have enough evidence against the $H_0$ in favour of $H_1$.
-    - We refer to this as a weak conclusion.
-    - We typically conclude that the effect of the treatment is not significant.
+    
+  - Does not imply that we accept $H_0$ correctly.
+  - We can only conclude that the data do not have enough evidence against the $H_0$ in favour of $H_1$.
+  - We refer to this as a weak conclusion.
+  - We typically conclude that the effect of the treatment is not significant.
 
 ---
     
