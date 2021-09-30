@@ -31,6 +31,7 @@ navbar:
           href: 09-NonparametericStatistics-KruskalWallis.html
         - text: "10. Categorical Data Analysis"
           href: 10-categoricalDataAnalysis.html 
+
     - text: "Labs"
       icon: fa-laptop
       menu:
@@ -39,7 +40,7 @@ navbar:
 
   right:
     - icon: fab fa-github
-      href: https://github.com/statOmics/Rmd-website
+      href: https://github.com/statOmics/PSLS21
     - text: "statOmics"
       href: http://statomics.github.io/
 output:
