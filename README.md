@@ -9,7 +9,7 @@ https://statomics.github.io/PSLS21/
 
 ### Issues
 
-If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PSLS/issues).
+If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PSLS21/issues).
 
 
 
