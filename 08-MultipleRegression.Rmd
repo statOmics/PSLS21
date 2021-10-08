@@ -1,5 +1,5 @@
 ---
-title: "10. Multiple regression" 
+title: "8. Multiple regression" 
 author: "Lieven Clement"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:

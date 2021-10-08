@@ -113,15 +113,22 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
 3. [Experimental Design](./03-experimentalDesign.html)
 4. [Data Exploration](./04-dataExploration.html)
 5. Statistical Inference
+
     - [5.1. Statistical Inference](./05-statisticalInference.html)
     - [5.2. Two sample t-test](./05-statisticalInference-twosampleT.html)
 
 6. [Linear Regression](./06-linearRegression.html)
 7. [Analysis of Variance](./07-Anova.html)
-8. [Multiple Regression](./08-MultipleRegression.html)
+8. Multiple Regression: 
+
+    - [Multiple Regression](./08-MultipleRegression.html)
+    - [Factorial Designs](./08-MultipleRegression-SpecificDesigns.html)
+    
 9. Nonparametric Statistics:
+    
     - [9.1 Nonparametric Statistics: Wilcoxon-Mann-Whitney test](./09-NonparametericStatistics-WilcoxonMannWithney.html)
     - [9.2 Nonparametric Statistics: Kruskal Wallis test](./09-NonparametericStatistics-KruskalWallis.html)
+    
 10. [Categorical Data Analysis](./10-categoricalDataAnalysis.html)
 
 ---
