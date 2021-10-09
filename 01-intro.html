@@ -446,7 +446,10 @@ div.tocify {
       <a href="02-concepts.html">2. Concepts</a>
     </li>
     <li>
-      <a href="03-experimentalDesign.html">3. Experimental Design</a>
+      <a href="03-experimentalDesign.html">3.1. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesignII.html">3.1. Experimental Design I</a>
     </li>
     <li>
       <a href="04-dataExploration.html">4. Data Exploration</a>
@@ -476,10 +479,7 @@ div.tocify {
       <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
     </li>
     <li>
-      <a href="10-experimentalDesignI.html">10. Experimental Design</a>
-    </li>
-    <li>
-      <a href="11-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
     </li>
   </ul>
 </li>
@@ -983,7 +983,7 @@ $ PregnantNow      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 <span id="cb18-5"><a href="#cb18-5"></a>samp</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["DirectChol"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["cholLog"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"1.22","3":"0.28688115"},{"1":"female","2":"1.19","3":"0.25096157"},{"1":"female","2":"1.47","3":"0.55581616"},{"1":"female","2":"0.91","3":"-0.13606155"},{"1":"female","2":"2.25","3":"1.16992500"},{"1":"female","2":"1.40","3":"0.48542683"},{"1":"female","2":"1.22","3":"0.28688115"},{"1":"female","2":"1.34","3":"0.42223300"},{"1":"female","2":"1.40","3":"0.48542683"},{"1":"female","2":"1.84","3":"0.87970577"},{"1":"male","2":"1.24","3":"0.31034012"},{"1":"male","2":"1.34","3":"0.42223300"},{"1":"male","2":"1.50","3":"0.58496250"},{"1":"male","2":"1.71","3":"0.77399633"},{"1":"male","2":"1.37","3":"0.45417589"},{"1":"male","2":"1.01","3":"0.01435529"},{"1":"male","2":"1.50","3":"0.58496250"},{"1":"male","2":"0.96","3":"-0.05889369"},{"1":"male","2":"1.11","3":"0.15055968"},{"1":"male","2":"1.19","3":"0.25096157"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["DirectChol"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["cholLog"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"1.60","3":"0.6780719"},{"1":"female","2":"1.76","3":"0.8155754"},{"1":"female","2":"2.09","3":"1.0635029"},{"1":"female","2":"1.22","3":"0.2868811"},{"1":"female","2":"1.66","3":"0.7311832"},{"1":"female","2":"1.53","3":"0.6135317"},{"1":"female","2":"1.22","3":"0.2868811"},{"1":"female","2":"1.76","3":"0.8155754"},{"1":"female","2":"1.91","3":"0.9335726"},{"1":"female","2":"1.42","3":"0.5058909"},{"1":"male","2":"1.16","3":"0.2141248"},{"1":"male","2":"1.19","3":"0.2509616"},{"1":"male","2":"0.88","3":"-0.1844246"},{"1":"male","2":"0.93","3":"-0.1046974"},{"1":"male","2":"1.71","3":"0.7739963"},{"1":"male","2":"1.32","3":"0.4005379"},{"1":"male","2":"1.19","3":"0.2509616"},{"1":"male","2":"1.24","3":"0.3103401"},{"1":"male","2":"1.63","3":"0.7048720"},{"1":"male","2":"0.80","3":"-0.3219281"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <hr />
@@ -1010,7 +1010,7 @@ $ PregnantNow      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 <span id="cb21-7"><a href="#cb21-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">se=</span>sd<span class="op">/</span><span class="kw">sqrt</span>(n))</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]},{"label":["se"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"0.4687196","3":"0.3574933","4":"10","5":"0.11304930"},{"1":"male","2":"0.3487653","3":"0.2660935","4":"10","5":"0.08414617"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]},{"label":["se"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"0.6730666","3":"0.2569251","4":"10","5":"0.08124685"},{"1":"male","2":"0.2294744","3":"0.3569152","4":"10","5":"0.11286648"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Note that the sample mean is different from that of the large experiment (“population”) we sampled from.</p>
@@ -1020,13 +1020,13 @@ $ PregnantNow      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
     Two Sample t-test
 
 data:  cholLog by Gender
-t = 0.85117, df = 18, p-value = 0.4059
+t = 3.1898, df = 18, p-value = 0.005076
 alternative hypothesis: true difference in means between group female and group male is not equal to 0
 95 percent confidence interval:
- -0.1761246  0.4160332
+ 0.1514213 0.7357631
 sample estimates:
 mean in group female   mean in group male 
-           0.4687196            0.3487653 </code></pre>
+           0.6730666            0.2294744 </code></pre>
 <hr />
 </div>
 <div id="repeat-the-experiment" class="section level2">
@@ -1056,7 +1056,7 @@ mean in group female   mean in group male
 <span id="cb26-7"><a href="#cb26-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">se=</span>sd<span class="op">/</span><span class="kw">sqrt</span>(n))</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]},{"label":["se"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"0.3353406","3":"0.3132423","4":"10","5":"0.0990559"},{"1":"male","2":"0.1893129","3":"0.4908238","4":"10","5":"0.1552121"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[4],"type":["int"],"align":["right"]},{"label":["se"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"0.3107478","3":"0.4937005","4":"10","5":"0.1561218"},{"1":"male","2":"0.4412341","3":"0.4932380","4":"10","5":"0.1559756"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">t.test</span>(cholLog<span class="op">~</span>Gender,samp2,<span class="dt">var.equal=</span><span class="ot">TRUE</span>)</span></code></pre></div>
@@ -1064,13 +1064,13 @@ mean in group female   mean in group male
     Two Sample t-test
 
 data:  cholLog by Gender
-t = 0.79308, df = 18, p-value = 0.4381
+t = -0.59128, df = 18, p-value = 0.5617
 alternative hypothesis: true difference in means between group female and group male is not equal to 0
 95 percent confidence interval:
- -0.2408095  0.5328648
+ -0.5941308  0.3331581
 sample estimates:
 mean in group female   mean in group male 
-           0.3353406            0.1893129 </code></pre>
+           0.3107478            0.4412341 </code></pre>
 <hr />
 </div>
 <div id="and-again" class="section level2">

@@ -446,7 +446,10 @@ div.tocify {
       <a href="02-concepts.html">2. Concepts</a>
     </li>
     <li>
-      <a href="03-experimentalDesign.html">3. Experimental Design</a>
+      <a href="03-experimentalDesign.html">3.1. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesignII.html">3.1. Experimental Design I</a>
     </li>
     <li>
       <a href="04-dataExploration.html">4. Data Exploration</a>
@@ -476,10 +479,7 @@ div.tocify {
       <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
     </li>
     <li>
-      <a href="10-experimentalDesignI.html">10. Experimental Design</a>
-    </li>
-    <li>
-      <a href="11-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
     </li>
   </ul>
 </li>
@@ -583,7 +583,7 @@ B(\pi)&amp;=&amp;\pi^{X_i}(1-\pi)^{(1-X_i)},
 </ul>
 <hr />
 <p>Some Bernoulli probability mass functions</p>
-<p><img src="11-categoricalDataAnalysis_files/figure-html/unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="10-categoricalDataAnalysis_files/figure-html/unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <hr />
 <ul>
 <li>In the Saksen study 6155 observaties were sampled at random from the population.</li>
@@ -690,7 +690,7 @@ k \\
 <div id="some-binomial-probability-mass-functions." class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Some Binomial probability mass functions.</h3>
 <div class="figure" style="text-align: center">
-<img src="11-categoricalDataAnalysis_files/figure-html/binoms-1.png" alt="Binomiale verdelingen." width="80%" />
+<img src="10-categoricalDataAnalysis_files/figure-html/binoms-1.png" alt="Binomiale verdelingen." width="80%" />
 <p class="caption">
 Binomiale verdelingen.
 </p>
@@ -744,7 +744,7 @@ Binomiale verdelingen.
 <li>Hence the hypothesis that the frequency of boys and girls is the same is not supported by the data.</li>
 </ul>
 <hr />
-<p><img src="11-categoricalDataAnalysis_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="10-categoricalDataAnalysis_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <hr />
 <p>The test can immediately be conducted using the <code>binomial.test</code> function in R.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">binom.test</span>(<span class="dt">x=</span>boys,<span class="dt">n=</span>n,<span class="dt">p=</span>pi0)</span></code></pre></div>
@@ -808,7 +808,7 @@ attr(,&quot;conf.level&quot;)
 <hr />
 <div id="example-females-choose-gentle-but-not-healthy-or-macho-males-in-campbell-dwarf-hamsters-rogovin-et-al.-2017" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> Example: Females choose gentle, but not healthy or macho males in Campbell dwarf hamsters (Rogovin et al. 2017)</h3>
-<p><img src="11-categoricalDataAnalysis_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="10-categoricalDataAnalysis_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <hr />
 <ul>
 <li><p>The gate is opened upon 3 minutes</p></li>
@@ -1251,7 +1251,7 @@ X^2 &amp;=&amp; \frac{\left (|O_{11} - E_{11}| - .5 \right)^2 }{ E_{11}} + \frac
  X^2 &amp;\stackrel{H_0}{\longrightarrow}&amp; \chi^2(df=1)
 \end{eqnarray*}\]</span></p>
 <hr />
-<p><img src="11-categoricalDataAnalysis_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="10-categoricalDataAnalysis_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <hr />
 <ul>
 <li>A large value of the test statistic gives an indication that the null hypothesis is false.</li>
@@ -1471,15 +1471,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: glm(formula = cancer ~ variant, family = binomial, data = brca)
 
-Quantile = 2.3257
+Quantile = 2.3241
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                        Estimate lwr      upr     
-leu/leu - pro/pro == 0  0.21197 -0.22792  0.65186
-pro/leu - pro/pro == 0  0.13802 -0.13113  0.40717
-pro/leu - leu/leu == 0 -0.07395 -0.51400  0.36610</code></pre>
+leu/leu - pro/pro == 0  0.21197 -0.22762  0.65156
+pro/leu - pro/pro == 0  0.13802 -0.13094  0.40699
+pro/leu - leu/leu == 0 -0.07395 -0.51370  0.36581</code></pre>
 <ul>
 <li>With the <code>confint</code> function CI are obtained on the log-odds ratios corrected for multiple testing.</li>
 </ul>
@@ -1490,13 +1490,13 @@ pro/leu - leu/leu == 0 -0.07395 -0.51400  0.36610</code></pre>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>OR &lt;-<span class="st"> </span><span class="kw">exp</span>(posthocCI<span class="op">$</span>confint)</span>
 <span id="cb48-2"><a href="#cb48-2"></a>OR</span></code></pre></div>
 <pre><code>                   Estimate       lwr      upr
-leu/leu - pro/pro 1.2361111 0.7961882 1.919107
-pro/leu - pro/pro 1.1480000 0.8771069 1.502558
-pro/leu - leu/leu 0.9287191 0.5980968 1.442106
+leu/leu - pro/pro 1.2361111 0.7964268 1.918532
+pro/leu - pro/pro 1.1480000 0.8772677 1.502283
+pro/leu - leu/leu 0.9287191 0.5982761 1.441674
 attr(,&quot;conf.level&quot;)
 [1] 0.95
 attr(,&quot;calpha&quot;)
-[1] 2.325655</code></pre>
+[1] 2.324071</code></pre>
 <ul>
 <li><p>De odds ratios that we obtain is exactly equal to the one we calculated based on the contingency table:</p></li>
 <li><p>e.g <span class="math inline">\(\text{OR}_\text{Leu/Leu-Pro/Pro}=89\times 266/(56\times 342)=\)</span> 1.236.</p></li>
@@ -1580,7 +1580,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb55-10"><a href="#cb55-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;probability (dead)&quot;</span>) <span class="op">+</span></span>
 <span id="cb55-11"><a href="#cb55-11"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>dose<span class="op">%&gt;%</span>as.character<span class="op">%&gt;%</span>as.double,<span class="dt">y=</span>status<span class="op">%&gt;%</span>as.character<span class="op">%&gt;%</span>as.double,<span class="dt">label=</span>Freq),beetlesTab<span class="op">%&gt;%</span><span class="kw">filter</span>(status<span class="op">==</span><span class="dv">0</span>)) <span class="op">+</span></span>
 <span id="cb55-12"><a href="#cb55-12"></a><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>dose<span class="op">%&gt;%</span>as.character<span class="op">%&gt;%</span>as.double,<span class="dt">y=</span>status<span class="op">%&gt;%</span>as.character<span class="op">%&gt;%</span>as.double,<span class="dt">label=</span>Freq),beetlesTab<span class="op">%&gt;%</span><span class="kw">filter</span>(status<span class="op">==</span><span class="dv">1</span>))</span></code></pre></div>
-<p><img src="11-categoricalDataAnalysis_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="10-categoricalDataAnalysis_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -1627,7 +1627,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("11-categoricalDataAnalysis.Rmd");
+  window.initializeSourceEmbed("10-categoricalDataAnalysis.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
