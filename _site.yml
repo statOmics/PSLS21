@@ -31,8 +31,10 @@ navbar:
           href: 09-NonparametericStatistics-WilcoxonMannWithney.html
         - text: "9.2. Nonparametric Statistics 2"
           href: 09-NonparametericStatistics-KruskalWallis.html
+        - text: "10. Experimental Design"
+          href: 10-experimentalDesignI.html
         - text: "10. Categorical Data Analysis"
-          href: 10-categoricalDataAnalysis.html 
+          href: 11-categoricalDataAnalysis.html 
 
     - text: "Labs"
       icon: fa-laptop

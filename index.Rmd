@@ -129,7 +129,10 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
     - [9.1 Nonparametric Statistics: Wilcoxon-Mann-Whitney test](./09-NonparametericStatistics-WilcoxonMannWithney.html)
     - [9.2 Nonparametric Statistics: Kruskal Wallis test](./09-NonparametericStatistics-KruskalWallis.html)
     
-10. [Categorical Data Analysis](./10-categoricalDataAnalysis.html)
+10. [Experimental Design](./10-experimentalDesignI.html)
+
+11. [Categorical Data Analysis](./11-categoricalDataAnalysis.html)
+
 
 ---
 
