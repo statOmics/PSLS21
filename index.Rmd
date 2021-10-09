@@ -110,7 +110,10 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
 
 1. [Introduction](./01-intro.html)
 2. [Concepts](./02-concepts.html)
-3. [Experimental Design](./03-experimentalDesign.html)
+3. Experimental Design 
+    - [3.1.Intro](./03-experimentalDesign.html)
+    - [3.2. Power and Replication](./03-experimentalDesignII.html)
+
 4. [Data Exploration](./04-dataExploration.html)
 5. Statistical Inference
 
@@ -129,9 +132,7 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
     - [9.1 Nonparametric Statistics: Wilcoxon-Mann-Whitney test](./09-NonparametericStatistics-WilcoxonMannWithney.html)
     - [9.2 Nonparametric Statistics: Kruskal Wallis test](./09-NonparametericStatistics-KruskalWallis.html)
     
-10. [Experimental Design](./10-experimentalDesignI.html)
-
-11. [Categorical Data Analysis](./11-categoricalDataAnalysis.html)
+10. [Categorical Data Analysis](./10-categoricalDataAnalysis.html)
 
 
 ---

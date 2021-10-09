@@ -11,8 +11,10 @@ navbar:
           href: 01-intro.html
         - text: "2. Concepts"
           href: 02-concepts.html
-        - text: "3. Experimental Design"
+        - text: "3.1. Experimental Design I"
           href: 03-experimentalDesign.html
+        - text: "3.1. Experimental Design I"
+          href: 03-experimentalDesignII.html
         - text: "4. Data Exploration"
           href: 04-dataExploration.html
         - text: "5.1 Statistical Inference 1"
@@ -31,10 +33,8 @@ navbar:
           href: 09-NonparametericStatistics-WilcoxonMannWithney.html
         - text: "9.2. Nonparametric Statistics 2"
           href: 09-NonparametericStatistics-KruskalWallis.html
-        - text: "10. Experimental Design"
-          href: 10-experimentalDesignI.html
         - text: "10. Categorical Data Analysis"
-          href: 11-categoricalDataAnalysis.html 
+          href: 10-categoricalDataAnalysis.html 
 
     - text: "Labs"
       icon: fa-laptop
