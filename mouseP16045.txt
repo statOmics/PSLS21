@@ -1,0 +1,15 @@
+celltype	mouse	intensity
+Tcon	m1	9.467
+Tcon	m2	10.022
+Tcon	m3	10.604
+Tcon	m4	10.328
+Tcon	m5	9.929
+Tcon	m6	11.237
+Tcon	m7	11.709
+Treg	m1	10.47
+Treg	m2	10.926
+Treg	m3	11.384
+Treg	m4	11.318
+Treg	m5	11.584
+Treg	m6	12.911
+Treg	m7	13.123000000000001
