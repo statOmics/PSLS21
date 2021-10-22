@@ -559,30 +559,29 @@ $D = \frac{\delta}{SD}$
 
 
 ```{r}
-D <- delta/sd
-library(pwr)
-pwr.t.test(n=8, d=D, type='two.sample')
+power.t.test(n=8, delta = delta, sd = sd, type='two.sample')
 ```
+
 Note, that this is very similar to the power that we calculated using the simulations! 
 
 ```{r}
 b0 <- 0
 sd <- round(miceSum$sd[2],1)
 ns <-  c(3,5,10,20,25,50,75,100)  
-Ds <- c(1,2,3,5,10)/sd
+deltas <- c(1,2,3,5,10)
 
 
-powerTheo <- data.frame(Ds=rep(Ds,each=length(ns)),
-                    n=rep(ns,length(Ds)),
+powerTheo <- data.frame(deltas=rep(deltas,each=length(ns)),
+                    n=rep(ns,length(deltas)),
                     power=NA)
 
-powerTheo$power <- apply(powerTheo[,1:2],1,function(x) pwr.t.test(d=x[1],n=x[2],type="two.sample")$power)
+powerTheo$power <- apply(powerTheo[,1:2],1,function(x) power.t.test(delta=x[1],n=x[2],sd=sd,type="two.sample")$power)
 ```
 
 
 ```{r}
 powerTheo %>% 
-  ggplot(aes(x=n,y=power,col=Ds%>%as.factor)) +
+  ggplot(aes(x=n,y=power,col=deltas%>%as.factor)) +
   geom_line()
 ```
 
