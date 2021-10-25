@@ -446,10 +446,7 @@ div.tocify {
       <a href="02-concepts.html">2. Concepts</a>
     </li>
     <li>
-      <a href="03-experimentalDesign.html">3.1. Experimental Design I</a>
-    </li>
-    <li>
-      <a href="03-experimentalDesignII.html">3.1. Experimental Design I</a>
+      <a href="03-experimentalDesign.html">3. Experimental Design I</a>
     </li>
     <li>
       <a href="04-dataExploration.html">4. Data Exploration</a>
@@ -471,6 +468,12 @@ div.tocify {
     </li>
     <li>
       <a href="08-MultipleRegression-SpecificDesigns.html">8.2 Multiple Regression: Factorial Designs</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignII.html">8.3. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignIII.html">8.4. Experimental Design II</a>
     </li>
     <li>
       <a href="09-NonparametericStatistics-WilcoxonMannWithney.html">9.1. Nonparametric Statistics 1</a>
@@ -1471,15 +1474,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: glm(formula = cancer ~ variant, family = binomial, data = brca)
 
-Quantile = 2.3248
+Quantile = 2.3234
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                        Estimate lwr      upr     
-leu/leu - pro/pro == 0  0.21197 -0.22777  0.65171
-pro/leu - pro/pro == 0  0.13802 -0.13103  0.40707
-pro/leu - leu/leu == 0 -0.07395 -0.51385  0.36595</code></pre>
+leu/leu - pro/pro == 0  0.21197 -0.22749  0.65143
+pro/leu - pro/pro == 0  0.13802 -0.13086  0.40691
+pro/leu - leu/leu == 0 -0.07395 -0.51357  0.36567</code></pre>
 <ul>
 <li>With the <code>confint</code> function CI are obtained on the log-odds ratios corrected for multiple testing.</li>
 </ul>
@@ -1490,13 +1493,13 @@ pro/leu - leu/leu == 0 -0.07395 -0.51385  0.36595</code></pre>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>OR &lt;-<span class="st"> </span><span class="kw">exp</span>(posthocCI<span class="op">$</span>confint)</span>
 <span id="cb48-2"><a href="#cb48-2"></a>OR</span></code></pre></div>
 <pre><code>                   Estimate       lwr      upr
-leu/leu - pro/pro 1.2361111 0.7963112 1.918811
-pro/leu - pro/pro 1.1480000 0.8771898 1.502416
-pro/leu - leu/leu 0.9287191 0.5981892 1.441884
+leu/leu - pro/pro 1.2361111 0.7965311 1.918281
+pro/leu - pro/pro 1.1480000 0.8773380 1.502162
+pro/leu - leu/leu 0.9287191 0.5983545 1.441485
 attr(,&quot;conf.level&quot;)
 [1] 0.95
 attr(,&quot;calpha&quot;)
-[1] 2.324838</code></pre>
+[1] 2.323378</code></pre>
 <ul>
 <li><p>De odds ratios that we obtain is exactly equal to the one we calculated based on the contingency table:</p></li>
 <li><p>e.g <span class="math inline">\(\text{OR}_\text{Leu/Leu-Pro/Pro}=89\times 266/(56\times 342)=\)</span> 1.236.</p></li>
