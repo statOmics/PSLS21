@@ -1,5 +1,5 @@
 ---
-title: "3.3 Experimental Design III: Randomized Complete Block Designs and Pseudo-replication"
+title: "8.4 Experimental Design III: Randomized Complete Block Designs and Pseudo-replication"
 author: "Lieven Clement"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
@@ -59,7 +59,7 @@ We focus on one protein
 
   - The measured intensities are already on the log2-scale. Differences between the intensities can thus be interpreted as log2 FC. 
   - P16045 or Galectin-1. 
-  - Function: "Lectin that binds beta-galactoside and a wide array of complex carbohydrates. Plays a role in regulating apoptosis, cell proliferation and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis." (source: [uniprot](https://www.uniprot.org/uniprot/P16045))
+  - Function: "Lectin that binds beta-galactoside and a wide array of complex carbohydmousees. Plays a role in regulating apoptosis, cell prolifemouseion and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis." (source: [uniprot](https://www.uniprot.org/uniprot/P16045))
 
 ## Data Exploration 
 
@@ -84,11 +84,15 @@ mouse %>%
 ```
 
 
+The plots show evidence for
+- an upregulation of the protein expression in regulatory T-cells and 
+- a considerable variability in expression from animal to animal!  
+
 ## Paired Analysis
 
 This is a paired design, which is the most simple form of randomized complete block design. 
 
-In the previous lecture we would have analyzed the data by differencing. 
+In the introduction to statistical inference we would have analyzed the data by differencing. 
 
 ```{r}
 mouseWide <- mouse %>% 
@@ -123,6 +127,8 @@ deltaSum
 ```  
 
 
+Note, that the intensity data are not independent because we measured the expression in regulatory and ordinary T-cells for every animal
+
 - Covariance and correlation between expression in both celltypes 
 
 ```{r}
@@ -133,7 +139,7 @@ var(mouseWide[,c("Tcon","Treg")]) %>%
   sqrt
 ```
 
-Notice that there is a large correlation between the expression of the protein in conventional and regulatory T-cells. 
+- There is indeed a large correlation between the expression of the protein in conventional and regulatory T-cells. 
 
 - Standard deviation of difference? 
 
@@ -162,15 +168,19 @@ deltaSum
 
 ## Randomized complete block analysis
 
-We can also analyse the design using a linear model with a main effect for cell type and a main effect for the block factor mouse. 
-Because we have measured the two cell types in every mouse, we can estimate the average log2-intensity of the protein in the T-cells for each mouse. 
+We can also analyse the design using a linear model, i.e. with 
+
+- a main effect for cell type and 
+- a main effect for the block factor mouse
+
+Because we have measured the two cell types in every mouse, we can thus estimate the average log2-intensity of the protein in the T-cells for each mouse. 
 
 ```{r}
 lmRCB <- lm(intensity ~ celltype + mouse, mouse)
 plot(lmRCB, which = c(1,2,3))
 ```
 
-If you have doubts on the assumptions you can always simulate data from a model with similar effects as ours but where are distributional assumptions hold and compare the residual plots. 
+If you have doubts on that your data violates the assumptions you can always simulate data from a model with similar effects as yours but where are distributional assumptions hold and compare the residual plots. 
 
 ```{r}
 design <-  model.matrix(intensity ~ celltype + mouse, mouse) 
@@ -189,6 +199,9 @@ for (i in 1:9)
 }
 ```
 
+The deviations seen in our plot are in line with what those observed in simulations under the model assumptions. 
+Hence, we can use the model for statistical inference. 
+
 ```{r}
 anovaRCB <- car::Anova(lmRCB, type = "III")
 summary(lmRCB)
@@ -200,7 +213,7 @@ Notice that
 
 1. the estimate, se, t-test statistic and p-value for the celltype effect of interest is the same as in the paired t-test!
 
-2. the anova analysis shows that we will model the total variability in the protein expression in T-cells using  variability due to the cell type (CT), the variability from mouse to mouse (M) and residual variability (R) within mouse that we cannot explain. Indeed, 
+2. the anova analysis shows that we model the total variability in the protein expression in T-cells using  variability due to the cell type (CT), the variability from mouse to mouse (M) and residual variability (R) within mouse that we cannot explain. Indeed, 
 
 $$
 \begin{array}{lcl}
@@ -231,7 +244,7 @@ Note, that
 - can thus be isolated from the residual variability
 - leading to a much higher precision on the estimate of the average log2 FC between regulatory and conventional T-cells that what would be obtained with a CRD!
 
-Note, that the RCB also has to sacrifise a number of degrees of freedom to estimate the mouse effect, here 6 DF.
+Note, that the RCB also has to sacrifice a number of degrees of freedom to estimate the mouse effect, here 6 DF.
 
 Hence, the power gain of the RCB is a trade-off between the variability that can be explained by the block effect and the loss in DF.
 
@@ -247,7 +260,9 @@ you can see that the randomized complete block will have an impact on
 - $\left(\mathbf{X}^T\mathbf{X}\right)^{-1}$ as well as 
 - on $\sigma^2$ of the residuals!
 
-We were able to isolate the variance in expression between animals/blocks from our analysis! $\rightarrow$ this will reduce the variance of the residuals and will lead to power gain if the variability between mice/blocks is large.
+$\rightarrow$ We were able to isolate the variance in expression between animals/blocks from our analysis! 
+
+$\rightarrow$ This reduces the variance of the residuals and leads to a power gain if the variability between mice/blocks is large.
 
 Also note that, 
 
@@ -255,7 +270,7 @@ $$
 \hat\sigma^2 = \frac{\text{SSR}}{n-p} = \frac{SSTot - SSM - SSCT}{n-p} 
 $$ 
 
-- Hence, blocking is beneficial if the reduction in sum of squares of the residuals is large compared to the degrees of freedom that are sacrifised. 
+- Hence, blocking is beneficial if the reduction in sum of squares of the residuals is large compared to the degrees of freedom that are sacrificed. 
 - Thus if SSM can explain a large part of the total variability.
 
 Further, the degrees of freedom affect the t-distribution that is used for inference, which has broader tails if the residual degrees of freedom $n-p$ are getting smaller. 
@@ -317,7 +332,7 @@ Note, that
 - we are able to pick up the upregulation between regulatory T-cells and ordinary T-cells with the RCB but not with the CRD. 
 - the standard error of the $\log_2\text{FC}_\text{Treg-Tcon}$ estimate is a factor `r round(summary(lmCRDSmall)$coef["celltypeTreg","Std. Error"]/summary(lmRCBSmall)$coef["celltypeTreg","Std. Error"],1)` smaller for the RCB design! 
 
-A good biologists who knows about blocking but who is a poor data analist who forgets about the blocking will be back at square one:
+A poor data analysis who forgets about the blocking will be back at square one:
 
 ```{r}
 wrongRbc <- lm(intensity ~ celltype, rcbSmall)
@@ -325,9 +340,9 @@ anova(wrongRbc)
 summary(wrongRbc)
 ```
 
-So, we see that the block to block variability is then absorbed again in the variance estimator of the residual.
+So, the block to block variability is then absorbed in the variance estimator of the residual.
 
-Of course, we are never allowed to analyse an RCB with a model for a CRD (without block factor) because blocking imposes a randomisation restriction: we randomize the treatment within block. 
+Of course, we are never allowed to analyse an RCB with a model for a CRD (without block factor) because blocking imposes a randomization restriction: we randomize the treatment within block. 
 
 ## Powergain of blocking? 
 
@@ -441,29 +456,26 @@ for (n in ns)
 powerFastBlocking
 ```
 
+Note, that the power is indeed much larger for the randomized complete block design. 
+Both for the designs with 6 and 14 mass spectrometer runs. 
+
 Because we have an RCB with a block size of 2 (paired design) we can also calculate the power using the `power.t.test function` with `type = "one.sample"` and `sd` equal to the standard deviation of the difference.
 
-Note, that the power is indeed much larger for the randomized complete block design. 
-Both for the designs with 6 and 14 mass spectrometer runs have to be done. 
 
 ```{r}
 power.t.test(n = 3,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
 power.t.test(n = 7,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
 ```
 
-Note, that the power is slightly different because for the power.t.test function we conditioned on the mice from our study. 
+Note, that the power is slightly different because for the power.t.test function we conditioned on the mice from our study. While in the simulation study we genemouseed data for new mice by simulating the mouse effect from a normal distribution.
 
-In the simulation study we generated data for new mice by simulting the mouse effect from a normal distribution.
+## Impact of the amount of variability that the blocking factor explains on the power? 
 
-
-
-## Impact of the amount of variability of the blocking factor on the power? 
-
-We will vary 
+We will vary the block effect explains 
 $$
 \frac{\sigma^2_\text{between}}{\sigma^2_\text{between}+\sigma^2_\text{within}}=1-\frac{\sigma^2_\text{within}}{\sigma^2_\text{between}+\sigma^2_\text{within}}
 $$
-So in our example that is the ratio between the variability between the rats and the sum of the variability between and within the rats. Note, that the latter was the variance of the errors of the RCB and equals
+So in our example that is the mouseio between the variability between the mice and the sum of the variability between and within the mice. Note, that the latter was the variance of the errors of the RCB and equals
 
 ```{r}
 varBetweenPlusWithin <- sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Sum Sq"])/sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Df"])
@@ -553,9 +565,14 @@ powerFastBlockingLow %>%
   xlim(0,1)
 ```
 
-- So if the variance that is explained by the block effect is small you will loose power as compared to the analysis with a CRD design. 
+- So if the variance that is explained by the block effect is small you will loose power as compared to the analysis with a CRD design. Indeed, then 
+    
+    - SSR does not reduce much and
+    - n$_\text{blocks}$-1 degrees of freedom have been sacrificed.
+    
 - As soon as the block effect explains a large part of the variability it is very beneficial to use a randomized complete block design! 
-- Note, that the same number of mass spectrometry runs have to be done for both RCB and CRD design. However, for the RCB we only need half of the rats and we have a much higher power for this study! 
+
+- Note, that the same number of mass spectrometry runs have to be done for both the RCB and CRD design. However, for the RCB we only need half of the mice. 
 
 # Penilin example
 
@@ -572,7 +589,7 @@ data(penicillin, package="faraway")
 table(penicillin$blend,penicillin$treat)
 ```
 
-Data
+## Data
 
 ```{r}
 head(penicillin)
@@ -595,6 +612,11 @@ penicillin %>%
 
 ## Analysis
 
+We analyse the yield using 
+
+- a factor for blend and 
+- a factor for treatment. 
+
 ```{r}
 lmPen <- lm(yield~treat + blend, data = penicillin)
 plot(lmPen)
@@ -608,8 +630,6 @@ Blend explains about `r round(car::Anova(lmPen,type="III")["blend","Sum Sq"]/sum
 
 
 # Pseudo-replication
-
-## Background
 
 A study on the facultative pathogen Francisella tularensis was conceived by Ramond et al. (2015) [12]. 
 
@@ -645,9 +665,11 @@ $\rightarrow$ Effect of interest has to be assessed between bio-repeats. So bloc
 
 If the same number of pseudo-replicates/technical replicates are available for each bio-repeat:
 
-- average first over bio-repeats to obtain independent measurements.  
+- average first over bio-repeats to obtain independent measurements  
 - averages will then have the same precision
 - assess effect of treatment using averages
+- **Caution: never summarize over bio-repeats/experimental units**
+
 
 ```{r}
 lmBiorep <- lm(intensityLog2 ~ -1 + biorep, franc)
@@ -671,7 +693,7 @@ lmWrong <- lm(intensityLog2 ~ genotype, franc)
 summary(lmWrong)
 ```
 
-Note, that the analysis where we ignore the fact that we have multiple technical repeats for each bio-repeat returns results that are way too liberal. 
+Note, that the analysis where we ignore that we have multiple technical repeats for each bio-repeat returns results that are much more significant because we act as if we have much more independent observations. 
 
 ### No Type I error control!
 
@@ -719,13 +741,14 @@ qplot(resWrong$pvalue,geom = "histogram",boundary=c(0,1)) +
 
 - The analysis that first summarizes over the technical repeats leads to correct p-values and correct type I error control! 
 
-- Caution: NEVER SUMMARIZE OVER THE BIOREPEATS!
-
 - What to do when you have an unequal number of technical repeats: more advanced methods are required
 
   - e.g. mixed models 
   - The mixed model framework can model the correlation structure in the data
-  - Mixed models can also be used when inference between and within blocks is needed, e.g. split-plot designs. 
+
+- Mixed models can also be used when inference between and within blocks is needed, e.g. split-plot designs. 
+
+- But, mixed models are beyond the scope of the lecture series. 
 
 # Nature methods: Split-plot designs
 
