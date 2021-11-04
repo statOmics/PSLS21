@@ -114,6 +114,9 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
     
 
 4. [Data Exploration](./04-dataExploration.html)
+
+    - [Exercises](./04_exercises.html)
+
 5. Statistical Inference
 
     - [5.1. Statistical Inference](./05-statisticalInference.html)

@@ -41,8 +41,8 @@ navbar:
     - text: "Labs"
       icon: fa-laptop
       menu:
-      - text: "Lab 1"
-        href:
+      - text: "4. Data Exploration"
+        href: 04_exercises.html
 
   right:
     - icon: fab fa-github
@@ -54,7 +54,7 @@ output:
       code_download: true
       df_print: paged
       theme: flatly
-      highligt: tango
+      highlight: tango
       toc: true
       toc_float: true
       number_sections: true

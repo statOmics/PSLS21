@@ -33,7 +33,7 @@ First, load the required R libraries:
 
 # Import the data
 
-```{r}
+```{r, eval=FALSE}
 captopril <- ...
 ```
 
@@ -86,7 +86,7 @@ assumptions are met!
 2. The data (SBPb) must be normally distributed
 
 
-```{r}
+```{r, eval=FALSE}
 ... %>%
   ... +
   geom_qq() +
@@ -109,7 +109,7 @@ versus the alternative hypothesis;
 
 $HA:$ the mean SBPb is greater than 149 mmHg
 
-```{r}
+```{r, eval=FALSE}
 output1 <- t.test(...,mu=...,alternative = ...,conf.level = ...,data=...)
 output1
 ```
@@ -150,7 +150,7 @@ State the assumptions that you have to check and include the diagnostic plots to
 If all assumptions are met, we may continue with
 performing the paired two-sample t-test.
 
-```{r}
+```{r, eval=FALSE}
 output2 <- t.test(...,..., paired = ...,data=)
 output2
 ```
@@ -173,12 +173,53 @@ R will actually perform a one-sample t-test on the difference, and
 check whether or not the true mean difference is equal to 0.
 We can also set this up manually.
 
-```{r}
+```{r, eval=FALSE}
 captopril %>%
   mutate(bp_diff = ...) %>%
   t.test(...,mu=...)
 ```
 
 Indeed, the output is equivalent to that of the paired two-sample t-test.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

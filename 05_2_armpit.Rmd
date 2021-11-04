@@ -1,5 +1,5 @@
 ---
-title: "Exercise 5.2: Hypothesis testing on the armpit dataset - solution"   
+title: "Exercise 5.2: Hypothesis testing on the armpit dataset"   
 author: "Lieven Clement and Jeroen Gilis"
 date: "statOmics, Ghent University (https://statomics.github.io)"  
 output:
@@ -110,65 +110,34 @@ guaranteed by the design.
 
 To check the normality assumption, we will use QQ plots.
 
-```{r}
+```{r,eval=FALSE}
 ap %>%
-  ggplot(aes(sample=rel)) +
-  geom_qq() +
-  geom_qq_line() +
-  facet_grid(cols = vars(trt))
+  ...
 ```
 
-We can see that all of the data lies nicely around the quantile-quantile
-line (black line). As such, we may conclude that our data is normally distributed.
+Interpret the QQ plot.
 
 For the third assumption, we must compare the within-group
-variability of both groups. We can do this visually:
+variability of both groups. We can do this visually based on the boxplots. 
 
-```{r}
-ap %>%  ggplot(aes(x=trt,y=rel)) + 
-  geom_boxplot(outlier.shape=NA) + 
-  geom_point(position="jitter") +
-  ylab("relative abundance (%)") +
-  xlab("treatment group") + 
-  stat_summary(fun.y=mean, geom="point", shape=5, size=3, color="black", fill="black")
+```{r,eval=FALSE}
+ap %>%
+  ...
 ```
 
-Here we can see that this interval, as well as the length of the whiskers, 
-is approximately equal for groups.
-
-As all three assumptions are met we may continue with
-performing the unpaired two-sample t-test.
+Interpret the boxplot.
 
 # Assess the research question with the two-sample t-test
 
 ## Analysis
 
 ```{r}
-placebo_rel <- ap %>%
-  filter(trt=="placebo") %>%
-  pull(rel)
 
-transplant_rel <- ap %>%
-  filter(trt=="transplant") %>%
-  pull(rel)
-
-output <- t.test(placebo_rel,
-                 transplant_rel,
-                 conf.level = 0.95,
-                 var.equal = TRUE)
-output
 ```
 
 ## Conclusion
 
-We may conclude that, on the 5% significance level, the mean 
-relative abundance in subjects that had a placebo treatment is 
-significantly (p = `r round(output$p.value,5)`) lower than the mean relative 
-abundance in subjects that had a microbial transplant. The 
-relative abundances are on average 
-`r round( unname(output$estimate[2]) - unname(output$estimate[1]),2)` percent
-(95% CI: [ `r round(output$conf.int[c(1,2)],2)` ]) lower with placebo 
-treatment than with the transplant.
+
 
 # ADDENDUM: Train yourself in checking the assumptions
 
@@ -235,4 +204,3 @@ normSim %>%
   geom_qq_line() +
   facet_wrap(~samp)
 ```
-
