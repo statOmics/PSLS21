@@ -330,9 +330,6 @@ we will revisit this exercise. More specifically, we will there study
 the association between smoking and FEV while accounting for
 differences in the age, height and gender of the children.
 
----
-
-# [Home](https://gtpb.github.io/PSLS20/) {-}
 
 
 
