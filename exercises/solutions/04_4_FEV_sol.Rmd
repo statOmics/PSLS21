@@ -54,7 +54,7 @@ Note: `fev.txt` is a tab-separated file: make sure to select the correct `readr`
 function!
 
 ```{r}
-fev <- read_tsv("../../data/fev.txt")
+fev <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt")
 head(fev)
 ```
 

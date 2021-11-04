@@ -40,7 +40,7 @@ library(tidyverse)
 # Data import  
 
 ```{r, message=FALSE, warning=FALSE}
-NHANES <- read_csv("https://raw.githubusercontent.com/GTPB/PSLS20/master/data/NHANES.csv")
+NHANES <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv")
 glimpse(NHANES[1:10])
 ```
 

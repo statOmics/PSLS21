@@ -41,7 +41,7 @@ library(tidyverse)
 # Data import
 
 ```{r}
-fish <- read.table("../../data/fishTank.txt",header=TRUE)
+fish <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/fishTank.txt",header=TRUE)
 head(fish)
 ```
 

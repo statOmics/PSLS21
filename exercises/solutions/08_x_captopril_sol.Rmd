@@ -35,7 +35,7 @@ library(tidyverse)
 # Data import
 
 ```{r}
-captopril <- read.table("../../data/captopril.txt", 
+captopril <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt", 
                         sep=",", 
                         header=TRUE)
 ```

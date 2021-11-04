@@ -36,7 +36,7 @@ library(tidyverse)
 # Import data
 
 ```{r}
-fev <- read_tsv("https://raw.githubusercontent.com/GTPB/PSLS20/master/data/fev.txt")
+fev <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt")
 head(fev)
 ```
 

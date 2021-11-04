@@ -56,7 +56,7 @@ library(tidyverse)
 # Data import
 
 ```{r}
-tk1 <- read.table("../../data/estrogenTk1.txt",
+tk1 <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/estrogenTk1.txt",
                   sep=",",
                   header=TRUE)
 head(tk1)

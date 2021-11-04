@@ -29,7 +29,7 @@ library(ggplot2)
 ```
 
 ```{r}
-captopril <- read_csv("../data/captopril.txt")
+captopril <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt")
 ```
 
 ```{r}

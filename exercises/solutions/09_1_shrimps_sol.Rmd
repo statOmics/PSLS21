@@ -37,7 +37,7 @@ library(tidyverse)
 # Import the data
 
 ```{r}
-shrimps <- read.table("https://raw.githubusercontent.com/GTPB/PSLS20/master/data/shrimps.txt",
+shrimps <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt",
                       header = TRUE)
 ```
 

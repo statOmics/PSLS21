@@ -34,7 +34,7 @@ library(tidyverse)
 # Import the data
 
 ```{r}
-(captopril <- read.table("https://raw.githubusercontent.com/GTPB/PSLS20/master/data/captopril.txt", 
+(captopril <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt", 
                          header = TRUE, 
                          sep = ","))
 ```
@@ -305,21 +305,6 @@ t.test(bp_diff,mu=0)
 ```
 
 Indeed, the output is equivalent to that of the paired two-sample t-test.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
