@@ -15,4 +15,8 @@
 - 06_2_FEV
 	- Exercise task does not correspond with solution file: which of the two do we choose?
 
+- Captopril exercises: tidy format or not?
+
+- Rat diet: multcomp glht requires seed!
+
 prostacyclin anova mett car package + in multcomp met symbolen ipv modelparameters

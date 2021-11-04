@@ -53,19 +53,32 @@ We have 15 patients, for which we have measure the systolic
 blood pressure and diastolyic blood pressure, before and after
 treatment with the captopril drug.
 
+Note that the dataset is not in the tidy format. We could tidy the data using
+the following code.
+
+```{r}
+captopril %>% 
+    gather(type,bp,-id) %>%
+    filter(type%in%c("SBPa","SBPb")) %>%
+    mutate(id = as.factor(id))
+    # we are only interested in the systolic blood pressure
+```
+
 We can visualize the entire dataframe in an informative way 
 with boxplots;
 
 ```{r}
 captopril %>% 
-  gather(type,bp,-id) %>% 
-  ggplot(aes(x=type,y=bp,fill=type)) + 
-    scale_fill_brewer(palette="RdGy") +
-    theme_bw() +
-    geom_boxplot(outlier.shape=NA) + 
-    geom_jitter(width = 0.2) +
-    ggtitle("Boxplot of different blood pressure measures") +
-    ylab("blood pressure (mmHg)") + stat_summary(fun.y=mean, geom="point", shape=5, size=3, color="black", fill="black")
+  gather(type,bp,-id) %>%
+  filter(type%in%c("SBPa","SBPb")) %>%
+  ggplot(aes(x=type, y=bp, fill=type)) + 
+      scale_fill_brewer(palette="RdGy") +
+      theme_bw() +
+      geom_boxplot(outlier.shape=NA) + 
+      geom_jitter(width = 0.2) +
+      ggtitle("Boxplot of blood pressure measures before and after treatment") +
+      ylab("blood pressure (mmHg)") +
+      stat_summary(fun=mean, geom="point", shape=5, size=3, color="black", fill="black")
 ```
 
 Clearly, it seems that on average the measurements
@@ -136,7 +149,10 @@ versus the alternative hypothesis;
 $HA:$ the mean SBPb is greater than 149 mmHg
 
 ```{r}
-output1 <- t.test(captopril$SBPb,mu=149,alternative = "greater",conf.level = 0.95)
+output1 <- t.test(captopril$SBPb, 
+                  mu=149,
+                  alternative = "greater",
+                  conf.level = 0.95)
 output1
 ```
 
@@ -183,7 +199,7 @@ captopril %>%
 We clearly see that if a patient's SBPb value is high, its
 SBPa value will be comparatively high as well.
 
-# Check the assumptions
+## Check the assumptions
 
 The paired t-test has 2 assumptions:
 
@@ -196,21 +212,27 @@ If so, we can use a t-test with a pooled variance (see theory).
 If not, we must rely on the Welch t-test, which can deal with
 unequal variances.
 
-The first assumption is met (same concept as for question 1).
-We must first check if the `SBPa` values are also normally distributed.
+The first assumption is met given the experimental design.
+
+Secondly, we assess if the data are normally distributed.
 
 ```{r}
 captopril %>%
   ggplot(aes(sample=SBPa)) +
   geom_qq() +
   geom_qq_line()
+
+captopril %>%
+  ggplot(aes(sample=SBPb)) +
+  geom_qq() +
+  geom_qq_line()
 ```
 
-Again, we can see that all of the data lies nicely around the quantile-quantile
+We can see that all of the data lies nicely around the quantile-quantile
 line. As such, we may conclude that our data is normally distributed.
 
-For the third assumption, we must compare the within-group
-variability of both groups. We can do this visually with the boxplots.
+For the third assumption, we must compare the within-group variability of both 
+groups. We can do this visually with boxplots.
 
 ```{r}
 captopril %>% 
@@ -237,10 +259,12 @@ larger/smaller than that of the other group.
 As all three assumptions are met we may continue with
 performing the unpaired two-sample t-test.
 
+## Hypothesis test
+
 As such, we will now perform a `paired` t-test.
 
 ```{r}
-output2 <- t.test(captopril$SBPb,captopril$SBPa, paired = TRUE)
+output2 <- t.test(captopril$SBPb, captopril$SBPa, paired = TRUE)
 output2
 ```
 

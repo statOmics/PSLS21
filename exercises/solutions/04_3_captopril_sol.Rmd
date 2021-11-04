@@ -36,7 +36,7 @@ captopril <- read_csv("../data/captopril.txt")
 head(captopril)
 ```
 
-** Why is this dataset not tidy? **
+**Why is this dataset not tidy?**
 
 # Data visualization
 
@@ -159,14 +159,15 @@ Note that we could not see this from the boxplot, directly;
 ```{r}
 captopril %>% 
   gather(type,bp,-id) %>% 
-  filter(type%in%c("SBPa","SBPb")) %>%
-  ggplot(aes(x=type,y=bp,fill=type)) + 
-  scale_fill_brewer(palette="RdGy") +
-  theme_bw() +
-  geom_boxplot(outlier.shape=NA) + 
-  geom_jitter(width = 0.2) +
-  ggtitle("Boxplot of blood pressure measures before and after treatment") +
-  ylab("blood pressure (mmHg)") + stat_summary(fun.y=mean, geom="point", shape=5, size=3, color="black", fill="black")
+    filter(type%in%c("SBPa","SBPb")) %>%
+    ggplot(aes(x=type,y=bp,fill=type)) + 
+    scale_fill_brewer(palette="RdGy") +
+    theme_bw() +
+    geom_boxplot(outlier.shape=NA) + 
+    geom_jitter(width = 0.2) +
+    ggtitle("Boxplot of blood pressure measures before and after treatment") +
+    ylab("blood pressure (mmHg)") + 
+    stat_summary(fun=mean, geom="point", shape=5, size=3, color="black", fill="black")
 ```
 
 A typical next step is to perform a test to find out

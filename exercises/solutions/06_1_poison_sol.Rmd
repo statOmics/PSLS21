@@ -15,18 +15,17 @@ output:
 # Fish tank dataset
 
 In this experiment, 96 fish (dojofish, goldfish and zebrafish)
-were placed separately in a tank with two litres of water and
-a certain dose (in mg) of a certain poison EI-43,064. The resistance
-of the fish a against the poison was measured as the amount of
-minutes the fish survived upon adding the poison (Surv_time, in
+were placed separately in a tank with two liters of water and
+a certain dose (in mg) of a the poison EI-43,064. The resistance
+of the fish against the poison was measured as the amount of
+minutes the fish survived after being exposed to the poison (`Surv_time`, in
 minutes). Additionally, the weight of each fish was measured.
 
 # Goal
 
 The research goal is to study the association between the dose of
 the poison that was administered to the fish and their
-survival time by using a linear regression model.
-
+survival time.
 
 Read the required libraries
 
@@ -60,7 +59,7 @@ poison <- poison %>%
 poison
 ```
 
-# Data exploration and descriptive Statistics
+# Data exploration and descriptive statistics
 
 How many fish do we have per species?
 
@@ -142,7 +141,8 @@ model and plotting the output. As such, we will get all the
 required diagnostic plots.
 
 ```{r}
-## fit a linear regression model with 'Surv_time' as response variable and 'Dose' as predictor variabele
+# fit a linear regression model with 'Surv_time' as response variable and
+# 'Dose' as predictor variabele
 model <- lm(Surv_time~Dose, data=poison) 
 
 ## display the diagnostic plots of the model
@@ -182,7 +182,7 @@ must be similar over the entire range of fitted values. The smoother
 in the plot helps us with looking at this; it should be nicely
 horizontal over the entire range of fitted values. This seems not
 to be the case: for larger fitted values, the variance increase slightly.
-The assumption of homoscedasticity is ** not met. **
+The assumption of homoscedasticity is **not met.**
 
 Multiple assumptions are not met, so way not continue by performing
 a linear regression.
@@ -206,7 +206,32 @@ log.model <- lm(log.Surv_time~Dose, data=poison)
 plot(log.model)
 ```
 
-1. The independence assumption is nott met, but for this exercise,
+Arguably, there might be some deviation from normality in the left tail of the
+distribution. However, when we would simulate data under the normality
+assumption, it seems that deviations of this size may be expected when
+normality is met:
+
+```{r}
+set.seed(1406)
+nobs <- nrow(poison)
+
+data.frame(
+  y = c(log.model$res,
+        rnorm(nobs*8,
+              sd = sigma(log.model)
+             )
+      ),
+  label = rep(
+              c("orig",
+                paste0("sim",1:8)),
+              each = nobs)) %>%
+  ggplot(aes(sample = y)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~ label)
+```
+
+1. The independence assumption is not met, but for this exercise,
 we will assume it **is met** (see above).
 2. Upon log-transformation, the linearity assumption is still **met**.
 3. Upon log-transformation, the normality assumption is also **met**.
