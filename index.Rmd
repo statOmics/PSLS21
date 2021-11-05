@@ -121,9 +121,16 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
 
     - [5.1. Statistical Inference](./05-statisticalInference.html)
     - [5.2. Two sample t-test](./05-statisticalInference-twosampleT.html)
+    - [Exercises](./05_exercises.html)
 
 6. [Linear Regression](./06-linearRegression.html)
+
+    - [Exercises](./06_exercises.html)
+
 7. [Analysis of Variance](./07-Anova.html)
+
+    - [Exercises](./07_exercises.html)
+
 8. Multiple Regression: 
 
     - [Multiple Regression](./08-MultipleRegression.html)
@@ -135,6 +142,7 @@ source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
     
     - [9.1 Nonparametric Statistics: Wilcoxon-Mann-Whitney test](./09-NonparametericStatistics-WilcoxonMannWithney.html)
     - [9.2 Nonparametric Statistics: Kruskal Wallis test](./09-NonparametericStatistics-KruskalWallis.html)
+    - [Exercises](./049_exercises.html)
     
 10. [Categorical Data Analysis](./10-categoricalDataAnalysis.html)
 

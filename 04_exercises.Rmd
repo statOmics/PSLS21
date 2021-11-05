@@ -16,6 +16,7 @@ In the first day of the "Practical Statistics for the Life Sciences (2021)"
 course, we will have four exercises on data exploration, based on different 
 datasets:
 
+
 # The NHANES dataset:
 
 The National Health and Nutrition Examination Survey (NHANES) contains data 
@@ -30,6 +31,8 @@ exploration in R, including data import, tidying, wrangling and visualisation.
 
 - Exercise: [Exercise1](./04_1_NHANES.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv
+
+---
 
 # The armpit dataset:
 
@@ -53,6 +56,8 @@ explore the armpit dataset all by yourself!
 - Exercise: [Exercise2](./04_2_armpit.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv
 
+---
+
 # The captopril dataset:
 
 The captopril dataset holds information on a small experiment with 15 patients 
@@ -66,6 +71,8 @@ paired experimental designs.
 
 - Exercise: [Exercise3](./04_3_captopril.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt
+
+---
 
 # The FEV dataset:
 
