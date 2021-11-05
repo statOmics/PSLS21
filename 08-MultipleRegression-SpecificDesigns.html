@@ -495,7 +495,21 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Lab 1</li>
+    <li>
+      <a href="04_exercises.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05_exercises.html">5. Statistical inference</a>
+    </li>
+    <li>
+      <a href="06_exercises.html">6. Simple linear regression</a>
+    </li>
+    <li>
+      <a href="07_exercises.html">7. ANOVA</a>
+    </li>
+    <li>
+      <a href="09_exercises.html">9. Non-parametric statistics</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -690,15 +704,15 @@ Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
 Linear Hypotheses:
                       Estimate Std. Error t value Pr(&gt;|t|)    
-poison: II - I == 0    0.04686    0.01744   2.688  0.07356 .  
+poison: II - I == 0    0.04686    0.01744   2.688  0.07339 .  
 poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
 poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
 treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
-treat: C - A == 0     -0.05721    0.02013  -2.842  0.05097 .  
+treat: C - A == 0     -0.05721    0.02013  -2.842  0.05079 .  
 treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
 treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
 treat: D - B == 0      0.02991    0.02013   1.485  0.61546    
-treat: D - C == 0     -0.07862    0.02013  -3.905  0.00278 ** 
+treat: D - C == 0     -0.07862    0.02013  -3.905  0.00282 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -711,21 +725,21 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
-Quantile = 2.8487
+Quantile = 2.8491
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                       Estimate   lwr        upr       
-poison: II - I == 0    0.0468641 -0.0028033  0.0965316
-poison: III - I == 0   0.1996425  0.1499751  0.2493099
-poison: III - II == 0  0.1527784  0.1031109  0.2024458
-treat: B - A == 0     -0.1657402 -0.2230912 -0.1083892
-treat: C - A == 0     -0.0572135 -0.1145645  0.0001375
-treat: D - A == 0     -0.1358338 -0.1931848 -0.0784828
-treat: C - B == 0      0.1085267  0.0511757  0.1658777
-treat: D - B == 0      0.0299064 -0.0274446  0.0872574
-treat: D - C == 0     -0.0786203 -0.1359713 -0.0212693</code></pre>
+poison: II - I == 0    0.0468641 -0.0028111  0.0965394
+poison: III - I == 0   0.1996425  0.1499673  0.2493177
+poison: III - II == 0  0.1527784  0.1031031  0.2024536
+treat: B - A == 0     -0.1657402 -0.2231002 -0.1083802
+treat: C - A == 0     -0.0572135 -0.1145736  0.0001465
+treat: D - A == 0     -0.1358338 -0.1931938 -0.0784738
+treat: C - B == 0      0.1085267  0.0511667  0.1658867
+treat: D - B == 0      0.0299064 -0.0274536  0.0872664
+treat: D - C == 0     -0.0786203 -0.1359803 -0.0212603</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">plot</span>(comparisons,<span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
 <span id="cb17-2"><a href="#cb17-2"></a>contrastNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
 <span id="cb17-3"><a href="#cb17-3"></a><span class="kw">axis</span>(<span class="dv">2</span>,<span class="dt">at=</span><span class="kw">c</span>(<span class="kw">length</span>(contrastNames)<span class="op">:</span><span class="dv">1</span>), <span class="dt">labels=</span>contrastNames,<span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
