@@ -41,8 +41,16 @@ navbar:
     - text: "Labs"
       icon: fa-laptop
       menu:
-      - text: "Lab 1"
-        href:
+      - text: "4. Data Exploration"
+        href: 04_exercises.html
+      - text: "5. Statistical inference"
+        href: 05_exercises.html
+      - text: "6. Simple linear regression"
+        href: 06_exercises.html
+      - text: "7. ANOVA"
+        href: 07_exercises.html
+      - text: "9. Non-parametric statistics"
+        href: 09_exercises.html
 
   right:
     - icon: fab fa-github
