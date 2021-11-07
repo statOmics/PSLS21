@@ -576,7 +576,7 @@ brca %>% ggplot(aes(x=ESR1,y=S100A8)) +
 ```
 
 
-### NHANES voorbeeld
+## NHANES example
 
 
 - Replace reference interval for cholesterol level from chapter 2 by prediction-interval.
