@@ -59,7 +59,7 @@ We focus on one protein
 
   - The measured intensities are already on the log2-scale. Differences between the intensities can thus be interpreted as log2 FC. 
   - P16045 or Galectin-1. 
-  - Function: "Lectin that binds beta-galactoside and a wide array of complex carbohydmousees. Plays a role in regulating apoptosis, cell prolifemouseion and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis." (source: [uniprot](https://www.uniprot.org/uniprot/P16045))
+  - Function: "Lectin that binds beta-galactoside and a wide array of complex carbohydrates. Plays a role in regulating apoptosis, cell proliferation and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis." (source: [uniprot](https://www.uniprot.org/uniprot/P16045))
 
 ## Data Exploration 
 
@@ -467,7 +467,7 @@ power.t.test(n = 3,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
 power.t.test(n = 7,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
 ```
 
-Note, that the power is slightly different because for the power.t.test function we conditioned on the mice from our study. While in the simulation study we genemouseed data for new mice by simulating the mouse effect from a normal distribution.
+Note, that the power is slightly different because for the power.t.test function we conditioned on the mice from our study. While in the simulation study we generated data for new mice by simulating the mouse effect from a normal distribution.
 
 ## Impact of the amount of variability that the blocking factor explains on the power? 
 
@@ -475,7 +475,7 @@ We will vary the block effect explains
 $$
 \frac{\sigma^2_\text{between}}{\sigma^2_\text{between}+\sigma^2_\text{within}}=1-\frac{\sigma^2_\text{within}}{\sigma^2_\text{between}+\sigma^2_\text{within}}
 $$
-So in our example that is the mouseio between the variability between the mice and the sum of the variability between and within the mice. Note, that the latter was the variance of the errors of the RCB and equals
+So in our example that is the ratio between the variability between the mice and the sum of the variability between and within the mice. Note, that the within mouse variability was the variance of the errors of the RCB. The ratio for our experiment equals
 
 ```{r}
 varBetweenPlusWithin <- sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Sum Sq"])/sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Df"])
