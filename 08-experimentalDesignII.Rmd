@@ -500,16 +500,39 @@ Note, that the power curves are still a bit choppy because we selected a limited
 Code runs much faster. We now simulate 20 times more experiments in a much shorter time! 
 
 ```{r}
+simFast <- function(form, data, betas, sd, contrasts, alpha = .05, nSim = 10000)
+{
+    ySim <- rnorm(nrow(data)*nSim,sd=sd)
+    dim(ySim) <-c(nrow(data),nSim)
+    design <- model.matrix(form, data)
+    ySim <- ySim + c(design %*%betas)
+    ySim <- t(ySim)
+  
+    ### Fitting
+    fitAll <- limma::lmFit(ySim,design)
+  
+    ### Inference
+    varUnscaled <- c(t(contrasts)%*%fitAll$cov.coefficients%*%contrasts)
+    contrasts <- fitAll$coefficients %*%contrasts
+    seContrasts <- varUnscaled^.5*fitAll$sigma
+    tstats <- contrasts/seContrasts
+    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
+    return(mean(pvals < alpha))
+}
+```
+
+```{r}
 nSim <- 20000
 b0 <- 0
 sd <- round(miceSum$sd[2],1)
 ns <-  c(3,5,10,20,25,50,75,100)  
 deltas <- c(1,2,3,5,10)
 
-L <- limma::makeContrasts("Diethf",levels=c("(Intercept)","Diethf"))
+contrast <- limma::makeContrasts("Diethf",levels=c("(Intercept)","Diethf"))
 
 powerFast <- matrix(NA,nrow=length(ns)*length(deltas),ncol=3) %>% as.data.frame
 names(powerFast) <- c("b1","n","power")
+form <- ~Diet
 
 i <- 0
 
@@ -519,27 +542,12 @@ for (n in ns)
   
   ### Simulation
   predictorData <- data.frame(Diet = rep(c("c","hf"),c(n1,n2)) %>% as.factor)
-  design <- model.matrix(~Diet,predictorData)
-  
+
   for (b1 in deltas)
   {
-    ySim <- rnorm(nrow(predictorData)*nSim,sd=sd)
-    dim(ySim) <-c(nrow(predictorData),nSim)
-    ySim <- ySim + c(design %*%c(b0,b1))
-    ySim <- t(ySim)
-  
-    ### Fitting
-    fitAll <- limma::lmFit(ySim,design)
-  
-    ### Inference
-    varUnscaled <- c(t(L)%*%fitAll$cov.coefficients%*%L)
-    contrasts <- fitAll$coefficients %*%L
-    seContrasts <- varUnscaled^.5*fitAll$sigma
-    tstats <- contrasts/seContrasts
-    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
-    
     i <- i+1
-    powerFast[i,] <- c(b1,n,mean(pvals < alpha))
+    betas <- c(b0, b1)
+    powerFast[i,] <- c(b1,n,simFast(form, predictorData, betas, sd, contrasts = contrast, alpha = alpha, nSim = nSim))
   }
 }
 ```
