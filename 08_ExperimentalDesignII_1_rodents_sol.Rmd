@@ -248,6 +248,7 @@ power2 %>%
   geom_line() +
   geom_hline(yintercept = .9, lty=2)
 ```
+
 We observe that we need between 75-80 observations to obtain a power of 90%. 
 
 This is confirmed with the power functions for the two sample t-test. 
@@ -257,5 +258,6 @@ b1 = - 60
 power = .9
 power.t.test(d = b1, sd = sigma(lm1), type='two.sample',power = power)
 ```
+
 Note, that we would require a much larger sample size. This is because the desired effect size that we would like to pick up is smal compared to the variability (standard deviation) in the population. 
 
