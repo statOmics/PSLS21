@@ -90,9 +90,10 @@ There is a strong emphasis in reproducible research by extensively using R/Rmark
 
 - The learning materials are developed for [R](https://www.r-project.org/) version 4.1.0 or later. We also recommend to also install the latest version of [RStudio](https://www.rstudio.com/products/rstudio/download/).
 
-- To install all requirements, please copy and paste this line of code in your R console.
+- To install all requirements, please copy and paste this lines of code in your R console.
 
 ```
+install.packages("renv")
 url <- "https://raw.githubusercontent.com/statOmics/PSLS21/master/renv.lock"
 renv::restore(lockfile = url)
 ```
