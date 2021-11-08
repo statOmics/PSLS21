@@ -93,7 +93,8 @@ There is a strong emphasis in reproducible research by extensively using R/Rmark
 - To install all requirements, please copy and paste this line of code in your R console.
 
 ```
-source("https://raw.githubusercontent.com/GTPB/PSLS20/master/install.R")
+url <- "https://raw.githubusercontent.com/statOmics/PSLS21/master/renv.lock"
+renv::restore(lockfile = url)
 ```
 
 - To get familiar with most important concepts in working with R and Rmarkdown, you may download the respective cheat sheets:
