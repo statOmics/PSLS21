@@ -117,7 +117,7 @@ assumptions are met!
 1. The observations are independent
 2. The data (SBPb) must be normally distributed
 
-For the first assumption requires us to think about how the data were collected. 
+The first assumption requires us to think about how the data were collected. 
 Are there any underlying correlation structures (that we know of)
 in the data? For instance, if all the 15 subjects are members of
 the same family, we expect that the data will give us a good 
