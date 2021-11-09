@@ -141,6 +141,7 @@ captopril %>%
   geom_qq_line()
 
 # or, equivalently
+captoprilTidy <- captopril %>% gather(type,bp,-id) 
 captoprilTidy %>%
   filter(type%in%c("SBPa","SBPb")) %>%
   ggplot(aes(sample=bp)) +
