@@ -122,8 +122,7 @@ poison_dojo <- poison %>%
     filter(Species == "Dojofish")
 ```
 
-Later in the course, we will come back to this dataset and perform a fully 
-correct analysis that allows us to assess the different research hypotheses for 
+Later in the course, we will come back to this dataset and perform a analysis that allows us to assess the different research hypotheses for 
 all fish species at once!
 
 The second predictor variable, `Weight`, still may influence our analysis; fish
@@ -143,7 +142,7 @@ poison_dojo %>%
   theme_bw() + 
   stat_summary(
     geom = "point",
-    fun.y = "mean",
+    fun = "mean",
     col = "black",
     size = 4,
     shape = 24,
@@ -154,8 +153,7 @@ In our dataset, there seems to be **no systematic bias**, i.e., no clear trend
 in the association between `Dose` and `Weight`. However, we do notice that the 
 fish weights are not perfectly uniformly distributed across the different doses;
 we don't see a clear trend, but we do see some fluctuations. To check if 
-fluctuations of the size that we observe here could happen when in reality there
-is no association between `Dose` and `Weight`, we may use simulations:
+fluctuations of the size that we observe here could happen by random change if we carefully randomise, we may use simulations where we simulate the allocation of the fish to the different doses.
 
 ```{r}
 library(gridExtra)
@@ -172,7 +170,7 @@ plots <- lapply(1:9,
          theme_bw()  + 
          stat_summary(
             geom = "point",
-            fun.y = "mean",
+            fun = "mean",
             col = "black",
             size = 2,
             shape = 24,
@@ -226,7 +224,7 @@ We have four diagnostic plots:
 $$e_i=y_i-\hat{g}(x_i)=y_i-\hat\beta_0-\hat\beta_1\times x_i,$$
 
 If there would be a linear relationship in the data,
-the residuals are expected to lie on the y=0 line for
+the residuals are expected to be scattered at random around y=0 for
 the entire range of predicted values. This is clearly
 the case: the assumption of linearity is met.
 
@@ -252,25 +250,17 @@ horizontal over the entire range of fitted values. This seems not
 to be the case: for larger fitted values, the variance increase slightly.
 The assumption of homoscedasticity is **not met.**
 
-Multiple assumptions are not met, so way not continue by performing
+Multiple assumptions are not met, so we may not continue by performing
 a linear regression.
 
-One "trick" is to log-transform the data. Indeed, data with heavy
+We can try to remediate these deviations by log-transforming the data. Indeed, data with heavy
 right tails can often be normalized by applying this strategy
 
-Generate a new column in the poison dataset, containing the 
-log-transformed survival times.
-
-```{r}
-poison_dojo <- poison_dojo %>%
-  mutate(log.Surv_time = log(Surv_time))
-```
-
-Refit the (log-)linear model. Generate diagnostic plots.
+Fit a (log-)linear model by log transforming the response. Generate diagnostic plots.
 Assess the assumptions.
 
 ```{r}
-log.model <- lm(log.Surv_time~Dose, data=poison_dojo) 
+log.model <- lm(Surv_time %>% log10 ~ Dose, data = poison_dojo)
 plot(log.model)
 ```
 
@@ -299,8 +289,7 @@ data.frame(
   facet_wrap(~ label)
 ```
 
-1. The independence assumption is not met, but for this exercise,
-we will assume it **is met** (see above).
+1. The independence assumption is met.
 2. Upon log-transformation, the linearity assumption is still **met**.
 3. Upon log-transformation, the normality assumption is also **met**.
 4. Upon log-transformation, the homoscedasticity assumption is also **met**.
@@ -320,64 +309,56 @@ confint(log.model)
 ## Interpretation on the log scale 
 
 Currently, all the outcomes should be interpreted on the log-scale.
-Indeed, since we are now modelling  _the log of survival time_, we 
+Indeed, since we are now modelling  _the log$_{10}$ of survival time_, we 
 don't have direct inference on survival time.
 
 As such, we may interpret the output as follows:
 
 - The slope:
 
-If the dose at which the poison is administered increases with 1 mg,
-then the mean of the natural logarithm of survival time will decrease
-by 0.5112 units (95% CI [-0.8109,-0.2116]). This decrease is significant
-on the 5% significance level (p=0.00103).
+Dojo fish that are exposed to a higher dose of the poison will have a $log_{10}$ survival time that is on average `r log.model$coef[2] %>% abs %>% round(.,2)` lower per gram of poison that was administered additionally (95% CI [`r confint(log.model) %>% abs %>% round(.,2)`])
+.
+This decrease in survival time is significant
+on the 5% significance level (p<0.001).
+
+Note, that the study is an experimental study so we can conclude that there is a causal effect of the  poison dose and the survival time. 
 
 - The intercept:
 
-The average of the natural logarithm of survival time for fish that
-were given a dose of 0 mg is 2.1046 (95% CI [1.6288, 2.5804]). This
-value is significantly different from 0 on the 5% significance level
-(7.13e-14). This conclusion will be discussed in more detail below.
+The average of the log10 of survival time for fish that
+were given a dose of 0 mg is `r log.model$coef[1] %>% abs %>% round(.,2)`.
 
 ## Interpretation on the original scale 
 
-The interpretation the log-scale is quite difficult: the natural 
-logarithm survival time is not exactly a casual measure. To ease 
-the interpetation, we may backtransform the results to the original
-scale (time in minutes). This we can do by taking the exponent of
-the outcomes:
+The interpretation the log-scale is quite difficult. To ease 
+the interpretation, we will backtransform the results to the original
+scale (time in minutes). This we can do by 
 
 ```{r}
-exp(summary(log.model)$coefficients[,"Estimate"])
+10^(summary(log.model)$coefficients[,"Estimate"])
 ```
 
 and of their confidence intervals:
 
 ```{r}
-exp(confint(log.model))
+10^(confint(log.model))
 ```
 
 Now, we can interpret the results in terms of the geometric mean:
 
 - The slope:
 
-If the dose at which the poison is administered increases with 1 mg,
-then the geometric mean of survival time will decrease by a factor
-of 0.5998 (95% CI [0.4445,0.8093]). This decrease is significant
-on the 5% significance level (p=0.00103).
+Dojo fish that are exposed to a higher dose of the poison will have a geometric mean of the survival time that is factor `r round(10^log.model$coef[2],2)` (95% CI [`r round(10^(confint(log.model)[2,]),2)`]) per gram of poison that the received more than fish exposed to a lower dose. This decrease is very significant on the 5% significance level (p<0.001).
 
 - The intercept:
 
 The geometric mean of the survival time for fish that were given a 
-dose of 0 mg is 8.2039 minutes (95% CI [5.0977, 13.2029]). This
-value is significantly different from 0 on the 5% significance level
-(7.13e-14).
-
-To go a little further on the latter interpretation, our analysis seems
-to suggest that fish in uncontaminated water would only suvive for about
+dose of 0 mg is `r round(10^log.model$coef[1],2)` minutes. 
+Our analysis seems
+to suggest that fish in uncontaminated water would only survive for about
 8 minutes! This seems a little bit _fishy_...
 
-Here, we make a diagnostic plot to explain this behavior:
+Note, that this interpretation is not biologically relevant and is induced because we extrapolated considerably because all fish in the experiment were exposed to poison. 
 
 ```{r}
 plot(x=poison_dojo$Dose, 
@@ -393,34 +374,18 @@ points(0,summary_model$coefficients["(Intercept)","Estimate"],col="red", pch=16)
 ```
 
 We can see that the dose value of 0 mg does not fall within
-the same range as our data. As such, it is unlikely that we
-can assume this model to have correct inference on the intercept:
-we expect that the linearity assumption will not be met for these
-low values. The model will only be trustworthy on the range of
+the same range as our data. The model is only valid in the range of
 data that we use to build the model on!
 
-This is not really a problem: we are mainly interested in the slope
-parameter in the given range of datapoints.
+However, in most applications we will never test for the intercept term.
 
 # Conclusion
 
-- On the log scale:
+There is a very significant effect of the poison on survival of Dojo fish (p< 0.001). Dojo fish that are exposed to a higher dose of the poison will have a survival time that decrease on average with a factor `r log.model$coef[2] %>% abs %>% 10^. %>% round(.,2)` per gram of poison that is added (95% CI [`r confint(log.model)[2,] %>% abs %>% 10^. %>% round(.,2)`]).
 
-If the dose at which the poison is administered increases with 1 mg,
-then the mean of the natural logarithm of survival time will decrease
-by 0.5112 units (95% CI [-0.8109,-0.2116]). This decrease is highly
-significant on the 5% significance level (p=0.00103).
-
-- On the original scale:
-
-If the dose at which the poison is administered increases with 1 mg,
-then the geometric mean of survival time will decrease by a factor
-of 0.5998 (95% CI [0.4445,0.8093]). This decrease is highly significant
-on the 5% significance level (p=0.00103).
-
-n the tutorial of multiple regression, we will revisit this exercise. 
+In the tutorial of multiple regression, we will revisit this exercise. 
 More specifically, we will there study the association between dose and survival
-for all the different species.
+for all the species in the dataset.
 
 
 
