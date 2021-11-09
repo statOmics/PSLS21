@@ -29,6 +29,7 @@ Getting familiar with the dataset will always be the first step in a data
 analysis pipeline. In this tutorial, you will learn the key principles of data 
 exploration in R, including data import, tidying, wrangling and visualisation. 
 
+- Preliminary:[preliminary](./extra1_preliminary_tidyverse.html)
 - Exercise: [Exercise1](./04_1_NHANES.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv
 
