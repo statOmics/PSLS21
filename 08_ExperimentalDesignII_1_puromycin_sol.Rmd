@@ -19,7 +19,6 @@ output:
 library(tidyverse)
 ```
 
-
 # Puromycin data
 
 Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).  
@@ -46,7 +45,7 @@ Puromycin  %>%
   xlab("log10(Substrate concentration) (log10 ppm)")
 ```
 
-Note, that the reseachers have chosen 6 different substrate concentrations and conducted an experiment where they assessed the initial reaction rate twice for every concentration. 
+Note, that the researchers have chosen 6 different substrate concentrations and conducted an experiment where they assessed the initial reaction rate twice for every concentration. 
 
 1. Use the data to calculate the power to pick up an association that is as least as strong as the association you observed in the dataset when using an experiment with the same design. 
 
