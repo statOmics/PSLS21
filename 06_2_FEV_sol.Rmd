@@ -17,8 +17,8 @@ As an exercise on linear regression, we will analyse the FEV dataset.
 # The FEV dataset
 
 The FEV, which is an acronym for forced expiratory volume,
-is a measure of how much air a person can exhale (in litres) 
-during  a forced breath. In this dataset, the FEV of 606 children,
+is a measure of how much air a person can exhale (in liters) 
+during a forced breath. In this dataset, the FEV of 606 children,
 between the ages of 6 and 17, were measured. The dataset
 also provides additional information on these children:
 their `age`, their `height`, their `gender` and, most
@@ -45,6 +45,7 @@ data that can be improved upon:
 
 1. Both the `gender` and `smoking` can be transformed to
 factors.
+
 2. The `height` variable is written in inches. Assuming that
 this audience is mainly European, inches are hard to
 interpret. Let's add a new column, `height_cm`, with the values
@@ -58,7 +59,6 @@ fev <- fev %>%
 
 head(fev)
 ```
-
 
 # Data Exploration
 
@@ -173,8 +173,8 @@ List the assumptions:
 3. The residues of the model must be normally distributed
 4. Homoscedasticity of the data
 
-
-The subjects are sampled randomly from the population and can be assumed to be independent. 
+The subjects are sampled randomly from the population and can be assumed to be 
+independent. 
 
 ```{r}
 model <- lm(fev~smoking, data=fev) 
@@ -190,7 +190,8 @@ We have four diagnostic plots:
 - predictor of predictions $\hat\beta_0+\hat\beta_1 x$ on $X$-axis
 - *residuals* on $Y$-as
 $$e_i=y_i-\hat{g}(x_i)=y_i-\hat\beta_0-\hat\beta_1\times x_i,$$
-However, because smoking is a factor the predictor variable $x$ in the model is a dummy variable that can only take two values (0: non-smoking or 1: smoking). 
+However, because smoking is a factor, the predictor variable $x$ in the model is
+a dummy variable that can only take two values (0: non-smoking or 1: smoking). 
 
 ### Normal Q-Q
 
@@ -209,14 +210,23 @@ To meet the third assumption of linear regression, the variance
 on the _Square-root of the absolute value of standardized residuals_
 must be similar over the entire range of fitted values. 
 
-However, because smoking is a factor the predictor variable $x$ in the model is a dummy variable that can only take two values (0: non-smoking or 1: smoking). So it is better to check this assumption using boxplots. In the data exploration we noticed that there is no big difference in the IQR range between smokers and non smokers. 
-
+However, because smoking is a factor the predictor variable $x$ in the model is 
+a dummy variable that can only take two values (0: non-smoking or 1: smoking).
+So it is better to check this assumption using boxplots. In the data exploration 
+we noticed that there is no big difference in the IQR range between smokers and 
+non smokers. 
 
 ## Log transformation
 
-The normality assumption was not met, however, we could rely on the central limit theorem, however log-transformation is also an option because we can then interpret difference in terms of log transformed fold changes, which is sensible for volume data. so we cannot continue with 
-Refit the (log-)linear model. Generate diagnostic plots.
-Assess the assumptions.
+The normality assumption was not met. One possible way resolve this is by 
+relying on the central limit theorem; given the large number of observations in
+this dataset, we would still be allowed to perform that assume normality.
+Another option is to try a log-transformation of the data. In this example, 
+log-transforming the data makes perfect sense; we can then interpret difference 
+in terms of log transformed fold changes, which is sensible for volume data. 
+
+Here, we fit the log-linear model and generate diagnostic plots in order to
+assess the assumptions for linear regression.
 
 ```{r}
 log.model <- lm(fev %>% log2 ~ smoking,data=fev)
@@ -275,32 +285,40 @@ Now, we can interpret the results in terms of the geometric mean:
 
 - The slope:
 
-The geometric mean of the forced expiratory volume is a factor `r log.model$coefficients[2] %>% abs %>% 2^. %>% round(2)` larger for smoking pupil than for non-smoking pupil. 
- (95% CI [`r confint(log.model)[2,] %>% 2^. %>% abs %>% round(.,2)`]). This difference is 
-extremely significant (p << 0.001).
+The geometric mean of the forced expiratory volume is a factor 
+`r log.model$coefficients[2] %>% abs %>% 2^. %>% round(2)` larger for smoking 
+pupil than for non-smoking pupil
+(95% CI [`r confint(log.model)[2,] %>% 2^. %>% abs %>% round(.,2)`]). 
+This difference is extremely significant (p << 0.001).
 
-Note that we can also interpret as follows because the factor is between 1 and 2. 
+Note that we can also interpret as follows because the factor is between 1 
+and 2. 
 
-The the forced expiratory volume is on average `r ((log.model$coefficients[2] %>% abs %>% 2^. %>% round(2))-1)*100`% larger for smoking pupil than for non-smoking pupil. 
- (95% CI [`r ((confint(log.model)[2,] %>% 2^. %>% abs %>% round(.,2))-1)*100`]). 
+The the forced expiratory volume is on average 
+`r ((log.model$coefficients[2] %>% abs %>% 2^. %>% round(2))-1)*100`% larger for
+smoking pupils than for non-smoking pupils 
+(95% CI [`r ((confint(log.model)[2,] %>% 2^. %>% abs %>% round(.,2))-1)*100`]). 
  
-NOTE THAT THE CONCLUSION IS WRONG BECAUSE THE TWO GROUPS OF PUPILS ARE NOT COMPARABLE. THERE IS CONFOUNDING! 
+**NOTE THAT THE CONCLUSION IS WRONG BECAUSE THE TWO GROUPS OF PUPILS ARE NOT**
+**COMPARABLE. THERE IS CONFOUNDING!** 
 
-Indeed the FEV study is an observational study: smoking pupils are on average older than non-smoking pupils and age is associated with both the smoking behavior and long capacity.
-If we do not account for age the age effect is partially captured in the estimated effect for smoking! 
+Indeed, the FEV study is an observational study: smoking pupils are on average 
+older than non-smoking pupils and age is associated with both the smoking 
+behavior and long capacity. If we do not account for age the age effect is 
+partially captured in the estimated effect for smoking! 
 
 - The intercept:
 
 The geometric mean of the forced experatory volume for non-smoking pupils 
-is  `r log.model$coefficients[1] %>% 2^. %>% round(2)`l (95% CI [`r confint(log.model)[1,] %>% 2^. %>% abs %>% round(.,2)`]l). 
-This value is extermely significantly larger than 1l
-(p <<< 0.001). Note, that the statistical test on the intercept is typically not reported. 
+is  `r log.model$coefficients[1] %>% 2^. %>% round(2)`l 
+(95% CI [`r confint(log.model)[1,] %>% 2^. %>% abs %>% round(.,2)`]l). 
+This value is extermely significantly larger than 1l (p <<< 0.001). Note, that 
+the statistical test on the intercept is typically not reported. 
 
 
-In the tutorial of multiple regression,
-we will revisit this exercise and do an analysis where we correct for this confounder. 
-More specifically, we will there study 
-the association between smoking and FEV while accounting for
+In the tutorial of multiple regression, we will revisit this exercise and do 
+an analysis where we correct for this confounder. More specifically, we will 
+there study  the association between smoking and FEV while accounting for
 differences in the age, height and gender of the children.
 
 
