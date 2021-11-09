@@ -158,7 +158,6 @@ fluctuations of the size that we observe here could happen when in reality there
 is no association between `Dose` and `Weight`, we may use simulations:
 
 ```{r}
-install.packages(gridExtra)
 library(gridExtra)
 ```
 
