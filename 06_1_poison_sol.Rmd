@@ -158,8 +158,13 @@ fluctuations of the size that we observe here could happen when in reality there
 is no association between `Dose` and `Weight`, we may use simulations:
 
 ```{r}
-set.seed(1351)
+install.packages(gridExtra)
 library(gridExtra)
+```
+
+```{r}
+set.seed(1351)
+
 plots <- lapply(1:9,
        function(x) poison_dojo %>%
          mutate(Dose=sample(Dose))%>% # randomization
@@ -174,7 +179,7 @@ plots <- lapply(1:9,
             shape = 24,
             fill = "red")
           )
-do.call(grid.arrange, plots)
+do.call(gridExtra::grid.arrange, plots)
 ```
 
 In the above simulation, we randomly assigned the different fish to different 
