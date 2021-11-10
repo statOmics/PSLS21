@@ -1,5 +1,5 @@
 ---
-title: "8.4. Multiple Regression: KPNA2 example"
+title: "8.4. Multiple Regression: KPNA2 example - solution"
 author: "Lieven Clement"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
@@ -18,7 +18,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE)
-library(tidyverse)
 ```
 
 # Background
@@ -27,6 +26,11 @@ Histologic grade in breast cancer provides clinically important prognostic infor
 The patients, however, do not only differ in the histologic grade, but also on their lymph node status. 
 The lymph nodes were not affected (0) or surgically removed (1).
 
+Load libraries
+
+```{r}
+library(tidyverse)
+```
 
 # Data analysis
 ## Import KPNA2 data in R
