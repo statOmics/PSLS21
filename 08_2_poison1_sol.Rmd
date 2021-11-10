@@ -66,7 +66,8 @@ variable `log2Surv_time` and remove the non-transformed values.
 poison <- poison %>%
   rename("Species" = "species") %>%
   mutate(Species = as.factor(Species)) %>%
-  mutate(Species = fct_recode(Species, Dojofish = "0", Goldfish = "1", Zebrafish = "2"))
+  mutate(Species = fct_recode(Species, Dojofish = "0", Goldfish = "1", Zebrafish = "2")) %>% 
+  mutate(log2Surv_time = Surv_time %>% log2)
 
 poison <- poison %>% filter(Species=="Dojofish")
 ```
@@ -125,8 +126,8 @@ with $\epsilon_i \text{ i.i.d. } N(0,\sigma^2)$
 The model will again be fit to allow for assessing the model assumptions
 
 ```{r}
-# lm_Int <- lm(Surv_time %>% log2 ~ Dose+Weight+Dose:Weight, data = poison_dojo) # equivalent
-lm_Int <- lm(Surv_time %>% log2 ~ Dose*Weight, data = poison) # * -> short notation
+# lm_Int <- lm(log2Surv_time ~ Dose+Weight+Dose:Weight, data = poison) # equivalent
+lm_Int <- lm(log2Surv_time  ~ Dose*Weight, data = poison) # * -> short notation
 
 par(mfrow=c(2,2))
 plot(lm_Int)
@@ -168,8 +169,7 @@ with a model (2) that only contains a main effect for weight (i.e. no effect
 for dose).
 
 ```{r}
-#lmDojo_weight <- lm(log2Surv_time ~ Dose*Weight, data = poison_dojo)
-lmDojo_weight <- lm(log2Surv_time ~ Weight, data = poison_dojo)
+lmDojo_weight <- lm(log2Surv_time ~ Weight, data = poison)
 anova(lmDojo_weight, lm_Int)
 ```
 
@@ -191,6 +191,7 @@ be achieved in several ways:
 
 ```{r}
 summary(lm_Int) #1
+lm_additive <- lm(log2Surv_time ~ Dose + Weight, data = poison) #2
 anova(lm_additive,lm_Int) #2
 Anova(lm_Int,type="III") #3
 ```
@@ -203,7 +204,6 @@ The conventional approach is to remove the interaction effect from the
 model. As such, we are left with the additive linear regression model. 
 
 ```{r}
-lm_additive <- lm(Surv_time %>% log2 ~ Dose + Weight, data = poison) # * -> short notation
 summary(lm_additive)
 ```
 
@@ -219,10 +219,10 @@ The conclusion is exactly the same as for the additive model analysis above
 
 The dose of the poison has an extremely significant effect on the survival time
 of dojofish 
-(p-value = `r format(summary(lm_additive)$coefficients[2,4],digits=3)`). 
+(p-value << 0.001). 
 The geometric average of the survival time for dojofish that are exposed to a poison dose that is 1mg/L larger is approximately
 halfed, 
-factor = $2^{\beta_d}=$ `r format(2^(lm_additive$coef["Dose"]),digits=3)`) .
+factor = $2^{\beta_d}=$ `r format(2^(lm_additive$coef["Dose"]),digits=2)`) .
 
 
 The effect of dose on survival is not significantly different between fish of

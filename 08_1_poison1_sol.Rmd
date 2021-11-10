@@ -149,8 +149,8 @@ minutes):
 There is a very significant effect of the poison on survival of Dojofish 
 (p< 0.001). Dojofish that are exposed to a higher dose of the poison will 
 have a survival time that decrease on average with a factor 
-`r log.model$coef[2] %>% abs %>% 10^. %>% round(.,2)` per gram of poison that 
-is added (95% CI [`r confint(log.model)[2,] %>% abs %>% 10^. %>% round(.,2)`]).
+`r lm_simple$coef[2] %>% abs %>% 10^. %>% round(.,2)` per gram of poison that 
+is added (95% CI [`r confint(lm_simple)[2,] %>% abs %>% 10^. %>% round(.,2)`]).
 
 # Analysis with additive effect for weight
 
@@ -248,7 +248,7 @@ that are exposed to a poison dosage that differs 1 mg/L. In symbols:
 The dose of the poison has an extremely significant effect on the survival time
 of dojofish 
 (p-value = `r format(summary(lm_additive)$coefficients[2,4],digits=3)`). The geometric average of the survival time for dojofish that are exposed to a poison dose that is 1mg/L larger is approximately
-halfed, 
+halved, 
 factor = $2^{\beta_d}=$ `r format(2^(lm_additive$coef["Dose"]),digits=3)`) .
 
 The effect of weight on the survival time of dojofish is also extremely 
