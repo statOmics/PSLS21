@@ -12,7 +12,7 @@ output:
       number_sections: true
 ---
 
-# Fish tank dataset
+# The poison dataset
 
 In this experiment, 96 fish (dojofish, goldfish and zebrafish)
 were placed separately in a tank with two liters of water and

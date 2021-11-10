@@ -25,7 +25,7 @@ library(tidyverse)
 
 Histologic grade in breast cancer provides clinically important prognostic information. Researchers examined whether histologic grade was associated with gene expression profiles of breast cancers and whether such profiles could be used to improve histologic grading. In this tutorial we will assess the association between histologic grade and the expression of the KPNA2 gene that is known to be associated with poor BC prognosis.
 The patients, however, do not only differ in the histologic grade, but also on their lymph node status. 
-The lymph nodes were not affected (0) or chirugically removed (1).
+The lymph nodes were not affected (0) or surgically removed (1).
 
 
 # Data analysis

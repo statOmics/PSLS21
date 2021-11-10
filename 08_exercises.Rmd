@@ -1,28 +1,84 @@
 ---
-title: "08_exercises"
-output: html_document
+title: "Exercises on chapter 8: Multiple linear regression"
+author: "Lieven Clement and Jeroen Gilis"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true    
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+On the fourth day of the "Practical Statistics for the Life Sciences (2021)" 
+course, we will have four tutorials on multiple linear regression, based on 
+different datasets:
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# The poison dataset
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+In this experiment, 96 fish (dojofish, goldfish and zebrafish)
+were placed separately in a tank with two liters of water and
+a certain dose (in mg) of the poison EI-43,064. The resistance
+of the fish against the poison was measured as the amount of
+minutes the fish survived after being exposed to the poison (`Surv_time`, in
+minutes). Additionally, the weight of each fish was measured.
 
-```{r cars}
-summary(cars)
-```
+In this tutorial session we will focus on Dojofish, and we will model the 
+survival time in function of the poison dose while correcting for the weight of 
+the fish. 
 
-## Including Plots
+1. We will first analyse the survival data by only considering the dose as an
+explanatory variable for survival time
 
-You can also embed plots, for example:
+2. Next we will model the survival data with and **additive model** for dose and 
+weight
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+- Exercise: [Exercise1](./08_1_poison1.html)
+- Data path: "https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv"
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+---
+
+# The poison dataset (2) 
+
+Again, we will work with the poison dataset. In contrast to the exercise 
+above, we here we will model the survival time in function of the dose and the
+weight of the fish, **and including an interaction between dose and weight.** 
+
+- Exercise: [Exercise2](./08_2_poison2.html)
+- Data path: "https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv"
+
+---
+
+# The puromycin dataset
+
+Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).  
+The number of counts per minute of radioactive product from the reaction was 
+measured as a function of substrate concentration in parts per million (ppm) and
+from these counts the initial rate (or velocity) of the reaction was calculated (counts/min/min). The experiment was conducted once with the enzyme treated
+with Puromycin, and once with the enzyme untreated.
+
+Assess if there is an association between the substrate concentration and rate 
+**for both the treated and untreated enzymes.** To do this, fit a model that
+includes a main effect for concentration, a main effect for enzyme state, and
+an interaction term between these two variables.
+
+---
+
+# The KPNA2 dataset
+
+Histologic grade in breast cancer provides clinically important prognostic 
+information. Researchers examined whether histologic grade was associated with
+gene expression profiles of breast cancers and whether such profiles could be
+used to improve histologic grading. 
+
+In this tutorial we will assess the association between histologic grade and 
+the expression of the KPNA2 gene that is known to be associated with poor breast
+cancer prognosis. The patients, however, do not only differ in the histologic 
+grade, but also on their lymph node status. The lymph nodes were
+not affected (0) or surgically removed (1).
+
+
+
