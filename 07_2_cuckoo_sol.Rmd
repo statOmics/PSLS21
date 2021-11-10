@@ -112,6 +112,12 @@ The alternative hypothesis of ANOVA states that:
 $HA$: The mean egg length for at least one bird type is different 
 from the mean egg length in at least one other bird type.
 
+## Parameter estimation 
+
+```{r}
+mod1 <- lm(length~type, Cuckoo)
+```
+
 ## Check assumptions
 
 Before we may proceed with the analysis, we must make sure that all
@@ -127,6 +133,10 @@ specific patterns of correlation between the randomly selected nests.
 To check the normality assumption, we will use QQ plots.
 
 ```{r}
+plot(mod1, which = 2)
+```
+
+```{r}
 Cuckoo %>% 
   ggplot(aes(sample=length)) +
   geom_qq() +
@@ -140,6 +150,45 @@ The third assumption of equal variances seems to be met based on the
 visualization with the boxplots (see above).
 
 As such, we may proceed with the ANOVA analysis.
+
+
+### Simulate to train your skills in assessing assumptions 
+
+```{r}
+set.seed(1031)
+sigma <- mod1 %>% sigma 
+dataHlp <- Cuckoo
+
+simModels <- list()
+plotList <- list()
+plotListQQAll <- list() 
+plotListQQ1 <- list() 
+
+par(mfrow=c(3,3))
+for (i in 1:9)
+{
+  nobs <- Cuckoo %>% nrow
+  dataHlp$ySim <- mod1$fit + rnorm(nobs, sd = sigma)
+  simModels[[i]] <- lm(ySim~type, dataHlp)
+  plot(simModels[[i]], which = 2)
+  plotList[[i]] <- dataHlp %>%  
+    ggplot(aes(type,ySim)) + 
+    geom_boxplot(outlier.shape = NA) +
+    geom_jitter()
+  plotListQQ1[[i]] <- dataHlp %>%  
+    filter(type == 1)  %>% 
+    ggplot(aes(sample = ySim)) + 
+    geom_qq() +
+    geom_qq_line() + 
+    xlab("QQ for group 1")
+}
+
+do.call(gridExtra::grid.arrange, plotList)
+do.call(gridExtra::grid.arrange, plotListQQ1)
+par(mfrow=c(1,1))
+plot(simModels[[8]], which = 2)
+```
+
 
 ## ANOVA model
 

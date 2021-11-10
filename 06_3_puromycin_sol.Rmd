@@ -102,18 +102,17 @@ We will use simulation to assess if we can observe similar residual plots if all
 
 ```{r}
 set.seed(1031)
-betas <- mod1 %>% coefficients
 sigma <- mod1 %>% sigma 
+dataHlp <- Puromycin
 
 simModels <- list()
 
 par(mfrow=c(3,3))
 for (i in 1:9)
 {
-  x <- Puromycin %>% pull("conc") %>% log10
   nobs <- Puromycin %>% nrow
-  y <- betas[1] + betas[2] * x + rnorm(nobs, sd = sigma)
-  simModels[[i]] <- lm(y~x)
+  dataHlp$ySim <- mod1$fit + rnorm(nobs, sd = sigma)
+  simModels[[i]] <- lm(ySim~conc %>% log10, dataHlp)
   plot(simModels[[i]], which = 1)
 }
 ```
