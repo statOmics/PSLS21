@@ -53,6 +53,7 @@ explore the armpit dataset all by yourself!
 
 - Exercise: [Exercise2](./04_2_armpit.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv
+- Solution: [Solution2](./04_2_armpit_sol.html)
 
 ---
 
@@ -69,6 +70,7 @@ paired experimental designs.
 
 - Exercise: [Exercise3](./04_3_captopril.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt
+- Solution: [Solution3](./04_3_captopril_sol.html)
 
 ---
 
@@ -87,4 +89,5 @@ real-life datasets.
 
 - Exercise: [Exercise4](./04_4_FEV.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt
+- Solution: [Solution4](./04_4_FV_sol.html)
 
