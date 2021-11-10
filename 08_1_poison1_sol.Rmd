@@ -23,11 +23,15 @@ minutes). Additionally, the weight of each fish was measured.
 
 # Goal
 
-In this tutorial session we will focus on Dojo fish and we will model the survival time in function of the dose while correcting for the weight of the fish. 
+In this tutorial session we will focus on **Dojofish**, and we will model the 
+survival time in function of the poison dose while correcting for the weight of 
+the fish. 
 
-1. We will first analyse the survival data by only considering the dose 
-2. Next we will model the survival data with and additive model for dose and weight 
+1. We will first analyse the survival data by only considering the dose as an
+explanatory variable for survival time
 
+2. Next we will model the survival data with and additive model for dose and 
+weight
 
 Load libraries
 
@@ -52,30 +56,36 @@ We can see a couple of things in the data that can be improved:
 
 1. Capitalise the fist column name
 
-2. Set the Species column as a factor
+3. Set the Species column as a factor
 
-3. Change the species factor levels from 0, 1 and 2 to
-Dojofish, Goldfish and Zebrafish. *Hint*: use the `fct_recode` function.
+4. Change the species factor levels from "0" to Dojofish. 
+*Hint*: use the `fct_recode` function.
 
-4. In previous analysis on this dataset (`Simple linear regression session`), we
-performed a log-transformation on the response variable `Surv_time` to meet the
-normality and homoscedasticity assumptions of the linear model. Here, we will
-immediately work with log-transformed survival times; store these in the new 
-variable `log2Surv_time` and remove the non-transformed values.
+4. In the previous analysis on this dataset 
+(`Simple linear regression session`), we performed a log-transformation on the 
+response variable `Surv_time` to meet the normality and homoscedasticity 
+assumptions of the linear model. Here, we will immediately work with 
+log-transformed survival times; store these in the new  variable `log2Surv_time`
+and remove the non-transformed values.
+
+5. Subset the data to only retain **dojofish** (species "0").
 
 ```{r}
 poison <- poison %>%
   rename("Species" = "species") %>%
   mutate(Species = as.factor(Species)) %>%
-  mutate(Species = fct_recode(Species, Dojofish = "0", Goldfish = "1", Zebrafish = "2"))
+  mutate(Species = fct_recode(Species, Dojofish = "0", Goldfish = "1", Zebrafish = "2")) %>%
+  mutate(log2Surv_time = Surv_time %>% log2) %>%
+  dplyr::select(-Surv_time) %>%
+  filter(Species=="Dojofish")
 
-poison <- poison %>% filter(Species=="Dojofish")
+poison
 ```
 
 # Data exploration
 
-Prior to the analysis, we should explore our data. 
-To start our data exploration, we will make use of the `ggpairs` function of the
+Prior to the analysis, we should explore our data. To start our data 
+exploration, we will make use of the `ggpairs` function of the
 `GGally` R package. This function will generate a visualization containing
 multiple panels, which display (1) univariate plots of the different variables
 in our dataset, (2) bivariate plots and (3) correlation coefficients between 
@@ -90,14 +100,11 @@ Based on these plots, we observe that:
 
 - The survival time seems to be associated with dose and fish weight.
 
-
-
-From the tutorial of H6 we have seen that the fish weights were not nicely uniform across the different poison dosages due to the randomisation.
-
+From the tutorial of H6 we have seen that the fish weights were not nicely 
+uniform across the different poison dosages due to the randomisation.
 
 ```{r, message=FALSE}
 poison %>%
-  filter(Species == "Dojofish") %>%
   ggplot(aes(x = Dose, y = Weight)) +
   geom_point() +
   ggtitle("Association between dose and weight") +
@@ -120,14 +127,15 @@ variable for `log2Surv_time`.
 ```{r}
 # fit a linear regression model with 'Surv_time' as response variable and
 # 'Dose' as predictor variabele
-lm_simple <- lm(Surv_time %>% log2 ~ Dose, data=poison) 
+lm_simple <- lm(log2Surv_time ~ Dose, data=poison) 
 
 ## display the diagnostic plots of the model
 par(mfrow=c(2,2))
 plot(lm_simple)
 ```
 
-1. The independence assumption was **met** because the fish were randomized to the dose.
+1. The independence assumption was **met** because the fish were randomized to 
+the dose.
 2. The linearity assumption is **met**.
 3. The normality assumption is **met**.
 4. The homoscedasticity assumption is **met**.
@@ -143,8 +151,14 @@ minutes):
 
 ```{r}
 2^(lm_simple$coef)["Dose"]
-2^(confint(lm_simple))[2,1]
+2^(confint(lm_simple))[2,]
 ```
+
+There is a very significant effect of the poison on survival of Dojofish 
+(p< 0.001). Dojofish that are exposed to a higher dose of the poison will 
+have a survival time that decrease on average with a factor 
+`r lm_simple$coef[2] %>% 2^. %>% round(.,3)` per gram of poison that 
+is added (95% CI [`r confint(lm_simple)[2,] %>% 2^. %>% round(.,3)`]).
 
 There is a very significant effect of the poison on survival of Dojofish 
 (p< 0.001). Dojofish that are exposed to a higher dose of the poison will 
@@ -156,7 +170,9 @@ is added (95% CI [`r confint(lm_simple)[2,] %>% abs %>% 10^. %>% round(.,2)`]).
 
 ## Model specification
 
-Here, we will estimate the effect of the poison while correcting for `weight` and we will add it as an additional covariate to our linear regression model, such that
+Here, we will estimate the effect of the poison while correcting for `weight` 
+and we will add it as an additional covariate to our linear regression model, 
+such that
 
 $$
 y_i=\beta_0+\beta_d x_d + \beta_g x_g + \epsilon_i,
@@ -169,40 +185,38 @@ with $\epsilon_i \text{ i.i.d. } N(0,\sigma^2)$.
 The model will again be fit to allow for assessing the model assumptions
 
 ```{r}
-lm_additive <- lm(Surv_time %>% log2~ Dose + Weight, data = poison)
+lm_additive <- lm(log2Surv_time ~ Dose + Weight, data = poison)
 par(mfrow=c(2,2))
 plot(lm_additive)
 ```
 
 The assumption of independence, linearity and homoscedasticity are met.
 
-The QQ-plot suggest that there might be some deviation from normality in the left tail of the
-distribution. However, when we would simulate data under the normality
-assumption, it seems that deviations of this size may be expected when
-normality is met:
+The QQ-plot suggest that there might be some deviation from normality in the 
+left tail of the,distribution. However, when we would simulate data under the 
+normality assumption, it seems that deviations of this size may be expected when
+normality is met. We will use simulation to assess if we can observe similar 
+residual plots if all assumptions for the linear model hold.
 
 ```{r}
-set.seed(1406)
-nobs <- nrow(poison)
+set.seed(1031)
+sigma <- lm_additive %>% sigma 
 
-data.frame(
-  y = c(lm_additive$res,
-        rnorm(nobs*8,
-              sd = sigma(lm_additive)
-             )
-      ),
-  label = rep(
-              c("original data",
-                paste0("simulation ",1:8)),
-              each = nobs)) %>%
-  ggplot(aes(sample = y)) +
-  geom_qq() +
-  geom_qq_line() +
-  facet_wrap(~ label) +
-  theme_bw()
+dataHlp <- poison
+simModels <- list()
+
+par(mfrow=c(3,3))
+for (i in 1:9)
+{
+  nobs <- poison %>% nrow
+  dataHlp$ySim <- lm_additive$fit + rnorm(nobs, sd = sigma)
+  simModels[[i]] <- lm(ySim~Dose + Weight, dataHlp)
+  plot(simModels[[i]], which = 2)
+}
 ```
-
-As such, all assumptions for linear regression seem to be valid.
+It seems that deviations of the size that we see in our real data may be 
+expected even when normality is met. As such, all assumptions for linear 
+regression seem to be valid.
 
 ## Inference
 
@@ -214,8 +228,9 @@ summary(lm_additive)
 
 ## Interpretation of model parameters
 
-We see that the effect of dose on survival time remains similar, however, it has become more significant 
-after we have incorporated weight in our model. Indeed, from the data exploration, we learned that weight is associated with 
+We see that the effect of dose on survival time remains similar, however, it 
+has become more significant after we have incorporated weight in our model. 
+Indeed, from the data exploration, we learned that weight is associated with 
 survival. As such, by incorporating weight in our model, we are able to
 explain a larger part of the variability in the response variable survival time.
 As a consequence, the variability in the residuals of the model will decrease,
@@ -224,7 +239,8 @@ parameter estimates in the model.
 
 2. From the data exploration, we additionally found that the dojo-fish weights
 were not uniform across the different poison dosages due to the randomisation. 
-Therefore, we can estimate the effect between dose and survival time better while accounting for the weight.
+Therefore, we can estimate the effect between dose and survival time better 
+while accounting for the weight.
 
 In this model, the effect of `Dose` can be interpreted as the average change in
 the log2 survival time between two groups of dojofish **with the same weight** 
@@ -237,7 +253,6 @@ that are exposed to a poison dosage that differs 1 mg/L. In symbols:
 \hat \mu_2-\hat \mu_1&=&\beta_d (x_{2d}-x_{1d})
 \end{eqnarray}
 
-
 ## Conclusion
 
 ```{r}
@@ -245,16 +260,18 @@ that are exposed to a poison dosage that differs 1 mg/L. In symbols:
 2^(confint(lm_additive))
 ```
 
-The dose of the poison has an extremely significant effect on the survival time
-of dojofish 
-(p-value = `r format(summary(lm_additive)$coefficients[2,4],digits=3)`). The geometric average of the survival time for dojofish that are exposed to a poison dose that is 1mg/L larger is approximately
-halved, 
+The dose of the poison has an extremely significant effect on the log2
+transformed survival time of dojofish 
+(p-value = `r format(summary(lm_additive)$coefficients[2,4],digits=3)`). The 
+geometric average of the survival time for dojofish that are exposed to a 
+poison dose that is 1mg/L larger is approximately halved, 
 factor = $2^{\beta_d}=$ `r format(2^(lm_additive$coef["Dose"]),digits=3)`) .
 
 The effect of weight on the survival time of dojofish is also extremely 
 significant 
 (p-value = `r format(summary(lm_additive)$coefficients[3,4],digits=3)`). The
-geometric average of the survival time of a dojofish that weighs 1 gram more than another dojofish is approximately twice as long 
+geometric average of the survival time of a dojofish that weighs 1 gram more 
+than another dojofish is approximately twice as long 
 (factor = $2^{ \beta_g}$= `r format(2^(lm_additive$coef["Weight"]),digits=3)`, 
 95% BI [`r paste(format(2^(confint(lm_additive)["Weight",]),digits=3),collapse=",")`]).
 
@@ -262,4 +279,5 @@ geometric average of the survival time of a dojofish that weighs 1 gram more tha
 
 In the `lm_additive` model, we included only a *main effect* for weight. 
 However, there could also be an *interaction effect* between weight and
-dose. A interaction between weight and dose implies that the dose effect on the survival time changes according to the weight of the fish.
+dose. A interaction between weight and dose implies that the dose effect on 
+the survival time changes according to the weight of the fish.
