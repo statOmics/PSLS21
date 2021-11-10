@@ -12,7 +12,7 @@
 <meta name="author" content="Lieven Clement and Jeroen Gilis" />
 
 
-<title>Exercises on chapter 7: ANOVA</title>
+<title>Exercises on chapter 8: Multiple linear regression</title>
 
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -439,16 +439,16 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Exercises on chapter 7: ANOVA</h1>
+<h1 class="title toc-ignore">Exercises on chapter 8: Multiple linear regression</h1>
 <h4 class="author">Lieven Clement and Jeroen Gilis</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
-<p>On the third day of the “Practical Statistics for the Life Sciences (2021)” course, we will have three tutorials on ANOVA, based on different datasets:</p>
-<div id="fish-tank-dataset" class="section level1">
-<h1><span class="header-section-number">1</span> Fish tank dataset</h1>
+<p>On the fourth day of the “Practical Statistics for the Life Sciences (2021)” course, we will have four tutorials on multiple linear regression, based on different datasets:</p>
+<div id="the-poison-dataset" class="section level1">
+<h1><span class="header-section-number">1</span> The poison dataset</h1>
 <p>In this experiment, 96 fish (dojofish, goldfish and zebrafish) were placed separately in a tank with two liters of water and a certain dose (in mg) of the poison EI-43,064. The resistance of the fish against the poison was measured as the amount of minutes the fish survived after being exposed to the poison (<code>Surv_time</code>, in minutes). Additionally, the weight of each fish was measured.</p>
 <p>In this tutorial session we will focus on Dojofish, and we will model the survival time in function of the poison dose while correcting for the weight of the fish.</p>
 <ol style="list-style-type: decimal">
@@ -457,32 +457,33 @@ div.tocify {
 </ol>
 <ul>
 <li>Exercise: <a href="./08_1_poison1.html">Exercise1</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt</a></li>
+<li>Data path: “<a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv</a>”</li>
 </ul>
 <hr />
 </div>
-<div id="the-cuckoo-dataset" class="section level1">
-<h1><span class="header-section-number">2</span> The cuckoo dataset</h1>
-<p>The common cuckoo does not build its own nest: it prefers to lay its eggs in another birds’ nest. It is known, since 1892, that the type of cuckoo bird eggs are different between different locations. In a study from 1940, it was shown that cuckoos return to the same nesting area each year, and that they always pick the same bird species to be a “foster parent” for their eggs.</p>
-<p>Over the years, this has lead to the development of geographically determined subspecies of cuckoos. These subspecies have evolved in such a way that their eggs look as similar as possible as those of their foster parents.</p>
-<p>The cuckoo dataset contains information on 120 Cuckoo eggs, obtained from randomly selected “foster” nests. The researchers want to test if the type of foster parent has an effect on the average length of the cuckoo eggs.</p>
+<div id="the-poison-dataset-2" class="section level1">
+<h1><span class="header-section-number">2</span> The poison dataset (2)</h1>
+<p>Again, we will work with the poison dataset. In contrast to the exercise above, we here we will model the survival time in function of the dose and the weight of the fish, <strong>and including an interaction between dose and weight.</strong></p>
 <ul>
-<li>Exercise: <a href="./07_2_cuckoo.html">Exercise3</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt</a></li>
+<li>Exercise: <a href="./08_2_poison2.html">Exercise2</a></li>
+<li>Data path: “<a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv</a>”</li>
 </ul>
 <hr />
 </div>
-<div id="the-nhanes-dataset" class="section level1">
-<h1><span class="header-section-number">3</span> The NHANES dataset:</h1>
-<p>The National Health and Nutrition Examination Survey (NHANES) contains data that has been collected since 1960. For this tutorial, we will make use of the data that was collected between 2009 and 2012, for 10.000 U.S. civilians. The dataset contains a large number of physical, demographic, nutritional and life-style-related parameters.</p>
-<p>We want to test whether or not the mean systolic blood pressure value (take column <code>BPSys1</code>) is equal between the five self-reported health categories. To this end, we will use an ANOVA analysis.</p>
-<ul>
-<li>Exercise: <a href="./07_3_NHANES.html">Exercise3</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv</a></li>
-</ul>
+<div id="the-puromycin-dataset" class="section level1">
+<h1><span class="header-section-number">3</span> The puromycin dataset</h1>
+<p>Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).<br />
+The number of counts per minute of radioactive product from the reaction was measured as a function of substrate concentration in parts per million (ppm) and from these counts the initial rate (or velocity) of the reaction was calculated (counts/min/min). The experiment was conducted once with the enzyme treated with Puromycin, and once with the enzyme untreated.</p>
+<p>Assess if there is an association between the substrate concentration and rate <strong>for both the treated and untreated enzymes.</strong> To do this, fit a model that includes a main effect for concentration, a main effect for enzyme state, and an interaction term between these two variables.</p>
+<hr />
+</div>
+<div id="the-kpna2-dataset" class="section level1">
+<h1><span class="header-section-number">4</span> The KPNA2 dataset</h1>
+<p>Histologic grade in breast cancer provides clinically important prognostic information. Researchers examined whether histologic grade was associated with gene expression profiles of breast cancers and whether such profiles could be used to improve histologic grading.</p>
+<p>In this tutorial we will assess the association between histologic grade and the expression of the KPNA2 gene that is known to be associated with poor breast cancer prognosis. The patients, however, do not only differ in the histologic grade, but also on their lymph node status. The lymph nodes were not affected (0) or surgically removed (1).</p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2VzIG9uIGNoYXB0ZXIgNzogQU5PVkEiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IGFuZCBKZXJvZW4gR2lsaXMiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUgICAgCiAgICAgIHRoZW1lOiBjb3NtbwogICAgICB0b2M6IHRydWUKICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgIGhpZ2hsaWdodDogdGFuZ28KICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCi0tLQoKT24gdGhlIHRoaXJkIGRheSBvZiB0aGUgIlByYWN0aWNhbCBTdGF0aXN0aWNzIGZvciB0aGUgTGlmZSBTY2llbmNlcyAoMjAyMSkiIApjb3Vyc2UsIHdlIHdpbGwgaGF2ZSB0aHJlZSB0dXRvcmlhbHMgb24gQU5PVkEsIGJhc2VkIG9uIGRpZmZlcmVudCBkYXRhc2V0czoKCgojIEZpc2ggdGFuayBkYXRhc2V0CgpJbiB0aGlzIGV4cGVyaW1lbnQsIDk2IGZpc2ggKGRvam9maXNoLCBnb2xkZmlzaCBhbmQgemVicmFmaXNoKQp3ZXJlIHBsYWNlZCBzZXBhcmF0ZWx5IGluIGEgdGFuayB3aXRoIHR3byBsaXRlcnMgb2Ygd2F0ZXIgYW5kCmEgY2VydGFpbiBkb3NlIChpbiBtZykgb2YgdGhlIHBvaXNvbiBFSS00MywwNjQuIFRoZSByZXNpc3RhbmNlCm9mIHRoZSBmaXNoIGFnYWluc3QgdGhlIHBvaXNvbiB3YXMgbWVhc3VyZWQgYXMgdGhlIGFtb3VudCBvZgptaW51dGVzIHRoZSBmaXNoIHN1cnZpdmVkIGFmdGVyIGJlaW5nIGV4cG9zZWQgdG8gdGhlIHBvaXNvbiAoYFN1cnZfdGltZWAsIGluCm1pbnV0ZXMpLiBBZGRpdGlvbmFsbHksIHRoZSB3ZWlnaHQgb2YgZWFjaCBmaXNoIHdhcyBtZWFzdXJlZC4KCkluIHRoaXMgdHV0b3JpYWwgc2Vzc2lvbiB3ZSB3aWxsIGZvY3VzIG9uIERvam9maXNoLCBhbmQgd2Ugd2lsbCBtb2RlbCB0aGUgCnN1cnZpdmFsIHRpbWUgaW4gZnVuY3Rpb24gb2YgdGhlIHBvaXNvbiBkb3NlIHdoaWxlIGNvcnJlY3RpbmcgZm9yIHRoZSB3ZWlnaHQgb2YgCnRoZSBmaXNoLiAKCjEuIFdlIHdpbGwgZmlyc3QgYW5hbHlzZSB0aGUgc3Vydml2YWwgZGF0YSBieSBvbmx5IGNvbnNpZGVyaW5nIHRoZSBkb3NlIGFzIGFuCmV4cGxhbmF0b3J5IHZhcmlhYmxlIGZvciBzdXJ2aXZhbCB0aW1lCgoyLiBOZXh0IHdlIHdpbGwgbW9kZWwgdGhlIHN1cnZpdmFsIGRhdGEgd2l0aCBhbmQgKiphZGRpdGl2ZSBtb2RlbCoqIGZvciBkb3NlIGFuZCAKd2VpZ2h0CgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UxXSguLzA4XzFfcG9pc29uMS5odG1sKQotIERhdGEgcGF0aDogaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9mcmVzaHdlaWdodF9sZXR0dWNlLnR4dAoKLS0tCgojIFRoZSBjdWNrb28gZGF0YXNldCAKClRoZSBjb21tb24gY3Vja29vIGRvZXMgbm90IGJ1aWxkIGl0cyBvd24gbmVzdDogaXQgcHJlZmVycyB0byBsYXkgaXRzIGVnZ3MgaW4gCmFub3RoZXIgYmlyZHMnIG5lc3QuIEl0IGlzIGtub3duLCBzaW5jZSAxODkyLCB0aGF0IHRoZSB0eXBlIG9mIGN1Y2tvbyBiaXJkIGVnZ3MgCmFyZSBkaWZmZXJlbnQgYmV0d2VlbiBkaWZmZXJlbnQgbG9jYXRpb25zLiBJbiBhIHN0dWR5IGZyb20gMTk0MCwgaXQgd2FzIHNob3duIAp0aGF0IGN1Y2tvb3MgcmV0dXJuIHRvIHRoZSBzYW1lIG5lc3RpbmcgYXJlYSBlYWNoIHllYXIsIGFuZCB0aGF0IHRoZXkgYWx3YXlzIApwaWNrIHRoZSBzYW1lIGJpcmQgc3BlY2llcyB0byBiZSBhICJmb3N0ZXIgcGFyZW50IiBmb3IgdGhlaXIgZWdncy4KCk92ZXIgdGhlIHllYXJzLCB0aGlzIGhhcyBsZWFkIHRvIHRoZSBkZXZlbG9wbWVudCBvZiBnZW9ncmFwaGljYWxseSBkZXRlcm1pbmVkIApzdWJzcGVjaWVzIG9mIGN1Y2tvb3MuIFRoZXNlIHN1YnNwZWNpZXMgaGF2ZSBldm9sdmVkIGluIHN1Y2ggYSB3YXkgdGhhdCB0aGVpciAKZWdncyBsb29rIGFzIHNpbWlsYXIgYXMgcG9zc2libGUgYXMgdGhvc2Ugb2YgdGhlaXIgZm9zdGVyIHBhcmVudHMuCgpUaGUgY3Vja29vIGRhdGFzZXQgY29udGFpbnMgaW5mb3JtYXRpb24gb24gMTIwIEN1Y2tvbyBlZ2dzLCBvYnRhaW5lZCBmcm9tIApyYW5kb21seSBzZWxlY3RlZCAiZm9zdGVyIiBuZXN0cy4gVGhlIHJlc2VhcmNoZXJzIHdhbnQgdG8gdGVzdCBpZiB0aGUgdHlwZSBvZiAKZm9zdGVyIHBhcmVudCBoYXMgYW4gZWZmZWN0IG9uIHRoZSBhdmVyYWdlIGxlbmd0aCBvZiB0aGUgY3Vja29vIGVnZ3MuCgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UzXSguLzA3XzJfY3Vja29vLmh0bWwpCi0gRGF0YSBwYXRoOiBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL0N1Y2tvby50eHQKCi0tLQoKIyBUaGUgTkhBTkVTIGRhdGFzZXQ6CgpUaGUgTmF0aW9uYWwgSGVhbHRoIGFuZCBOdXRyaXRpb24gRXhhbWluYXRpb24gU3VydmV5IChOSEFORVMpIGNvbnRhaW5zIGRhdGEgCnRoYXQgaGFzIGJlZW4gY29sbGVjdGVkIHNpbmNlIDE5NjAuIEZvciB0aGlzIHR1dG9yaWFsLCB3ZSB3aWxsIG1ha2UgdXNlIG9mIHRoZSAKZGF0YSB0aGF0IHdhcyBjb2xsZWN0ZWQgIGJldHdlZW4gMjAwOSBhbmQgIDIwMTIsIGZvciAxMC4wMDAgVS5TLiBjaXZpbGlhbnMuIApUaGUgZGF0YXNldCBjb250YWlucyBhIGxhcmdlIG51bWJlciBvZiBwaHlzaWNhbCwgZGVtb2dyYXBoaWMsIG51dHJpdGlvbmFsIGFuZCAKbGlmZS1zdHlsZS1yZWxhdGVkIHBhcmFtZXRlcnMuCgpXZSB3YW50IHRvIHRlc3Qgd2hldGhlciBvciBub3QgdGhlIG1lYW4gc3lzdG9saWMgYmxvb2QgcHJlc3N1cmUgdmFsdWUgCih0YWtlIGNvbHVtbiBgQlBTeXMxYCkgaXMgZXF1YWwgYmV0d2VlbiB0aGUgZml2ZSBzZWxmLXJlcG9ydGVkIGhlYWx0aCAKY2F0ZWdvcmllcy4gVG8gdGhpcyBlbmQsIHdlIHdpbGwgdXNlIGFuIEFOT1ZBIGFuYWx5c2lzLgoKLSBFeGVyY2lzZTogW0V4ZXJjaXNlM10oLi8wN18zX05IQU5FUy5odG1sKQotIERhdGEgcGF0aDogaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9OSEFORVMuY3N2CgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2VzIG9uIGNoYXB0ZXIgODogTXVsdGlwbGUgbGluZWFyIHJlZ3Jlc3Npb24iCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IGFuZCBKZXJvZW4gR2lsaXMiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUgICAgCiAgICAgIHRoZW1lOiBjb3NtbwogICAgICB0b2M6IHRydWUKICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgIGhpZ2hsaWdodDogdGFuZ28KICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCi0tLQoKT24gdGhlIGZvdXJ0aCBkYXkgb2YgdGhlICJQcmFjdGljYWwgU3RhdGlzdGljcyBmb3IgdGhlIExpZmUgU2NpZW5jZXMgKDIwMjEpIiAKY291cnNlLCB3ZSB3aWxsIGhhdmUgZm91ciB0dXRvcmlhbHMgb24gbXVsdGlwbGUgbGluZWFyIHJlZ3Jlc3Npb24sIGJhc2VkIG9uIApkaWZmZXJlbnQgZGF0YXNldHM6CgoKIyBUaGUgcG9pc29uIGRhdGFzZXQKCkluIHRoaXMgZXhwZXJpbWVudCwgOTYgZmlzaCAoZG9qb2Zpc2gsIGdvbGRmaXNoIGFuZCB6ZWJyYWZpc2gpCndlcmUgcGxhY2VkIHNlcGFyYXRlbHkgaW4gYSB0YW5rIHdpdGggdHdvIGxpdGVycyBvZiB3YXRlciBhbmQKYSBjZXJ0YWluIGRvc2UgKGluIG1nKSBvZiB0aGUgcG9pc29uIEVJLTQzLDA2NC4gVGhlIHJlc2lzdGFuY2UKb2YgdGhlIGZpc2ggYWdhaW5zdCB0aGUgcG9pc29uIHdhcyBtZWFzdXJlZCBhcyB0aGUgYW1vdW50IG9mCm1pbnV0ZXMgdGhlIGZpc2ggc3Vydml2ZWQgYWZ0ZXIgYmVpbmcgZXhwb3NlZCB0byB0aGUgcG9pc29uIChgU3Vydl90aW1lYCwgaW4KbWludXRlcykuIEFkZGl0aW9uYWxseSwgdGhlIHdlaWdodCBvZiBlYWNoIGZpc2ggd2FzIG1lYXN1cmVkLgoKSW4gdGhpcyB0dXRvcmlhbCBzZXNzaW9uIHdlIHdpbGwgZm9jdXMgb24gRG9qb2Zpc2gsIGFuZCB3ZSB3aWxsIG1vZGVsIHRoZSAKc3Vydml2YWwgdGltZSBpbiBmdW5jdGlvbiBvZiB0aGUgcG9pc29uIGRvc2Ugd2hpbGUgY29ycmVjdGluZyBmb3IgdGhlIHdlaWdodCBvZiAKdGhlIGZpc2guIAoKMS4gV2Ugd2lsbCBmaXJzdCBhbmFseXNlIHRoZSBzdXJ2aXZhbCBkYXRhIGJ5IG9ubHkgY29uc2lkZXJpbmcgdGhlIGRvc2UgYXMgYW4KZXhwbGFuYXRvcnkgdmFyaWFibGUgZm9yIHN1cnZpdmFsIHRpbWUKCjIuIE5leHQgd2Ugd2lsbCBtb2RlbCB0aGUgc3Vydml2YWwgZGF0YSB3aXRoIGFuZCAqKmFkZGl0aXZlIG1vZGVsKiogZm9yIGRvc2UgYW5kIAp3ZWlnaHQKCi0gRXhlcmNpc2U6IFtFeGVyY2lzZTFdKC4vMDhfMV9wb2lzb24xLmh0bWwpCi0gRGF0YSBwYXRoOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9wb2lzb24uY3N2IgoKLS0tCgojIFRoZSBwb2lzb24gZGF0YXNldCAoMikgCgpBZ2Fpbiwgd2Ugd2lsbCB3b3JrIHdpdGggdGhlIHBvaXNvbiBkYXRhc2V0LiBJbiBjb250cmFzdCB0byB0aGUgZXhlcmNpc2UgCmFib3ZlLCB3ZSBoZXJlIHdlIHdpbGwgbW9kZWwgdGhlIHN1cnZpdmFsIHRpbWUgaW4gZnVuY3Rpb24gb2YgdGhlIGRvc2UgYW5kIHRoZQp3ZWlnaHQgb2YgdGhlIGZpc2gsICoqYW5kIGluY2x1ZGluZyBhbiBpbnRlcmFjdGlvbiBiZXR3ZWVuIGRvc2UgYW5kIHdlaWdodC4qKiAKCi0gRXhlcmNpc2U6IFtFeGVyY2lzZTJdKC4vMDhfMl9wb2lzb24yLmh0bWwpCi0gRGF0YSBwYXRoOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9wb2lzb24uY3N2IgoKLS0tCgojIFRoZSBwdXJvbXljaW4gZGF0YXNldAoKRGF0YSBvbiB0aGUgdmVsb2NpdHkgb2YgYW4gZW56eW1hdGljIHJlYWN0aW9uIHdlcmUgb2J0YWluZWQgYnkgVHJlbG9hciAoMTk3NCkuICAKVGhlIG51bWJlciBvZiBjb3VudHMgcGVyIG1pbnV0ZSBvZiByYWRpb2FjdGl2ZSBwcm9kdWN0IGZyb20gdGhlIHJlYWN0aW9uIHdhcyAKbWVhc3VyZWQgYXMgYSBmdW5jdGlvbiBvZiBzdWJzdHJhdGUgY29uY2VudHJhdGlvbiBpbiBwYXJ0cyBwZXIgbWlsbGlvbiAocHBtKSBhbmQKZnJvbSB0aGVzZSBjb3VudHMgdGhlIGluaXRpYWwgcmF0ZSAob3IgdmVsb2NpdHkpIG9mIHRoZSByZWFjdGlvbiB3YXMgY2FsY3VsYXRlZCAoY291bnRzL21pbi9taW4pLiBUaGUgZXhwZXJpbWVudCB3YXMgY29uZHVjdGVkIG9uY2Ugd2l0aCB0aGUgZW56eW1lIHRyZWF0ZWQKd2l0aCBQdXJvbXljaW4sIGFuZCBvbmNlIHdpdGggdGhlIGVuenltZSB1bnRyZWF0ZWQuCgpBc3Nlc3MgaWYgdGhlcmUgaXMgYW4gYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gYW5kIHJhdGUgCioqZm9yIGJvdGggdGhlIHRyZWF0ZWQgYW5kIHVudHJlYXRlZCBlbnp5bWVzLioqIFRvIGRvIHRoaXMsIGZpdCBhIG1vZGVsIHRoYXQKaW5jbHVkZXMgYSBtYWluIGVmZmVjdCBmb3IgY29uY2VudHJhdGlvbiwgYSBtYWluIGVmZmVjdCBmb3IgZW56eW1lIHN0YXRlLCBhbmQKYW4gaW50ZXJhY3Rpb24gdGVybSBiZXR3ZWVuIHRoZXNlIHR3byB2YXJpYWJsZXMuCgotLS0KCiMgVGhlIEtQTkEyIGRhdGFzZXQKCkhpc3RvbG9naWMgZ3JhZGUgaW4gYnJlYXN0IGNhbmNlciBwcm92aWRlcyBjbGluaWNhbGx5IGltcG9ydGFudCBwcm9nbm9zdGljIAppbmZvcm1hdGlvbi4gUmVzZWFyY2hlcnMgZXhhbWluZWQgd2hldGhlciBoaXN0b2xvZ2ljIGdyYWRlIHdhcyBhc3NvY2lhdGVkIHdpdGgKZ2VuZSBleHByZXNzaW9uIHByb2ZpbGVzIG9mIGJyZWFzdCBjYW5jZXJzIGFuZCB3aGV0aGVyIHN1Y2ggcHJvZmlsZXMgY291bGQgYmUKdXNlZCB0byBpbXByb3ZlIGhpc3RvbG9naWMgZ3JhZGluZy4gCgpJbiB0aGlzIHR1dG9yaWFsIHdlIHdpbGwgYXNzZXNzIHRoZSBhc3NvY2lhdGlvbiBiZXR3ZWVuIGhpc3RvbG9naWMgZ3JhZGUgYW5kIAp0aGUgZXhwcmVzc2lvbiBvZiB0aGUgS1BOQTIgZ2VuZSB0aGF0IGlzIGtub3duIHRvIGJlIGFzc29jaWF0ZWQgd2l0aCBwb29yIGJyZWFzdApjYW5jZXIgcHJvZ25vc2lzLiBUaGUgcGF0aWVudHMsIGhvd2V2ZXIsIGRvIG5vdCBvbmx5IGRpZmZlciBpbiB0aGUgaGlzdG9sb2dpYyAKZ3JhZGUsIGJ1dCBhbHNvIG9uIHRoZWlyIGx5bXBoIG5vZGUgc3RhdHVzLiBUaGUgbHltcGggbm9kZXMgd2VyZQpub3QgYWZmZWN0ZWQgKDApIG9yIHN1cmdpY2FsbHkgcmVtb3ZlZCAoMSkuCgoKCg==</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
@@ -525,7 +526,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("07_exercises.Rmd");
+  window.initializeSourceEmbed("08_exercises.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

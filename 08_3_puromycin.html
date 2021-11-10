@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Lieven Clement &amp; Alexandre Segers" />
+<meta name="author" content="Lieven Clement &amp; Jeroen Gilis" />
 
 
-<title>Exercise 6.1: Linear regression on puromycin data</title>
+<title>8.3. Multiple regression with interaction: puromycin example</title>
 
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -542,66 +542,55 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Exercise 6.1: Linear regression on puromycin data</h1>
-<h4 class="author">Lieven Clement &amp; Alexandre Segers</h4>
+<h1 class="title toc-ignore">8.3. Multiple regression with interaction: puromycin example</h1>
+<h4 class="author">Lieven Clement &amp; Jeroen Gilis</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div id="puromycin-dataset" class="section level1">
-<h1><span class="header-section-number">1</span> Puromycin dataset</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div id="puromycin-data" class="section level1">
+<h1><span class="header-section-number">1</span> Puromycin data</h1>
 <p>Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).<br />
 The number of counts per minute of radioactive product from the reaction was measured as a function of substrate concentration in parts per million (ppm) and from these counts the initial rate (or velocity) of the reaction was calculated (counts/min/min). The experiment was conducted once with the enzyme treated with Puromycin, and once with the enzyme untreated.</p>
-</div>
-<div id="goal" class="section level1">
-<h1><span class="header-section-number">2</span> Goal</h1>
-<p>Assess if there is an association between the substrate concentration and rate for the <strong>treated</strong> enzyme.</p>
-<p>Import libraries</p>
+<p>Assess if there is an association between the substrate concentration and rate <strong>for both the treated and untreated enzymes.</strong></p>
 </div>
 <div id="import-data" class="section level1">
-<h1><span class="header-section-number">3</span> Import data</h1>
-<p>In contrast to the other datasets we have worked with so far, this dataset is not available through a URL link. In stead, the data is directly available from an R package that was pre-installed in your R working environment. As such, we can simply do</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">data</span>(Puromycin)</span></code></pre></div>
-<p>and an object called <code>Puromycin</code> is immediately available in your working environment.</p>
+<h1><span class="header-section-number">2</span> Import data</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(Puromycin)</span></code></pre></div>
 </div>
 <div id="data-wrangling" class="section level1">
-<h1><span class="header-section-number">4</span> Data wrangling</h1>
-<p>For this exercise, we only want to assess if there is an association between the substrate concentration and rate for the <strong>treated</strong> enzyme. As such, we should filter the data so that we are left with only the treated enzymes.</p>
+<h1><span class="header-section-number">3</span> Data wrangling</h1>
+<p>For a clearer interpretation of the model parameters later on, we will make the untreated state enzymes the reference category.</p>
+<div id="data-exploration" class="section level2">
+<h2><span class="header-section-number">3.1</span> Data Exploration</h2>
+<p>First, we visualize the association between the concentration and the enzyme rate, for both of the enzyme states.</p>
 </div>
-<div id="data-exploration" class="section level1">
-<h1><span class="header-section-number">5</span> Data exploration</h1>
-<p>Make a visualization that allows for exploring if there is a linear relationship between the substrate concentration and enzyme’s rate.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>Puromycin <span class="op">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw">ggplot</span>(...) <span class="op">+</span><span class="st"> </span><span class="co"># select which elements of the dataset we need to visualize</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span>... <span class="co"># use a relevant plotting geometry</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="kw">stat_smooth</span>(...) <span class="op">+</span><span class="st"> </span><span class="co"># draw a smooth line through the data cloud</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw">stat_smooth</span>(...) <span class="co"># draw a straight (linear regression) line through the data cloud</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>  ... <span class="co"># you can add some extra elements like axis labels, title, ...</span></span></code></pre></div>
-<p>Does the relationship look linear? Can you think of any other steps that we might take to assess this relationship?</p>
-<p>Now may we assume a linear relationship between the substrate concentration and the enzyme’s rate?</p>
 </div>
 <div id="linear-regression" class="section level1">
-<h1><span class="header-section-number">6</span> Linear regression</h1>
-<div id="formulate-the-research-question" class="section level2">
-<h2><span class="header-section-number">6.1</span> Formulate the research question</h2>
+<h1><span class="header-section-number">4</span> Linear regression</h1>
+<p>We will model the data that explains enzyme rates in function of a main effect for concentration, a main effect for enzyme state and an interaction term between these two variables.</p>
+<div id="assess-model-assumptions" class="section level2">
+<h2><span class="header-section-number">4.1</span> Assess model assumptions</h2>
 </div>
-<div id="check-the-assumptions" class="section level2">
-<h2><span class="header-section-number">6.2</span> Check the assumptions</h2>
+<div id="inference" class="section level2">
+<h2><span class="header-section-number">4.2</span> Inference</h2>
+<p>Use the model to test the parameters of interest. We are now interested in assessing if</p>
+<ol style="list-style-type: decimal">
+<li><p>the association between velocity and the concentration is significant in the untreated group</p></li>
+<li><p>the association between velocity and the concentration is significant in the treated group</p></li>
+<li><p>the association between velocity and the concentration is different between treated and untreated group</p></li>
+</ol>
+<p>Step 1: translate these research questions into parameters (cobinations of parameters) of the linear model. Step 2: test the relevant parameters. This can be done for the three hypotheses at once using the package <code>multcomp</code>.</p>
 </div>
-<div id="interpret-the-model-parameters-of-the-linear-model" class="section level2">
-<h2><span class="header-section-number">6.3</span> Interpret the model parameters of the linear model</h2>
-</div>
-<div id="interpret-the-results-both-for-the-intercept-as-well-as-for-the-slope" class="section level2">
-<h2><span class="header-section-number">6.4</span> Interpret the results, both for the intercept as well as for the slope</h2>
-</div>
-<div id="write-a-conclusion-that-answers-the-research-hypothesis." class="section level2">
-<h2><span class="header-section-number">6.5</span> Write a conclusion that answers the research hypothesis.</h2>
+<div id="conclusion" class="section level2">
+<h2><span class="header-section-number">4.3</span> Conclusion</h2>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNi4xOiBMaW5lYXIgcmVncmVzc2lvbiBvbiBwdXJvbXljaW4gZGF0YSIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQgJiBBbGV4YW5kcmUgU2VnZXJzIgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHllcwogICAgdGhlbWU6IGNvc21vCiAgICB0b2M6IHllcwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIGhpZ2hsaWdodDogdGFuZ28KICAgIG51bWJlcl9zZWN0aW9uczogeWVzCi0tLQoKPGEgcmVsPSJsaWNlbnNlIiBocmVmPSJodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnktbmMtc2EvNC4wIj48aW1nIGFsdD0iQ3JlYXRpdmUgQ29tbW9ucyBMaWNlbnNlIiBzdHlsZT0iYm9yZGVyLXdpZHRoOjAiIHNyYz0iaHR0cHM6Ly9pLmNyZWF0aXZlY29tbW9ucy5vcmcvbC9ieS1uYy1zYS80LjAvODh4MzEucG5nIiAvPjwvYT4KCiMgUHVyb215Y2luIGRhdGFzZXQKCkRhdGEgb24gdGhlIHZlbG9jaXR5IG9mIGFuIGVuenltYXRpYyByZWFjdGlvbiB3ZXJlIG9idGFpbmVkIGJ5IFRyZWxvYXIgKDE5NzQpLiAgClRoZSBudW1iZXIgb2YgY291bnRzIHBlciBtaW51dGUgb2YgcmFkaW9hY3RpdmUgcHJvZHVjdCBmcm9tIHRoZSByZWFjdGlvbiB3YXMgCm1lYXN1cmVkIGFzIGEgZnVuY3Rpb24gb2Ygc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gaW4gcGFydHMgcGVyIG1pbGxpb24gKHBwbSkgYW5kCmZyb20gdGhlc2UgY291bnRzIHRoZSBpbml0aWFsIHJhdGUgKG9yIHZlbG9jaXR5KSBvZiB0aGUgcmVhY3Rpb24gd2FzIGNhbGN1bGF0ZWQgKGNvdW50cy9taW4vbWluKS4gVGhlIGV4cGVyaW1lbnQgd2FzIGNvbmR1Y3RlZCBvbmNlIHdpdGggdGhlIGVuenltZSB0cmVhdGVkIAp3aXRoIFB1cm9teWNpbiwgYW5kIG9uY2Ugd2l0aCB0aGUgZW56eW1lIHVudHJlYXRlZC4KCiMgR29hbAoKQXNzZXNzIGlmIHRoZXJlIGlzIGFuIGFzc29jaWF0aW9uIGJldHdlZW4gdGhlIHN1YnN0cmF0ZSBjb25jZW50cmF0aW9uIGFuZCByYXRlIApmb3IgdGhlICoqdHJlYXRlZCoqIGVuenltZS4gCgpJbXBvcnQgbGlicmFyaWVzCgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KCmBgYAoKIyBJbXBvcnQgZGF0YQoKSW4gY29udHJhc3QgdG8gdGhlIG90aGVyIGRhdGFzZXRzIHdlIGhhdmUgd29ya2VkIHdpdGggc28gZmFyLCB0aGlzIGRhdGFzZXQgaXMKbm90IGF2YWlsYWJsZSB0aHJvdWdoIGEgVVJMIGxpbmsuIEluIHN0ZWFkLCB0aGUgZGF0YSBpcyBkaXJlY3RseSBhdmFpbGFibGUgZnJvbQphbiBSIHBhY2thZ2UgdGhhdCB3YXMgcHJlLWluc3RhbGxlZCBpbiB5b3VyIFIgd29ya2luZyBlbnZpcm9ubWVudC4gQXMgc3VjaCwgd2UKY2FuIHNpbXBseSBkbwoKYGBge3J9CmRhdGEoUHVyb215Y2luKQpgYGAKCmFuZCBhbiBvYmplY3QgY2FsbGVkIGBQdXJvbXljaW5gIGlzIGltbWVkaWF0ZWx5IGF2YWlsYWJsZSBpbiB5b3VyIHdvcmtpbmcgCmVudmlyb25tZW50LgoKIyBEYXRhIHdyYW5nbGluZwoKRm9yIHRoaXMgZXhlcmNpc2UsIHdlIG9ubHkgd2FudCB0byBhc3Nlc3MgaWYgdGhlcmUgaXMgYW4gYXNzb2NpYXRpb24gYmV0d2VlbiAKdGhlIHN1YnN0cmF0ZSBjb25jZW50cmF0aW9uIGFuZCByYXRlIGZvciB0aGUgKip0cmVhdGVkKiogZW56eW1lLiBBcyBzdWNoLCB3ZSAKc2hvdWxkIGZpbHRlciB0aGUgZGF0YSBzbyB0aGF0IHdlIGFyZSBsZWZ0IHdpdGggb25seSB0aGUgdHJlYXRlZCBlbnp5bWVzLgoKYGBge3J9CgpgYGAKCiMgRGF0YSBleHBsb3JhdGlvbgoKTWFrZSBhIHZpc3VhbGl6YXRpb24gdGhhdCBhbGxvd3MgZm9yIGV4cGxvcmluZyBpZiB0aGVyZSBpcyBhIGxpbmVhciByZWxhdGlvbnNoaXAKYmV0d2VlbiB0aGUgc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gYW5kIGVuenltZSdzIHJhdGUuCgpgYGB7ciwgZXZhbD1GQUxTRX0KUHVyb215Y2luICU+JQogIGdncGxvdCguLi4pICsgIyBzZWxlY3Qgd2hpY2ggZWxlbWVudHMgb2YgdGhlIGRhdGFzZXQgd2UgbmVlZCB0byB2aXN1YWxpemUKICAuLi4gIyB1c2UgYSByZWxldmFudCBwbG90dGluZyBnZW9tZXRyeQogIHN0YXRfc21vb3RoKC4uLikgKyAjIGRyYXcgYSBzbW9vdGggbGluZSB0aHJvdWdoIHRoZSBkYXRhIGNsb3VkCiAgc3RhdF9zbW9vdGgoLi4uKSAjIGRyYXcgYSBzdHJhaWdodCAobGluZWFyIHJlZ3Jlc3Npb24pIGxpbmUgdGhyb3VnaCB0aGUgZGF0YSBjbG91ZAogIC4uLiAjIHlvdSBjYW4gYWRkIHNvbWUgZXh0cmEgZWxlbWVudHMgbGlrZSBheGlzIGxhYmVscywgdGl0bGUsIC4uLgpgYGAKCkRvZXMgdGhlIHJlbGF0aW9uc2hpcCBsb29rIGxpbmVhcj8gQ2FuIHlvdSB0aGluayBvZiBhbnkgb3RoZXIgc3RlcHMgdGhhdCB3ZSAKbWlnaHQgdGFrZSB0byBhc3Nlc3MgdGhpcyByZWxhdGlvbnNoaXA/CgpgYGB7cn0KCgoKCmBgYAoKTm93IG1heSB3ZSBhc3N1bWUgYSBsaW5lYXIgcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlIHN1YnN0cmF0ZSBjb25jZW50cmF0aW9uIGFuZCAKdGhlIGVuenltZSdzIHJhdGU/CgojIExpbmVhciByZWdyZXNzaW9uCgojIyBGb3JtdWxhdGUgdGhlIHJlc2VhcmNoIHF1ZXN0aW9uCgojIyBDaGVjayB0aGUgYXNzdW1wdGlvbnMKCiMjIEludGVycHJldCB0aGUgbW9kZWwgcGFyYW1ldGVycyBvZiB0aGUgbGluZWFyIG1vZGVsCgojIyBJbnRlcnByZXQgdGhlIHJlc3VsdHMsIGJvdGggZm9yIHRoZSBpbnRlcmNlcHQgYXMgd2VsbCBhcyBmb3IgdGhlIHNsb3BlCgojIyBXcml0ZSBhIGNvbmNsdXNpb24gdGhhdCBhbnN3ZXJzIHRoZSByZXNlYXJjaCBoeXBvdGhlc2lzLgoKCgoKCgoKCgoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiOC4zLiBNdWx0aXBsZSByZWdyZXNzaW9uIHdpdGggaW50ZXJhY3Rpb246IHB1cm9teWNpbiBleGFtcGxlIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCAmIEplcm9lbiBHaWxpcyIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICAgIHRoZW1lOiBjb3NtbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcwotLS0KCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKIyBQdXJvbXljaW4gZGF0YQoKRGF0YSBvbiB0aGUgdmVsb2NpdHkgb2YgYW4gZW56eW1hdGljIHJlYWN0aW9uIHdlcmUgb2J0YWluZWQgYnkgVHJlbG9hciAoMTk3NCkuICAKVGhlIG51bWJlciBvZiBjb3VudHMgcGVyIG1pbnV0ZSBvZiByYWRpb2FjdGl2ZSBwcm9kdWN0IGZyb20gdGhlIHJlYWN0aW9uIHdhcyAKbWVhc3VyZWQgYXMgYSBmdW5jdGlvbiBvZiBzdWJzdHJhdGUgY29uY2VudHJhdGlvbiBpbiBwYXJ0cyBwZXIgbWlsbGlvbiAocHBtKSBhbmQKZnJvbSB0aGVzZSBjb3VudHMgdGhlIGluaXRpYWwgcmF0ZSAob3IgdmVsb2NpdHkpIG9mIHRoZSByZWFjdGlvbiB3YXMgY2FsY3VsYXRlZCAoY291bnRzL21pbi9taW4pLiBUaGUgZXhwZXJpbWVudCB3YXMgY29uZHVjdGVkIG9uY2Ugd2l0aCB0aGUgZW56eW1lIHRyZWF0ZWQKd2l0aCBQdXJvbXljaW4sIGFuZCBvbmNlIHdpdGggdGhlIGVuenltZSB1bnRyZWF0ZWQuCgpBc3Nlc3MgaWYgdGhlcmUgaXMgYW4gYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gYW5kIHJhdGUgCioqZm9yIGJvdGggdGhlIHRyZWF0ZWQgYW5kIHVudHJlYXRlZCBlbnp5bWVzLioqCgojIEltcG9ydCBkYXRhCgpgYGB7cn0KZGF0YShQdXJvbXljaW4pCmBgYAoKIyBEYXRhIHdyYW5nbGluZwoKRm9yIGEgY2xlYXJlciBpbnRlcnByZXRhdGlvbiBvZiB0aGUgbW9kZWwgcGFyYW1ldGVycyBsYXRlciBvbiwgd2Ugd2lsbCBtYWtlCnRoZSB1bnRyZWF0ZWQgc3RhdGUgZW56eW1lcyB0aGUgcmVmZXJlbmNlIGNhdGVnb3J5LgoKYGBge3J9CgpgYGAKCiMjIERhdGEgRXhwbG9yYXRpb24KCkZpcnN0LCB3ZSB2aXN1YWxpemUgdGhlIGFzc29jaWF0aW9uIGJldHdlZW4gdGhlIGNvbmNlbnRyYXRpb24gYW5kIHRoZSBlbnp5bWUgCnJhdGUsIGZvciBib3RoIG9mIHRoZSBlbnp5bWUgc3RhdGVzLiAKCmBgYHtyfQoKYGBgCgojIExpbmVhciByZWdyZXNzaW9uIAoKV2Ugd2lsbCBtb2RlbCB0aGUgZGF0YSB0aGF0IGV4cGxhaW5zIGVuenltZSByYXRlcyBpbiBmdW5jdGlvbiBvZiBhIG1haW4gZWZmZWN0IApmb3IgY29uY2VudHJhdGlvbiwgYSBtYWluIGVmZmVjdCBmb3IgZW56eW1lIHN0YXRlIGFuZCBhbiBpbnRlcmFjdGlvbiB0ZXJtIApiZXR3ZWVuIHRoZXNlIHR3byB2YXJpYWJsZXMuCgojIyBBc3Nlc3MgbW9kZWwgYXNzdW1wdGlvbnMKCiMjIEluZmVyZW5jZQoKVXNlIHRoZSBtb2RlbCB0byB0ZXN0IHRoZSBwYXJhbWV0ZXJzIG9mIGludGVyZXN0LiBXZSBhcmUgbm93IGludGVyZXN0ZWQgaW4gCmFzc2Vzc2luZyBpZiAKCjEuIHRoZSBhc3NvY2lhdGlvbiBiZXR3ZWVuIHZlbG9jaXR5IGFuZCB0aGUgY29uY2VudHJhdGlvbiBpcyBzaWduaWZpY2FudCBpbiAKdGhlIHVudHJlYXRlZCBncm91cCAKCjIuIHRoZSBhc3NvY2lhdGlvbiBiZXR3ZWVuIHZlbG9jaXR5IGFuZCB0aGUgY29uY2VudHJhdGlvbiBpcyBzaWduaWZpY2FudCBpbiAKdGhlIHRyZWF0ZWQgZ3JvdXAKCjMuIHRoZSBhc3NvY2lhdGlvbiBiZXR3ZWVuIHZlbG9jaXR5IGFuZCB0aGUgY29uY2VudHJhdGlvbiBpcyBkaWZmZXJlbnQgYmV0d2VlbiAKdHJlYXRlZCBhbmQgdW50cmVhdGVkIGdyb3VwIAoKU3RlcCAxOiB0cmFuc2xhdGUgdGhlc2UgcmVzZWFyY2ggcXVlc3Rpb25zIGludG8gcGFyYW1ldGVycyAoY29iaW5hdGlvbnMgb2YKcGFyYW1ldGVycykgb2YgdGhlIGxpbmVhciBtb2RlbC4KU3RlcCAyOiB0ZXN0IHRoZSByZWxldmFudCBwYXJhbWV0ZXJzLiBUaGlzIGNhbiBiZSBkb25lIGZvciB0aGUgdGhyZWUgaHlwb3RoZXNlcwphdCBvbmNlIHVzaW5nIHRoZSBwYWNrYWdlIGBtdWx0Y29tcGAuCgojIyBDb25jbHVzaW9uCgoKCgoKCgo=</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
@@ -644,7 +633,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("06_3_puromycin.Rmd");
+  window.initializeSourceEmbed("08_3_puromycin.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
