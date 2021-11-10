@@ -50,4 +50,21 @@ smoking has an effect on the FEV of children.
 - Exercise: [Exercise2](./06_2_FEV.html)
 - Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt
 
+---
+
+# The puromycin dataset
+
+Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).  
+The number of counts per minute of radioactive product from the reaction was 
+measured as a function of substrate concentration in parts per million (ppm) 
+and from these counts the initial rate (or velocity) of the reaction was 
+calculated (counts/min/min). The experiment was conducted once with the enzyme 
+treated with Puromycin, and once with the enzyme untreated.
+
+The goal is to assess if there is an association between the substrate 
+concentration and rate for the **treated** enzyme. 
+
+- Exercise: [Exercise3](./06_3_puromycin.html)
+- Data path: Not required
+
 

@@ -100,7 +100,6 @@ experiment as a randomized complete block design.
 
 ```
 
-
 Compare the result for the point estimate of the captopril effect between
 the three analyses.
 
