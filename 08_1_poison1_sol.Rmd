@@ -68,7 +68,7 @@ assumptions of the linear model. Here, we will immediately work with
 log-transformed survival times; store these in the new  variable `log2Surv_time`
 and remove the non-transformed values.
 
-5. Subset the data to only retain **dojofish** (species "0").
+5. Subset the data to only retain **Dojofish**.
 
 ```{r}
 poison <- poison %>%

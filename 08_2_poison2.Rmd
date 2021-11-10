@@ -1,5 +1,5 @@
 ---
-title: "Exercise 8.1: Additive linear model on the poison dataset"   
+title: "Exercise 8.2: Non-additive linear model on the poison dataset"   
 author: "Lieven Clement and Jeroen Gilis"
 date: "statOmics, Ghent University (https://statomics.github.io)"  
 output:
@@ -23,15 +23,13 @@ minutes). Additionally, the weight of each fish was measured.
 
 # Goal
 
-In this tutorial session we will focus on **Dojofish**, and we will model the 
-survival time in function of the poison dose while correcting for the weight of 
-the fish. 
+Suppose that researchers are ,mainly interested in studying the effect of 
+poison dose on the survival of fish. They know however that the weight can 
+also impact the survival and might also change the effect of the poison dose. 
 
-1. We will first analyse the survival data by only considering the dose as an
-explanatory variable for survival time
-
-2. Next we will model the survival data with and additive model for dose and 
-weight
+In this tutorial session we will focus on Dojofish and we will model the 
+survival time in function of the dose and the weight of the fish, 
+**including an interaction between dose and weight.**  
 
 Load libraries
 
@@ -42,7 +40,7 @@ Load libraries
 # Import the data
 
 ```{r, message=FALSE}
-
+poison <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv")
 ```
 
 # Data tidying
@@ -82,11 +80,15 @@ the different variables.
 
 ```
 
-# Question 1: simple linear regression
+# Analysis with interaction and main effect for weight
 
 ## Model specification
 
-Describe the model that you will use for this simple linear regression analysis.
+$$
+y_i=\beta_0+\beta_d x_d + \beta_g x_g +\beta_{d:g} x_d x_g+ \epsilon_i,
+$$
+
+Can you interpret the different model parameters?
 
 ## Assess model assumptions
 
@@ -94,23 +96,42 @@ Describe the model that you will use for this simple linear regression analysis.
 
 Use the model to test the parameters of interest.
 
+## Interpretation of model parameters
+
+On the transformed and the original scale.
+
+## Assessing the dose effect
+
+The effect of dose is now parameterized by two model parameters ($\beta_d$ 
+and $\beta_{d:g}$). We first evaluate an *omnibus* hypotheses that there is
+no effect of dose, i.e., no main effect nor an interaction effect. We can test
+this with an F-test that compares a *full* model (1) containing a main effect 
+for dose, a main effect for weight and an interaction between dose and weight
+with a model (2) that only contains a main effect for weight (i.e. no effect
+for dose).
+
+```{r, eval = FALSE}
+# we already have made the full model (above)
+... # fit model that only contains a main effect for weight (no effect for dose)
+... # perform the F-test between the two models
+```
+
+## Assessing the interaction between dose and weight
+
+Now, we will test if there is a significant interaction effect between dose 
+and weight. Since we only have one interaction term in this model, this can
+be achieved in several equivalent ways:
+
+1. The `summary` function
+2. An F-test comparing models with and without the interaction effect
+3. An ANOVA table with type III sum of squares  
+
+```{r}
+
+```
+
 ## Conclusion
 
 On the transformed and the original scale.
 
-# Question 2: Analysis with additive effect for weight
-
-## Model specification
-
-Describe the model that you will use for this additive linear model.
-
-## Assess model assumptions
-
-## Inference
-
-Use the model to test the parameters of interest.
-
-## Conclusion
-
-On the transformed and the original scale.
 

@@ -11,6 +11,7 @@ output:
       highlight: tango
       number_sections: true
 ---
+
 # Fish tank dataset
 
 In this experiment, 96 fish (dojofish, goldfish and zebrafish)
@@ -22,10 +23,13 @@ minutes). Additionally, the weight of each fish was measured.
 
 # Goal
 
-Suppose that researchers are ,mainly interested in studying the effect of poison dose on the survival of fish. 
-They know however that the weight can also impact the survival and might also change the effect of the poison dose. 
+Suppose that researchers are ,mainly interested in studying the effect of 
+poison dose on the survival of fish. They know however that the weight can 
+also impact the survival and might also change the effect of the poison dose. 
 
-In this tutorial session we will focus on Dojo fish and we will model the survival time in function of the dose and the weight of the fish.  
+In this tutorial session we will focus on Dojofish and we will model the 
+survival time in function of the dose and the weight of the fish, 
+**including an interaction between dose and weight.**  
 
 
 Load libraries
@@ -62,14 +66,18 @@ normality and homoscedasticity assumptions of the linear model. Here, we will
 immediately work with log-transformed survival times; store these in the new 
 variable `log2Surv_time` and remove the non-transformed values.
 
+5. Subset the data to only retain **Dojofish**.
+
 ```{r}
 poison <- poison %>%
   rename("Species" = "species") %>%
   mutate(Species = as.factor(Species)) %>%
   mutate(Species = fct_recode(Species, Dojofish = "0", Goldfish = "1", Zebrafish = "2")) %>% 
-  mutate(log2Surv_time = Surv_time %>% log2)
+  mutate(log2Surv_time = Surv_time %>% log2) %>%
+  dplyr::select(-Surv_time) %>%
+  filter(Species=="Dojofish")
 
-poison <- poison %>% filter(Species=="Dojofish")
+poison
 ```
 
 # Data exploration
@@ -90,9 +98,8 @@ Based on these plots, we observe that:
 
 - The survival time seems to be associated with dose and fish weight.
 
-
-
-From the tutorial of H6 we have seen that the fish weights were not nicely uniform across the different poison dosages due to the randomisation.
+From the tutorial of H6 we have seen that the fish weights were not nicely 
+uniform across the different poison dosages due to the randomisation.
 
 
 ```{r, message=FALSE}
@@ -218,10 +225,9 @@ The conclusion is exactly the same as for the additive model analysis above
 (obviously, as we are dealing with the same model):
 
 The dose of the poison has an extremely significant effect on the survival time
-of dojofish 
-(p-value << 0.001). 
-The geometric average of the survival time for dojofish that are exposed to a poison dose that is 1mg/L larger is approximately
-halfed, 
+of dojofish (p-value << 0.001). The geometric average of the survival time for 
+dojofish that are exposed to a poison dose that is 1mg/L larger is approximately
+halved, 
 factor = $2^{\beta_d}=$ `r format(2^(lm_additive$coef["Dose"]),digits=2)`) .
 
 
@@ -231,7 +237,8 @@ different weight. (p = `r format(summary(lm_Int)$coefficients[4,4], digits=2)`).
 
 # Remark
 
-Note, that we have have to test if the interaction is significant before using the additive model. 
+Note, that we have have to test if the interaction is significant before using 
+the additive model. 
 
 
 
