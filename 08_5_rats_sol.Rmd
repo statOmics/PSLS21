@@ -24,9 +24,11 @@ characteristics such as initial weight, appetite, etc.
 Within each group a rat is randomly assigned to a diet. The rats are fed during 
 a month and the weight gain in grams is recorded for each rat. 
 
-The researchers want to assess the effect of the type of diet and the protein level on the weight of the rats. 
+The researchers want to assess the effect of the type of diet and the protein 
+level on the weight of the rats. 
 
-In this exercise we will perform the data exploration using all diets, but, to keep the data analysis simple we will only assess the beef and cereal diets.
+In this exercise we will perform the data exploration using all diets, but, 
+to keep the data analysis simple we will only assess the beef and cereal diets.
 
 # Experimental design 
 
@@ -95,7 +97,8 @@ protein source on the gain in weight of the rats. For the beef and the pork
 diets the effect of high protein levels in the data seems to be much stronger
 than in the cereal diet.
 
-- There is also a strong effect of the block. Blocking implies a randomisation restriction, hence, we will have to include the block effect anyway. 
+- There is also a strong effect of the block. Blocking implies a randomisation 
+restriction, hence, we will have to include the block effect anyway. 
 
 # Filter the data to only use the beef and cereal diet
 
@@ -114,8 +117,10 @@ List assumptions:
 3. The residuals of the model must be normally distributed
 4. Homoscedasticity of the data
 
-The first assumption is met if we correct for block in the model because the rats were randomized to the treatment within block. The other three assumptions can be assessed by
-fitting the linear model and calling the `plot()` function as follows.
+The first assumption is met if we correct for block in the model because the 
+rats were randomized to the treatment within block. The other three assumptions 
+can be assessed by fitting the linear model and calling the `plot()` function 
+as follows.
 
 ```{r}
 lm1 <- lm(weightGain ~ block + protSource*protLevel, data=diet.bc)
@@ -193,8 +198,8 @@ due to the high protein level as compared to the low protein level for cereal di
 as compared to the weight gain difference that occurs due to the protein level
 in the reference class (here beef diet). Here this is negative, 
 i.e. `r lm1$coef["protSourcec:protLevelh"]`g, thus the weight gain 
-for the cereal protein source increases on average less between high and low protein diets 
-than in beef based diets.
+for the cereal protein source increases on average less between high and 
+low protein diets than in beef based diets.
 
 ## Testing the overall (combined) effect of diet
 
