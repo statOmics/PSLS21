@@ -691,9 +691,9 @@ div.tocify {
 ##                            Estimate Std. Error t value Pr(&gt;|t|)    
 ## grade3 == 0                  1.6675     0.1827   9.127  &lt; 0.001 ***
 ## grade3 + grade3:node1 == 0   0.8928     0.1827   4.886  &lt; 0.001 ***
-## node1 == 0                   0.6577     0.1827   3.600  0.00714 ** 
-## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640  0.89815    
-## grade3:node1 == 0           -0.7748     0.2584  -2.998  0.02683 *  
+## node1 == 0                   0.6577     0.1827   3.600  0.00723 ** 
+## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640  0.89819    
+## grade3:node1 == 0           -0.7748     0.2584  -2.998  0.02668 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -747,7 +747,7 @@ div.tocify {
 <span id="cb32-16"><a href="#cb32-16"></a>power1 &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(form, kpna2, betas, sd, contrasts, <span class="dt">nSim =</span> nSim)</span>
 <span id="cb32-17"><a href="#cb32-17"></a>power1</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     1.00000     0.98950     0.84345     0.08855     0.70390</code></pre>
+##     1.00000     0.98995     0.84150     0.08655     0.70450</code></pre>
 <p>We observe large powers for all contrasts, exept for contrast nodeg3, which has a small effect size.</p>
 </div>
 <div id="power-for-increasing-sample-size" class="section level2">
@@ -782,15 +782,15 @@ div.tocify {
 <span id="cb34-28"><a href="#cb34-28"></a>}</span>
 <span id="cb34-29"><a href="#cb34-29"></a>powers</span></code></pre></div>
 <pre><code>##        n graden0 graden1  nodeg1  nodeg3 interaction
-##  [1,]  2 0.70380 0.26610 0.15375 0.03220     0.11600
-##  [2,]  3 0.99195 0.64345 0.37620 0.04475     0.27510
-##  [3,]  4 0.99995 0.87370 0.58670 0.05950     0.44960
-##  [4,]  5 1.00000 0.95905 0.73745 0.07375     0.58930
-##  [5,]  6 1.00000 0.98855 0.84000 0.08645     0.70320
-##  [6,]  7 1.00000 0.99720 0.90780 0.09630     0.78675
-##  [7,]  8 1.00000 0.99945 0.94485 0.10615     0.85270
-##  [8,]  9 1.00000 0.99995 0.97040 0.11300     0.89760
-##  [9,] 10 1.00000 1.00000 0.98325 0.12785     0.93285</code></pre>
+##  [1,]  2 0.70370 0.26355 0.15000 0.03210     0.11135
+##  [2,]  3 0.99265 0.64600 0.37495 0.04285     0.27720
+##  [3,]  4 0.99990 0.87090 0.58345 0.05965     0.44435
+##  [4,]  5 1.00000 0.96265 0.73450 0.07175     0.58740
+##  [5,]  6 1.00000 0.98935 0.83860 0.08385     0.70150
+##  [6,]  7 1.00000 0.99755 0.90275 0.09665     0.78680
+##  [7,]  8 1.00000 0.99935 0.94960 0.10255     0.85140
+##  [8,]  9 1.00000 0.99990 0.96865 0.11250     0.89790
+##  [9,] 10 1.00000 1.00000 0.98425 0.12755     0.93255</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>powers <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb36-2"><a href="#cb36-2"></a><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb36-3"><a href="#cb36-3"></a><span class="st">  </span><span class="kw">gather</span>(contrast, power, <span class="op">-</span>n) <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -819,7 +819,7 @@ div.tocify {
 <span id="cb37-17"><a href="#cb37-17"></a>power3 &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(form, kpna2, betas2, sd, contrasts,<span class="dt">nSim =</span> nSim)</span>
 <span id="cb37-18"><a href="#cb37-18"></a>power3</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     0.69180     0.10220     0.78935     0.06050     0.62705</code></pre>
+##     0.68330     0.10270     0.79045     0.05385     0.62220</code></pre>
 <p>We observe a drop in the power for all the contrasts!?</p>
 <p>We only would expect to loose power for the contrasts assessing the grade effect because both fold changes have been decreased.</p>
 <p>The reason why all powers are affected is because we also do multiple testing and the multiple testing using the pvalue correction using Holm’s method for a particular contrast is also depending on the order of significance of the tests within each simulation.</p>
@@ -828,10 +828,10 @@ div.tocify {
 <span id="cb39-2"><a href="#cb39-2"></a>power3None &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(form, kpna2, betas2, sd, contrasts, <span class="dt">nSim =</span> nSim, <span class="dt">adjust =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb39-3"><a href="#cb39-3"></a>power1None</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     1.00000     0.99585     0.92755     0.08985     0.81210</code></pre>
+##     1.00000     0.99595     0.92645     0.09490     0.81210</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>power3None</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     0.86510     0.16725     0.93095     0.09265     0.81600</code></pre>
+##     0.85905     0.16515     0.92630     0.09590     0.81080</code></pre>
 </div>
 </div>
 
