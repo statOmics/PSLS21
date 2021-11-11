@@ -137,6 +137,7 @@ renv::restore(lockfile = url)
 
     - [Multiple Regression](./08-MultipleRegression.html)
     - [Factorial Designs](./08-MultipleRegression-SpecificDesigns.html)
+    - [Exercises](./08_exercises.html)
     - [Experimental Design II: Power and Replication](./08-experimentalDesignII.html)
     - [Experimental Design III: Blocking](./08-experimentalDesignIII.html)
     
