@@ -30,6 +30,8 @@ concentration and rate for the **treated** enzyme.
 
 - Exercise: [Exercise1](./06_3_puromycin.html)
 - Data path: Not required
+- Solution: [Solution1](./06_3_puromycin_sol.html)
+
 
 # The poison dataset:
 
