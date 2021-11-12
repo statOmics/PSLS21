@@ -146,7 +146,7 @@ a power of 90%?
 - Suppose that we would like to pick up an effect size of $\beta_1 = 60 g/kg$. 
 How many samples would be required in each group to obtain a power of 90%?
 
-- Exercise: [Exercise7](./08_ExperimentalDesignII_1_rodents.Rmd.html)
+- Exercise: [Exercise7](./08_ExperimentalDesignII_1_rodents.html)
 - Data path: Not required
 
 ---
@@ -182,4 +182,6 @@ at most 12 reactions, how would you choose your design points? Calculate
 the power for this design when the effect size is 10 counts/min per 10 times 
 increase in the substrate concentration ($\beta_1=10$).
 
+- Exercise: [Exercise8](./08_ExperimentalDesignII_1_puromycin.html)
+- Data path: Not required
 
