@@ -1,5 +1,5 @@
 ---
-title: "Exercise 8.x: Blocking on the fish tank dataset - solution"   
+title: "Exercise 8.x: The fish tank dataset - solution"   
 author: "Lieven Clement and Jeroen Gilis"
 date: "statOmics, Ghent University (https://statomics.github.io)"  
 output:
