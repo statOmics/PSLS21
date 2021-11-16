@@ -241,7 +241,7 @@ interaction) on the weight gain of rats (p << 0.001).
 
 ```{r, message=FALSE, warning=FALSE}
 library(car)
-Anova(lm1, type=3)
+Anova(lm1, type="III")
 ```
 
 There is a very significant interaction between the protein source and 
