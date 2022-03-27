@@ -1,0 +1,9 @@
+before after patient
+4.67 5.44 pat1
+4.97 5.78 pat2
+5.11 8.49 pat3
+5.17 6.71 pat4
+5.33 10.67 pat5
+6.22 5.67 pat6
+6.5 10.11 pat7
+7 9.89 pat8
